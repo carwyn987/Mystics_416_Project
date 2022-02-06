@@ -1,0 +1,20 @@
+{
+  "name": "mystics",
+  "version": "1.0.0",
+  "description": "Evaluate the many and evolving congressional district plans that are now being proposed (and contested) by multi-district states.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carwyn987/Mystics_416_Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/carwyn987/Mystics_416_Project/issues"
+  },
+  "homepage": "https://github.com/carwyn987/Mystics_416_Project#readme"
+}
