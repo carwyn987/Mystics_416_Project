@@ -1,23 +1,22 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
+import React from 'react';
+import ReactMapGL from 'react-map-gl';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ReactMapGL
+        mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+        mapStyle={process.env.REACT_APP_MAPBOX_STYLE}
+        initialViewState={{
+          longitude: -95.953,
+          latitude: 38.473,
+          zoom: 3.87
+        }}
+        style={{width: '100vw', height: '100vh'}}
+      >
+      </ReactMapGL>
     </div>
   );
 }
