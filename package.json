@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/carwyn987/Mystics_416_Project/issues"
   },
-  "homepage": "https://github.com/carwyn987/Mystics_416_Project#readme"
+  "homepage": "https://github.com/carwyn987/Mystics_416_Project#readme",
+  "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@mui/material": "^5.4.0"
+  }
 }
