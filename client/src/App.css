@@ -29,7 +29,14 @@
 .App-link {
   color: #61dafb;
 }
-
+.sidePanel{
+  background-color:#8d8d8d;
+  color:white;
+  margin-top: 5%;
+  height: 1050px;
+  width: 450px;
+  position: absolute;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

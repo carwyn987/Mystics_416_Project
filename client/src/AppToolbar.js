@@ -32,6 +32,15 @@ export default function AppToolbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" backgroundColor='rgb(214,218,254)'>
         <Toolbar>
+        <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
           <Box component="div" sx={{ flexGrow: 1 }}>
           {auth && (
             <div>
