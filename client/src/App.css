@@ -23,7 +23,9 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
+.MuiToolbar-root{
+  background-color: #8d8d8d;
+}
 .App-link {
   color: #61dafb;
 }

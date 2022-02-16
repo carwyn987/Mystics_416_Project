@@ -2,11 +2,13 @@
 import React from 'react';
 import DistMap from './Map.js';
 import './App.css';
+import AppToolbar from './AppToolbar.js'
 //import TNDistricts from './districts/TNDistricts.js';
 
 function App() {
   return (
     <div className="App">
+        <AppToolbar/>
         <DistMap />
       {/* <ReactMapGL
         mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
