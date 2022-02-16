@@ -1,12 +1,14 @@
 // import logo from './logo.svg';
 import React from 'react';
-import ReactMapGL from 'react-map-gl';
+import DistMap from './Map.js';
 import './App.css';
+import TNDistricts from './districts/TNDistricts.js';
 
 function App() {
   return (
     <div className="App">
-      <ReactMapGL
+        <DistMap />
+      {/* <ReactMapGL
         mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         mapStyle={process.env.REACT_APP_MAPBOX_STYLE}
         initialViewState={{
@@ -16,7 +18,8 @@ function App() {
         }}
         style={{width: '100vw', height: '100vh'}}
       >
-      </ReactMapGL>
+      <TNDistricts />
+      </ReactMapGL> */}
     </div>
   );
 }
