@@ -2,7 +2,7 @@
 import React from 'react';
 import DistMap from './Map.js';
 import './App.css';
-import TNDistricts from './districts/TNDistricts.js';
+//import TNDistricts from './districts/TNDistricts.js';
 
 function App() {
   return (
