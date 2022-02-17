@@ -49,7 +49,8 @@ function DistMap(props) {
 
                 map.addSource('tn-district-source', {
                     'type': 'geojson',
-                    'data': tnDistricts
+                    'data': tnDistricts,
+                    'promoteId': 'DISTRICT'
                  });
 
                 map.addLayer({
@@ -58,6 +59,7 @@ function DistMap(props) {
                     'source': 'tn-district-source',
                     'layout': {},
                     'paint': {
+                        'fill-outline-color': 'black',
                         'fill-color': [
                             'match',
                             ['get', 'SHORTNAME'],
@@ -92,7 +94,8 @@ function DistMap(props) {
 
                 map.addSource('ms-district-source', {
                     'type': 'geojson',
-                    'data': msDistricts
+                    'data': msDistricts,
+                    'promoteId': 'District'
                 });
 
                 map.addLayer({
@@ -101,16 +104,17 @@ function DistMap(props) {
                     'source': 'ms-district-source',
                     'layout': {},
                     'paint': {
+                        'fill-outline-color': 'black',
                         'fill-color': [
                             'match',
-                            ['get', 'DISTRICT'],
-                            '2801',
+                            ['get', 'District'],
+                            1,
                             '#0006ad',
-                            '2802',
+                            2,
                             '#2e6b2c',
-                            '2803',
+                            3,
                             '#7a336a',
-                            '2804',
+                            4,
                             '#ffec42',
                             '#ffffff'
                         ],
@@ -123,59 +127,60 @@ function DistMap(props) {
                     }
                 });
 
-                map.on('mouseover', 'tn-district-layer', function (e) {
-                    console.log(e.features[0].properties);
-                    if (e.features.length > 0) {
-                        if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
-                            map.setFeatureState(
-                                { source: 'tn-district-source', DISTRICT: hoveredDistrictRef.current, id: hoveredDistrictRef.current },
-                                { hover: false }
-                            );
-                        }
-                        let hoveredDistrict1 = e.features[0].properties.DISTRICT;
+                map.on('mouseleave', 'ms-district-layer', function () {
+                    if (hoveredDistrictRef.current) {
                         map.setFeatureState(
-                            { source: 'tn-district-source', DISTRICT: hoveredDistrict1, id: hoveredDistrictRef.current },
-                            { hover: true }
+                            { source: 'ms-district-source', id: hoveredDistrictRef.current },
+                            { hover: false }
                         );
-                        setHoveredDistrict2(hoveredDistrict1);
                     }
+                    setHoveredDistrict2(null);
                 });
 
                 map.on('mouseleave', 'tn-district-layer', function () {
                     if (hoveredDistrictRef.current) {
                         map.setFeatureState(
-                            { source: 'tn-district-source', DISTRICT: hoveredDistrictRef.current, id: hoveredDistrictRef.current },
+                            { source: 'tn-district-source', id: hoveredDistrictRef.current },
                             { hover: false }
                         );
                     }
                     setHoveredDistrict2(null);
                 });
-                map.on('mouseover', 'ms-district-layer', function (e) {
+
+                map.on('mousemove', 'tn-district-layer', function (e) {
                     console.log(e.features[0].properties);
                     if (e.features.length > 0) {
                         if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
                             map.setFeatureState(
-                                { source: 'ms-district-source', DISTRICT: hoveredDistrictRef.current, id: hoveredDistrictRef.current },
+                                { source: 'tn-district-source', id: hoveredDistrictRef.current },
                                 { hover: false }
                             );
                         }
                         let hoveredDistrict1 = e.features[0].properties.DISTRICT;
                         map.setFeatureState(
-                            { source: 'ms-district-source', DISTRICT: hoveredDistrict1, id: hoveredDistrictRef.current },
+                            { source: 'tn-district-source', id: hoveredDistrict1 },
                             { hover: true }
                         );
                         setHoveredDistrict2(hoveredDistrict1);
                     }
                 });
 
-                map.on('mouseleave', 'ms-district-layer', function () {
-                    if (hoveredDistrictRef.current) {
+                map.on('mousemove', 'ms-district-layer', function (e) {
+                    console.log(e.features[0].properties);
+                    if (e.features.length > 0) {
+                        if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
+                            map.setFeatureState(
+                                { source: 'ms-district-source', id: hoveredDistrictRef.current },
+                                { hover: false }
+                            );
+                        }
+                        let hoveredDistrict1 = e.features[0].properties.District;
                         map.setFeatureState(
-                            { source: 'ms-district-source', DISTRICT: hoveredDistrictRef.current, id: hoveredDistrictRef.current },
-                            { hover: false }
+                            { source: 'ms-district-source', id: hoveredDistrict1 },
+                            { hover: true }
                         );
+                        setHoveredDistrict2(hoveredDistrict1);
                     }
-                    setHoveredDistrict2(null);
                 });
             });
         };
