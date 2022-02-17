@@ -29,7 +29,20 @@
 .App-link {
   color: #61dafb;
 }
-
+.sidePanel{
+  background-color:#8d8d8d;
+  color:white;
+  margin-top: 5%;
+  height: 750px;
+  width: 450px;
+  position: absolute;
+}
+.mapToggles{
+  width: 350px;
+  height:1000px;
+  position: absolute;
+  background-color: black;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

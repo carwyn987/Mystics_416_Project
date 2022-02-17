@@ -23,10 +23,14 @@ export default function AppToolbar() {
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const handleSidePanelClick = (event) =>{
+
+  }
 
   const handleClose = () => {
     setAnchorEl(null);
   };
+
 
   return (
     <Box sx={{ flexGrow: 1 }}>
