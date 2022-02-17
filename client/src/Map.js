@@ -14,6 +14,11 @@ function DistMap(props) {
         height: "100vh"
     };
 
+    const bounds = [
+        [-128.947, 22.802],
+        [-62.548, 51.201]
+    ];
+
     //const DistMap = () => {
     const [map, setMap] = useState(null);
     const mapContainer = useRef(null);
@@ -33,7 +38,8 @@ function DistMap(props) {
                 container: mapContainer.current,
                 style: process.env.REACT_APP_MAPBOX_STYLE,
                 center: [-95.953, 38.473],
-                zoom: 3.87
+                zoom: 3.87,
+                maxBounds: bounds
             });
 
             //map.addControl(new mapboxgl.NavigationControl());
@@ -86,7 +92,7 @@ function DistMap(props) {
                         'fill-opacity': [
                             'case',
                             ['boolean', ['feature-state', 'hover'], false],
-                            .8,
+                            .9,
                             0.5
                         ]
                     }
@@ -121,7 +127,7 @@ function DistMap(props) {
                         'fill-opacity': [
                             'case',
                             ['boolean', ['feature-state', 'hover'], false],
-                            .8,
+                            .9,
                             0.5
                         ]
                     }
