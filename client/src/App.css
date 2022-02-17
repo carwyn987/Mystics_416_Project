@@ -46,7 +46,9 @@
   position: absolute;
   right: 0; 
   background-color: #8d8d8d;
+  color: white;
 }
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
