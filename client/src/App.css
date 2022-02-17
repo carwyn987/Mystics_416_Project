@@ -29,6 +29,9 @@
 .App-link {
   color: #61dafb;
 }
+.mapWrapper{
+  position:relative;
+}
 .sidePanel{
   background-color:#8d8d8d;
   color:white;
@@ -38,10 +41,11 @@
   position: absolute;
 }
 .mapToggles{
-  width: 350px;
-  height:1000px;
+  width: 500px;
+  height:250px;
   position: absolute;
-  background-color: black;
+  right: 0; 
+  background-color: #8d8d8d;
 }
 @keyframes App-logo-spin {
   from {

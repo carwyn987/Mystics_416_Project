@@ -1,5 +1,5 @@
 export default function MapToggles(){
     return(
-        <div></div>
-    );
+        <div class='mapToggles'></div>
+    )
 }
