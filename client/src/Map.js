@@ -154,7 +154,7 @@ function DistMap(props) {
                 });
 
                 map.on('mousemove', 'tn-district-layer', function (e) {
-                    console.log(e.features[0].properties);
+                    //console.log(e.features[0].properties);
                     if (e.features.length > 0) {
                         if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
                             map.setFeatureState(
@@ -172,7 +172,7 @@ function DistMap(props) {
                 });
 
                 map.on('mousemove', 'ms-district-layer', function (e) {
-                    console.log(e.features[0].properties);
+                    //console.log(e.features[0].properties);
                     if (e.features.length > 0) {
                         if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
                             map.setFeatureState(
@@ -187,6 +187,19 @@ function DistMap(props) {
                         );
                         setHoveredDistrict2(hoveredDistrict1);
                     }
+                });
+
+                map.on('click', 'tn-district-layer', function (e) {
+                    map.flyTo({
+                        center: [-87.956, 35.761],
+                        zoom: 5.77
+                    });
+                });
+                map.on('click', 'ms-district-layer', function (e) {
+                    map.flyTo({
+                        center: [-91.665, 32.780],
+                        zoom: 5.83
+                    });
                 });
             });
         };
