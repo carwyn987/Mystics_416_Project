@@ -57,3 +57,12 @@
     transform: rotate(360deg);
   }
 }
+
+.toggle-row {
+  text-align: left;
+  padding-left: 110px;
+}
+
+.mapToggles {
+  align-content: center
+}

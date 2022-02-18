@@ -2,6 +2,7 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import ToggleOffIcon from '@mui/icons-material/ToggleOff';
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
+import './App.css';
 
 
 export default function MapToggles(){
@@ -51,17 +52,17 @@ export default function MapToggles(){
             <Typography style={{fontSize:'x-large'}}> Choose a Boundary Definition:<br></br></Typography>
             <div>
                 <br></br>
-                <div style={{fontSize:'20pt'}} onClick={handleCongClick}>
+                <div className= "toggle-row" style={{fontSize:'20pt'}} onClick={handleCongClick}>
                     {districtToggle}
-                    Congressional Districts
+                     Congressional Districts
                 </div>
-                <div style={{fontSize:'20pt'}} onClick={handleCountyClick}>
+                <div className= "toggle-row" style={{fontSize:'20pt'}} onClick={handleCountyClick}>
                     {countyToggle}
-                    Counties
+                     Counties
                 </div>
-                <div style={{fontSize:'20pt'}} onClick={handlePrecClick}>
+                <div className= "toggle-row" style={{fontSize:'20pt'}} onClick={handlePrecClick}>
                     {precinctToggle}
-                    Precincts
+                     Precincts
                 </div>
             </div>
         </div>
