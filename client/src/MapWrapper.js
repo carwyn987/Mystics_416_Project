@@ -4,10 +4,10 @@ import MapToggles from './MapToggles.js'
 import DistMap from './Map.js';
 export default function MapWrapper(){
     return (
-        <div>
+        <div class='mapWrapper'>
             <SidePanel/>
             <MapToggles/>
-            <DistMap />
+            <DistMap/>
         </div>
     );
 }
