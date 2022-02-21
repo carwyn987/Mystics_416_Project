@@ -1,15 +1,15 @@
 // import logo from './logo.svg';
 import React from 'react';
 import './App.css';
-import AppToolbar from './AppToolbar.js'
+import AppToolbar from './AppToolbar.js';
 import MapWrapper from './MapWrapper.js';
 //import TNDistricts from './districts/TNDistricts.js';
 
 function App() {
   return (
     <div className="App">
-        <AppToolbar/>
-        <MapWrapper/>
+      <AppToolbar/>
+      <MapWrapper/>
       {/* <ReactMapGL
         mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         mapStyle={process.env.REACT_APP_MAPBOX_STYLE}
