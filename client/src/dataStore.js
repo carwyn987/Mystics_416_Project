@@ -11,7 +11,7 @@ const storeReducer = (action)=>{
         //    CHANGE_LIST_NAME: "CHANGE_LIST_NAME",
         LOAD_SIDEPANEL: "LOAD_SIDEPANEL"
     }
-
+    
     /*switch(type){
         case GlobalStore.Provider
     }*/
