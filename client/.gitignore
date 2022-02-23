@@ -24,3 +24,4 @@ yarn-error.log*
 .env.local
 
 package-lock.json
+./src/district-data

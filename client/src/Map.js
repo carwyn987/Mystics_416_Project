@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useContext} from 'react';
 import mapboxgl from 'mapbox-gl';
-import {GlobalStore} from './dataStore'
+import { GlobalStore } from './dataStore'
 
 var tnDistricts = require('./district-data/TN/tnDistricts.geojson');
 var msDistricts = require('./district-data/MS/msDistricts.geojson');
@@ -10,7 +10,7 @@ var msDistricts = require('./district-data/MS/msDistricts.geojson');
 //import tnDistricts from './district-data/TN/TN-Redistricting-Data.geojson';
 
 function DistMap(props) {
-    const store = useContext(GlobalStore);
+    const { store } = useContext(GlobalStore);
     //ReactMapGL.mapboxAccessToken = process.env.REACT_APP_MAPBOX_TOKEN;
     //const tnDistricts = rewind('./district-data/TN/TN-Redistricting-Data.geojson', true);
     const styles = {
@@ -205,6 +205,7 @@ function DistMap(props) {
                         center: [-91.665, 32.780],
                         zoom: 5.83
                     });
+                    store.loadSidePanel();
                 });
             });
         };

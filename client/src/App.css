@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #2b2c33;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -24,7 +24,7 @@
   color: white;
 }
 .MuiToolbar-root{
-  background-color: #8d8d8d;
+  background-color: #2b2c33;
 }
 .App-link {
   color: #61dafb;
@@ -33,7 +33,7 @@
   position:relative;
 }
 .sidePanel{
-  background-color:#8d8d8d;
+  background-color: #1C274E;
   color:white;
   margin-top: 5%;
   height: 750px;
@@ -41,11 +41,11 @@
   position: absolute;
 }
 .mapToggles{
-  width: 500px;
-  height:250px;
+  width: 400px;
+  height:200px;
   position: absolute;
   right: 0; 
-  background-color: #8d8d8d;
+  background-color: #4a549e;
   color: white;
 }
 

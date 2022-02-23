@@ -11,21 +11,33 @@ function GlobalStoreContextProvider(props){
         isSidePanelVisible: false
     });
 
-    const storeReducer = (action)=>{
+    const storeReducer = (action) => {
         const {type, payload} = action;
-        const storeReducer = (action) =>{
-            const{type, payload} = action;
-            switch(type){
-                case GlobalStoreActions.LOAD_SIDEPANEL:{
-                    return setStore({
-                        isSidePanelVisible: true
-                    });
-                }
-                default:
-                    return store;
+        switch(type){
+            case GlobalStoreActions.LOAD_SIDEPANEL:{
+                return setStore({
+                    isSidePanelVisible: true
+                });
             }
+            default:
+                return store;
         }
+        //}
     }
+
+    store.loadSidePanel = function () {
+        console.log("load func called in data store");
+        storeReducer({
+            type: GlobalStoreActions.LOAD_SIDEPANEL,
+            payload: {}
+        });
+    }
+
+    return (
+        <GlobalStore.Provider value={{ store }}>
+            {props.children}
+        </GlobalStore.Provider>
+    );
 }
 export default GlobalStore;
 export { GlobalStoreContextProvider };
