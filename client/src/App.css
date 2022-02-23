@@ -40,6 +40,8 @@
   width: 450px;
   position: absolute;
 }
+.sidePanel-data{
+}
 #map-toggles{
   position: absolute;
   align-content: center;
