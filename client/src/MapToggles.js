@@ -60,9 +60,9 @@ export default function MapToggles(){
     }
 
     let defaultMapToggles=
-    <Box id='map-toggles' style={{width: '500px', height:'275px'}}>
-        <MinimizeIcon onClick={handleWinChange} style={{ fontSize:'25pt', fontWeight:'bold',float:'left', floatBottom:'4%'}}></MinimizeIcon><br></br>
-        <Typography style={{fontSize:'20pt',fontWeight:'bold',paddingTop:'4%'}}> Choose a Boundary Definition<br></br></Typography>
+    <Box id='map-toggles' style={{width: '450px', height:'225px'}}>
+        <MinimizeIcon onClick={handleWinChange} style={{ fontSize:'20pt', fontWeight:'bold',float:'left', floatBottom:'4%'}}></MinimizeIcon><br></br>
+        <Typography style={{fontSize:'15pt',fontWeight:'bold',paddingTop:'1%'}}> Choose a Boundary Definition<br></br></Typography>
         <div>
             <br></br>
             <div className= "toggle-row" onClick={handleCongClick}>

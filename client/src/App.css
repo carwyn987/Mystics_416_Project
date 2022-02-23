@@ -45,18 +45,19 @@
   align-content: center;
   background-color: #4a549e;
   color: white;
+  border-radius: 3%;
 }
 .toggle-row {
   text-align: left;
-  padding-left: 50px;
+  padding-left: 35px;
   color:'green';
 }
 #toggleon-icon{
-  font-size: 32pt;
+  font-size: 20pt;
   background-color:'green';
 }
 #toggleoff-icon{
-  font-size: 32pt;
+  font-size: 20pt;
   color:'red';
 }
 @keyframes App-logo-spin {
