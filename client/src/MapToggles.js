@@ -7,6 +7,7 @@ import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import { borders } from '@mui/system';
 import {useState} from 'react';
 import './App.css';
+import Draggable from 'react-draggable';
 
 
 export default function MapToggles(){
@@ -36,24 +37,24 @@ export default function MapToggles(){
         districtToggle=<ToggleOnIcon style={{color:'chartreuse'}} id='toggleon-icon'></ToggleOnIcon>;
     }
     else{
-        districtToggle=<ToggleOffIcon style={{color:'gray'}} id='toggleoff-icon' ></ToggleOffIcon>;
+        districtToggle=<ToggleOffIcon style={{color:'darkgray'}} id='toggleoff-icon' ></ToggleOffIcon>;
     }
 
     if(isCountyToggleSet){
         countyToggle=<ToggleOnIcon style={{color:'chartreuse'}} id='toggleon-icon' ></ToggleOnIcon>;
     }
     else{
-        countyToggle=<ToggleOffIcon style={{color:'gray'}} id='toggleoff-icon' ></ToggleOffIcon>;
+        countyToggle=<ToggleOffIcon style={{color:'darkgray'}} id='toggleoff-icon' ></ToggleOffIcon>;
     }
 
     if(isPrecinctToggleSet){
         precinctToggle=<ToggleOnIcon  style={{color:'chartreuse'}} id='toggleon-icon' ></ToggleOnIcon>;
     }
     else{
-        precinctToggle=<ToggleOffIcon style={{color:'gray'}} id='toggleoff-icon'></ToggleOffIcon>;
+        precinctToggle=<ToggleOffIcon style={{color:'darkgray'}} id='toggleoff-icon'></ToggleOffIcon>;
     }
     const handleWinChange=()=>{
-        console.log("button clicked!!!!!!!!!");
+        //console.log("button clicked!!!!!!!!!");
         let truth = !isMinimized;
         setMinimized(truth);
     }
@@ -87,7 +88,10 @@ export default function MapToggles(){
         mapToggles=defaultMapToggles;
     }
     return(
-        <div>
-        {mapToggles}</div>
+        <div> 
+            <Draggable>
+                {mapToggles} 
+            </Draggable>
+        </div>
     );
 }
