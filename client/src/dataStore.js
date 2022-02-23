@@ -3,7 +3,8 @@ import { createContext, useContext, useState } from 'react'
 export const GlobalStore = createContext({});
 export const GlobalStoreActions = {
     //    CHANGE_LIST_NAME: "CHANGE_LIST_NAME",
-    LOAD_SIDEPANEL: "LOAD_SIDEPANEL"
+    LOAD_SIDEPANEL: "LOAD_SIDEPANEL",
+    CLOSE_SIDEPANEL: "CLOSE_SIDEPANEL"
 }
 
 function GlobalStoreContextProvider(props){
@@ -17,6 +18,11 @@ function GlobalStoreContextProvider(props){
             case GlobalStoreActions.LOAD_SIDEPANEL:{
                 return setStore({
                     isSidePanelVisible: true
+                });
+            }
+            case GlobalStoreActions.CLOSE_SIDEPANEL:{
+                return setStore({
+                    isSidePanelVisible: false
                 });
             }
             default:
@@ -33,6 +39,13 @@ function GlobalStoreContextProvider(props){
         });
     }
 
+    store.closeSidePanel = function (){
+        storeReducer({
+            type: GlobalStoreActions.CLOSE_SIDEPANEL,
+            payload:{}
+        });
+    }
+    
     return (
         <GlobalStore.Provider value={{ store }}>
             {props.children}
