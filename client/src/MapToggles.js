@@ -48,7 +48,7 @@ export default function MapToggles(){
     }
 
     return(
-        <div class='mapToggles'>
+        <div class='mapToggles' /*className="characters" {...provided.droppableProps} ref={provided.innerRef}*/>
             <Typography style={{fontSize:'x-large'}}> Choose a Boundary Definition:<br></br></Typography>
             <div>
                 <br></br>

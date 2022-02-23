@@ -1,19 +1,31 @@
 import { createContext, useContext, useState } from 'react'
-import { useHistory } from 'react-router-dom'
 
 export const GlobalStore = createContext({});
-const history = useHistory();
-
-export const Global
-const storeReducer = (action)=>{
-    const {type, payload} = action;
-    export const GlobalStoreActionType = {
-        //    CHANGE_LIST_NAME: "CHANGE_LIST_NAME",
-        LOAD_SIDEPANEL: "LOAD_SIDEPANEL"
-    }
-    
-    /*switch(type){
-        case GlobalStore.Provider
-    }*/
-
+export const GlobalStoreActions = {
+    //    CHANGE_LIST_NAME: "CHANGE_LIST_NAME",
+    LOAD_SIDEPANEL: "LOAD_SIDEPANEL"
 }
+
+function GlobalStoreContextProvider(props){
+    const [store, setStore] = useState({
+        isSidePanelVisible: false
+    });
+
+    const storeReducer = (action)=>{
+        const {type, payload} = action;
+        const storeReducer = (action) =>{
+            const{type, payload} = action;
+            switch(type){
+                case GlobalStoreActions.LOAD_SIDEPANEL:{
+                    return setStore({
+                        isSidePanelVisible: true
+                    });
+                }
+                default:
+                    return store;
+            }
+        }
+    }
+}
+export default GlobalStore;
+export { GlobalStoreContextProvider };

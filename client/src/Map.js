@@ -1,12 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useContext} from 'react';
 import mapboxgl from 'mapbox-gl';
+import {GlobalStore} from './dataStore'
+
 var tnDistricts = require('./district-data/TN/tnDistricts.geojson');
 var msDistricts = require('./district-data/MS/msDistricts.geojson');
+
 //import 'mapbox-gl/dist/mapbox/gl.css';
 //const rewind = require('geojson-rewind');
 //import tnDistricts from './district-data/TN/TN-Redistricting-Data.geojson';
 
 function DistMap(props) {
+    const store = useContext(GlobalStore);
     //ReactMapGL.mapboxAccessToken = process.env.REACT_APP_MAPBOX_TOKEN;
     //const tnDistricts = rewind('./district-data/TN/TN-Redistricting-Data.geojson', true);
     const styles = {
@@ -194,6 +198,7 @@ function DistMap(props) {
                         center: [-87.956, 35.761],
                         zoom: 5.77
                     });
+                    store.loadSidePanel();
                 });
                 map.on('click', 'ms-district-layer', function (e) {
                     map.flyTo({
