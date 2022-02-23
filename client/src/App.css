@@ -40,15 +40,25 @@
   width: 450px;
   position: absolute;
 }
-.mapToggles{
-  width: 400px;
-  height:200px;
+#map-toggles{
   position: absolute;
-  right: 0; 
+  align-content: center;
   background-color: #4a549e;
   color: white;
 }
-
+.toggle-row {
+  text-align: left;
+  padding-left: 50px;
+  color:'green';
+}
+#toggleon-icon{
+  font-size: 32pt;
+  background-color:'green';
+}
+#toggleoff-icon{
+  font-size: 32pt;
+  color:'red';
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -58,11 +68,4 @@
   }
 }
 
-.toggle-row {
-  text-align: left;
-  padding-left: 110px;
-}
 
-.mapToggles {
-  align-content: center
-}
