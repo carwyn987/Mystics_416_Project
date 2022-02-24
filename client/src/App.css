@@ -37,10 +37,11 @@
   color:white;
   margin-top: 5%;
   height: 750px;
-  width: 450px;
+  width: 550px;
   position: absolute;
 }
 .sidePanel-data{
+  width:25px;
 }
 #map-toggles{
   position: absolute;
