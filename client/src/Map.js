@@ -208,13 +208,16 @@ function DistMap(props) {
                     store.loadSidePanel();
                 });
             });
+            store.setMap(map);
         };
         if (!map) initMap({ setMap, mapContainer });
     }, [map]);
 
+    //render() {
     return (
-        <div ref={el => (mapContainer.current = el)} style={styles} />
+        <div ref={el => (mapContainer.current = el)} style={styles}/>
     );
+    //}
 }
 
 export default DistMap;

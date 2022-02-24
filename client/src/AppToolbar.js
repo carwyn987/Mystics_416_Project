@@ -11,10 +11,14 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import { useContext } from 'react';
+import { GlobalStore } from './dataStore.js';
 
 export default function AppToolbar() {
+  const { store } = useContext(GlobalStore);
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  let zoomTN = false;
 
   const handleChange = (event) => {
     setAuth(event.target.checked);
@@ -25,10 +29,26 @@ export default function AppToolbar() {
   };
   const handleSidePanelClick = (event) =>{
 
-  }
+  };
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleTnClick = () => {
+    store.map.flyTo({
+      center: [-87.956, 35.761],
+      zoom: 5.77
+    });
+    handleClose();
+  };
+
+  const handleMsClick = () => {
+    store.map.flyTo({
+      center: [-91.665, 32.780],
+      zoom: 5.83
+    });
+    handleClose();
   };
 
 
@@ -65,8 +85,8 @@ export default function AppToolbar() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Tennesseee</MenuItem>
-                <MenuItem onClick={handleClose}>Mississippi</MenuItem>
+                <MenuItem onClick={handleTnClick}>Tennesseee</MenuItem>
+                <MenuItem onClick={handleMsClick}>Mississippi</MenuItem>
               </Menu>
             </div>
           )}
