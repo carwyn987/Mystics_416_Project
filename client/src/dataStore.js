@@ -8,6 +8,8 @@ export const GlobalStoreActions = {
     ZOOM_TN: "ZOOM_TN",
     ZOOM_MS: "ZOOM_MS",
     SET_MAP: "SET_MAP"
+    // DISTRICT_MOUSE_HOVER: "DISTRICT_MOUSE_HOVER",
+    // DISTRICT_HOVER_NUM: "DISTRICT_HOVER_NUM"
 }
 
 function GlobalStoreContextProvider(props){
@@ -16,6 +18,8 @@ function GlobalStoreContextProvider(props){
         TNzoom: false,
         MSzoom: false,
         map: null
+        // isDistMouseHoverVisible: false,
+        // distHoverNum: 0
     });
 
     const storeReducer = (action) => {
@@ -46,6 +50,16 @@ function GlobalStoreContextProvider(props){
                     map: payload
                 });
             }
+            // case GlobalStoreActions.DISTRICT_MOUSE_HOVER:{
+            //     return setStore({
+            //         isDistMouseHoverVisible: payload
+            //     });
+            // }
+            // case GlobalStoreActions.DISTRICT_HOVER_NUM:{
+            //     return setStore({
+            //         distHoverNum: payload
+            //     });
+            // }
             default:
                 return store;
         }
@@ -87,6 +101,20 @@ function GlobalStoreContextProvider(props){
             payload: {}
         });
     }
+
+    // store.setDistHover = function (bool) {
+    //     storeReducer({
+    //         type: GlobalStoreActions.DISTRICT_MOUSE_HOVER,
+    //         payload: bool
+    //     });
+    // }
+
+    // store.setDistHoverNum = function (num) {
+    //     storeReducer({
+    //         type: GlobalStoreActions.DISTRICT_HOVER_NUM,
+    //         payload: num
+    //     });
+    // }
     
     return (
         <GlobalStore.Provider value={{ store }}>

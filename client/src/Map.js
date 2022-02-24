@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useContext} from 'react';
 import mapboxgl from 'mapbox-gl';
-import { GlobalStore } from './dataStore'
+import { GlobalStore } from './dataStore';
+import MouseTooltip from 'react-sticky-mouse-tooltip';
 
 var tnDistricts = require('./district-data/TN/tnDistricts.geojson');
 var msDistricts = require('./district-data/MS/msDistricts.geojson');
@@ -18,6 +19,13 @@ function DistMap(props) {
         height: "100vh"
     };
 
+    const hoverStyles = {
+        backgroundColor: '#191970',
+        color: 'white',
+        padding: '2px',
+        borderRadius: '5px'
+    };
+
     const bounds = [
         [-128.947, 22.802],
         [-62.548, 51.201]
@@ -29,7 +37,15 @@ function DistMap(props) {
     //const [hoveredDistrict, setHoveredDistrict1] = useState(null)
     const [hoveredDistrict, setHoveredDistrict1] = useState(null);
     const hoveredDistrictRef = useRef(hoveredDistrict);
-
+    const [distHover, setDistHover] = useState(false);
+    const [distHoverNum, setDistHoverNum] = useState(0);
+    
+    const toggleDistHover=(bool)=>{
+        setDistHover(bool);
+    }
+    const setDistrict=(id)=>{
+        setDistHoverNum(id);
+    }
     const setHoveredDistrict2 = data => {
         hoveredDistrictRef.current = data;
         setHoveredDistrict1(data);
@@ -145,6 +161,7 @@ function DistMap(props) {
                         );
                     }
                     setHoveredDistrict2(null);
+                    toggleDistHover(false);
                 });
 
                 map.on('mouseleave', 'tn-district-layer', function () {
@@ -155,6 +172,7 @@ function DistMap(props) {
                         );
                     }
                     setHoveredDistrict2(null);
+                    toggleDistHover(false);
                 });
 
                 map.on('mousemove', 'tn-district-layer', function (e) {
@@ -172,6 +190,8 @@ function DistMap(props) {
                             { hover: true }
                         );
                         setHoveredDistrict2(hoveredDistrict1);
+                        toggleDistHover(true);
+                        setDistrict(hoveredDistrict1);
                     }
                 });
 
@@ -190,6 +210,8 @@ function DistMap(props) {
                             { hover: true }
                         );
                         setHoveredDistrict2(hoveredDistrict1);
+                        toggleDistHover(true);
+                        setDistrict(hoveredDistrict1);
                     }
                 });
 
@@ -215,7 +237,12 @@ function DistMap(props) {
 
     //render() {
     return (
-        <div ref={el => (mapContainer.current = el)} style={styles}/>
+        <div>
+            <MouseTooltip visible={distHover} offsetX={10} offsetY={10} style={hoverStyles}>
+                <div>District: {distHoverNum}</div>
+            </MouseTooltip>
+            <div ref={el => (mapContainer.current = el)} style={styles}/>
+        </div>
     );
     //}
 }
