@@ -19,7 +19,7 @@
     "react-draggable": "^4.4.4",
     "react-map-gl": "^7.0.4",
     "react-scripts": "^5.0.0",
-    "react-sticky-mouse-tooltip": "0.0.1",
+    "react-sticky-mouse-tooltip": "^0.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
