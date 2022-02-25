@@ -27,27 +27,42 @@ function GlobalStoreContextProvider(props){
         switch(type){
             case GlobalStoreActions.LOAD_SIDEPANEL:{
                 return setStore({
-                    isSidePanelVisible: true
+                    isSidePanelVisible: true,
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MSzoom,
+                    map: store.map
                 });
             }
             case GlobalStoreActions.CLOSE_SIDEPANEL:{
                 return setStore({
-                    isSidePanelVisible: false
+                    isSidePanelVisible: false,
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MSzoom,
+                    map: store.map
                 });
             }
             case GlobalStoreActions.ZOOM_TN:{
                 return setStore({
-                    TNzoom: true
+                    TNzoom: !this.TNzoom,
+                    isSidePanelVisible: store.isSidePanelVisible,
+                    MSzoom: store.MSzoom,
+                    map: store.map
                 });
             }
             case GlobalStoreActions.ZOOM_MS:{
                 return setStore({
-                    MSzoom: true
+                    MSzoom: !this.MSzoom,
+                    isSidePanelVisible: store.isSidePanelVisible,
+                    TNzoom: store.TNzoom,
+                    map: store.map
                 });
             }
             case GlobalStoreActions.SET_MAP:{
                 return setStore({
-                    map: payload
+                    map: payload,
+                    isSidePanelVisible: store.isSidePanelVisible,
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MSzoom
                 });
             }
             // case GlobalStoreActions.DISTRICT_MOUSE_HOVER:{

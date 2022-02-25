@@ -18,7 +18,7 @@ export default function AppToolbar() {
   const { store } = useContext(GlobalStore);
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  let zoomTN = false;
+  //let zoomTN = false;
 
   const handleChange = (event) => {
     setAuth(event.target.checked);
@@ -40,6 +40,7 @@ export default function AppToolbar() {
       center: [-87.956, 35.761],
       zoom: 5.77
     });
+    store.loadSidePanel();
     handleClose();
   };
 
@@ -48,6 +49,7 @@ export default function AppToolbar() {
       center: [-91.665, 32.780],
       zoom: 5.83
     });
+    store.loadSidePanel();
     handleClose();
   };
 
