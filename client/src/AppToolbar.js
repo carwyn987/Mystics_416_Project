@@ -16,13 +16,8 @@ import { GlobalStore } from './dataStore.js';
 
 export default function AppToolbar() {
   const { store } = useContext(GlobalStore);
-  const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   //let zoomTN = false;
-
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -59,14 +54,14 @@ export default function AppToolbar() {
       <AppBar position="static" backgroundColor='rgb(214,218,254)'>
         <Toolbar>
           <Box component="div" sx={{ flexGrow: 1 }}>
-          {auth && (
+          {(
             <div>
               <IconButton
                 size="large"
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
-                onMouseOver={handleMenu}
+                onClick={handleMenu}
                 color="inherit"
               >
                 Select a state  
@@ -75,6 +70,8 @@ export default function AppToolbar() {
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+                transformOrigin={{vertical: 'top', horizontal: 'center'}}
                 anchorOrigin={{
                   vertical: 'bottom',
                   horizontal: 'right',
