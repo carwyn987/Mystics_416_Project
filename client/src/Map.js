@@ -72,6 +72,7 @@ function DistMap(props) {
             map.on("load", function () {
 
                 setMap(map);
+                //store.setMap(map);
 
                 map.addSource('tn-district-source', {
                     'type': 'geojson',
@@ -220,6 +221,7 @@ function DistMap(props) {
                         center: [-87.956, 35.761],
                         zoom: 5.77
                     });
+                    store.setMap(map);
                     store.loadSidePanel();
                 });
                 map.on('click', 'ms-district-layer', function (e) {
@@ -227,10 +229,16 @@ function DistMap(props) {
                         center: [-91.665, 32.780],
                         zoom: 5.83
                     });
+                    store.setMap(map);
                     store.loadSidePanel();
                 });
             });
-            store.setMap(map);
+            if (!map) {
+                store.setMap(mapContainer);
+            } else {
+                store.setMap(map);
+            }
+            //store.setMap(map);
         };
         if (!map) initMap({ setMap, mapContainer });
     }, [map]);
