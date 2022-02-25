@@ -23,7 +23,7 @@ export default function SidePanel(){
             <Typography style={{fontSize:'x-large',marginTop:'2%',justifyContent:'center',paddingRight:'4%'}}>
                 Select the data to view<ArrowDropDownIcon style={{fontSize:'large'}}></ArrowDropDownIcon>
             </Typography>
-            <img src={graph1}></img>
+            <img src={graph1} width={500} height={300}></img>
         </div>
     );
 }
