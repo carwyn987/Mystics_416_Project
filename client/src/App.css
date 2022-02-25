@@ -57,11 +57,11 @@
   color:'green';
 }
 #toggleon-icon{
-  font-size: 20pt;
+  font-size: 10pt;
   background-color:'green';
 }
 #toggleoff-icon{
-  font-size: 20pt;
+  font-size: 10pt;
   color:'red';
 }
 @keyframes App-logo-spin {

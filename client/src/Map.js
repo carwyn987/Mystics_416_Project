@@ -3,6 +3,7 @@ import { useState, useEffect, useRef, useCallback, useContext} from 'react';
 import mapboxgl from 'mapbox-gl';
 import { GlobalStore } from './dataStore';
 import MouseTooltip from 'react-sticky-mouse-tooltip';
+import SidePanel from './SidePanel';
 
 var tnDistricts = require('./district-data/TN/tnDistricts.geojson');
 var msDistricts = require('./district-data/MS/msDistricts.geojson');
@@ -41,6 +42,9 @@ function DistMap(props) {
     const [distHover, setDistHover] = useState(false);
     const [distHoverNum, setDistHoverNum] = useState(0);
     
+    const openSidePanel=()=>{
+        store.loadSidePanel();
+    }
     const toggleDistHover=(bool)=>{
         setDistHover(bool);
     }
@@ -51,13 +55,6 @@ function DistMap(props) {
         hoveredDistrictRef.current = data;
         setHoveredDistrict1(data);
     };
-   
-    const checkStore=()=>{ 
-        if(store.map)
-            console.log("theres a map here...");
-        else
-            console.log("FUCk");
-    }
     useEffect(() => {
         mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
         const initMap = ({ setMap, mapContainer }) => {
@@ -229,7 +226,7 @@ function DistMap(props) {
                         zoom: 5.77
                     });
                     // store.updateMap(e.target);
-                    // store.loadSidePanel();
+                    openSidePanel();
                     // checkStore();
                 });
                 map.on('click', 'ms-district-layer', function (e) {
@@ -238,6 +235,8 @@ function DistMap(props) {
                         zoom: 5.83
                     });
                     // store.updateMap(map);
+                    openSidePanel();
+
                     // store.loadSidePanel();
                 });
             });

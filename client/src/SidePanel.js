@@ -66,7 +66,7 @@ export default function SidePanel(){
                 open={Boolean(anchorEl)}
                 onClose={handleCloseMenu}
               >
-                <MenuItem onClick={handleVoteClick}>Democratic Votes</MenuItem>
+                <MenuItem onClick={handleVoteClick}>Election Data</MenuItem>
                 <MenuItem onClick={handleCompareClick}>Compare Plans</MenuItem>
               </Menu>
         </div>

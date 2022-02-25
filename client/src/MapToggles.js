@@ -66,13 +66,13 @@ export default function MapToggles(){
         <div>
             <br></br>
             <div className= "toggle-row" onClick={handleCongClick}>
-                {districtToggle}<div style={{display:'inline-block', paddingLeft:'4%',fontSize:'25pt'}}>Congressional Districts</div>
+                {districtToggle}<div style={{display:'inline-block', paddingLeft:'4%',fontSize:'15pt'}}>Congressional Districts</div>
             </div>
             <div className= "toggle-row" onClick={handleCountyClick}>
-                {countyToggle}<div style={{display:'inline-block', paddingLeft:'4%',fontSize:'25pt'}}>Counties</div>
+                {countyToggle}<div style={{display:'inline-block', paddingLeft:'4%',fontSize:'15pt'}}>Counties</div>
             </div>
             <div className= "toggle-row" onClick={handlePrecClick}>
-                {precinctToggle}<div style={{display:'inline-block', paddingLeft:'4%',fontSize:'25pt'}}>Precincts</div>
+                {precinctToggle}<div style={{display:'inline-block', paddingLeft:'4%',fontSize:'15pt'}}>Precincts</div>
             </div>
         </div>
     </Box>;
