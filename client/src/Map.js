@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback, useContext} from 'react';
+import * as React from 'react';
+import { useState, useEffect, useRef, useCallback, useContext} from 'react';
 import mapboxgl from 'mapbox-gl';
 import { GlobalStore } from './dataStore';
 import MouseTooltip from 'react-sticky-mouse-tooltip';
@@ -50,7 +51,13 @@ function DistMap(props) {
         hoveredDistrictRef.current = data;
         setHoveredDistrict1(data);
     };
-
+   
+    const checkStore=()=>{ 
+        if(store.map)
+            console.log("theres a map here...");
+        else
+            console.log("FUCk");
+    }
     useEffect(() => {
         mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
         const initMap = ({ setMap, mapContainer }) => {
@@ -221,22 +228,23 @@ function DistMap(props) {
                         center: [-87.956, 35.761],
                         zoom: 5.77
                     });
-                    store.setMap(map);
-                    store.loadSidePanel();
+                    // store.updateMap(e.target);
+                    // store.loadSidePanel();
+                    // checkStore();
                 });
                 map.on('click', 'ms-district-layer', function (e) {
                     map.flyTo({
                         center: [-91.665, 32.780],
                         zoom: 5.83
                     });
-                    store.setMap(map);
-                    store.loadSidePanel();
+                    // store.updateMap(map);
+                    // store.loadSidePanel();
                 });
             });
             if (!map) {
-                store.setMap(mapContainer);
+                store.updateMap(mapContainer);
             } else {
-                store.setMap(map);
+                store.updateMap(map);
             }
             //store.setMap(map);
         };

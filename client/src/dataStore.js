@@ -7,7 +7,7 @@ export const GlobalStoreActions = {
     CLOSE_SIDEPANEL: "CLOSE_SIDEPANEL",
     ZOOM_TN: "ZOOM_TN",
     ZOOM_MS: "ZOOM_MS",
-    SET_MAP: "SET_MAP"
+    UPDATE_MAP: "UPDATE_MAP"
     // DISTRICT_MOUSE_HOVER: "DISTRICT_MOUSE_HOVER",
     // DISTRICT_HOVER_NUM: "DISTRICT_HOVER_NUM"
 }
@@ -43,26 +43,26 @@ function GlobalStoreContextProvider(props){
             }
             case GlobalStoreActions.ZOOM_TN:{
                 return setStore({
-                    TNzoom: !this.TNzoom,
                     isSidePanelVisible: store.isSidePanelVisible,
+                    TNzoom: !this.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map
                 });
             }
             case GlobalStoreActions.ZOOM_MS:{
                 return setStore({
-                    MSzoom: !this.MSzoom,
                     isSidePanelVisible: store.isSidePanelVisible,
                     TNzoom: store.TNzoom,
+                    MSzoom: !this.MSzoom,
                     map: store.map
                 });
             }
-            case GlobalStoreActions.SET_MAP:{
+            case GlobalStoreActions.UPDATE_MAP:{
                 return setStore({
-                    map: payload,
                     isSidePanelVisible: store.isSidePanelVisible,
                     TNzoom: store.TNzoom,
-                    MSzoom: store.MSzoom
+                    MSzoom: store.MSzoom,
+                    map: payload
                 });
             }
             // case GlobalStoreActions.DISTRICT_MOUSE_HOVER:{
@@ -82,7 +82,6 @@ function GlobalStoreContextProvider(props){
     }
 
     store.loadSidePanel = function () {
-        console.log("load func called in data store");
         storeReducer({
             type: GlobalStoreActions.LOAD_SIDEPANEL,
             payload: {}
@@ -103,9 +102,9 @@ function GlobalStoreContextProvider(props){
         });
     }
 
-    store.setMap = function (mapInput) {
+    store.updateMap = function (mapInput) {
         storeReducer({
-            type: GlobalStoreActions.SET_MAP,
+            type: GlobalStoreActions.UPDATE_MAP,
             payload: mapInput
         });
     }

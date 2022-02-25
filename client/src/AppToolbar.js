@@ -13,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { useContext } from 'react';
 import { GlobalStore } from './dataStore.js';
+import { setRef } from '@mui/material';
 
 export default function AppToolbar() {
   const { store } = useContext(GlobalStore);
@@ -28,6 +29,9 @@ export default function AppToolbar() {
 
   const handleClose = () => {
     setAnchorEl(null);
+    if(store.map){
+      console.log("HEY");
+    }
   };
 
   const handleTnClick = () => {
