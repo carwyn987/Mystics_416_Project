@@ -56,6 +56,8 @@ export default function SidePanel(){
             text = "ELECTION RESULTS & PLAN COMPARISON";
         else if(bool && popDataVisible)
             text="ELECTION RESULTS & DEMOGRAPHICS";
+        else if(planCompareVisible && popDataVisible)
+            text = "PLAN COMPARISON & DEMOGRAPHICS";
         else if(bool)  
             text="ELECTION RESULTS";
         else if(planCompareVisible)
@@ -77,6 +79,8 @@ export default function SidePanel(){
             text="ELECTION RESULTS & PLAN COMPARISON";
         else if(bool && popDataVisible)
             text="PLAN COMPARISON & DEMOGRAPHICS";
+        else if(electionDataVisible && popDataVisible)
+            text="ELECTION RESULTS & DEMOGRAPHICS";
         else if(bool)  
             text="PLAN COMPARISON";
         else if(electionDataVisible)
@@ -98,6 +102,8 @@ export default function SidePanel(){
             text="PLAN COMPARISON & DEMOGRAPHICS";
         else if(bool && electionDataVisible)
             text="ELECTION RESULTS & DEMOGRAPHICS";
+        else if(electionDataVisible && planCompareVisible)
+            text="ELECTION RESULTS & PLAN COMPARISON";
         else if(bool)  
             text="DEMOGRAPHICS";
         else if(electionDataVisible)
