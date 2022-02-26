@@ -13,6 +13,7 @@ import PopulationData from './PopulationData';
 import PlanComparison from './PlanComparison';
 import * as React from 'react';
 import {useContext} from 'react';
+import CottageIcon from '@mui/icons-material/Cottage';
 
 export default function SidePanel(){
     const  { store } = useContext(GlobalStore);
@@ -23,10 +24,13 @@ export default function SidePanel(){
     const [electionDataVisible, setElectionDataVisible] = React.useState(false);
     const [planCompareVisible, setPlanCompareVisible] = React.useState(false);
     const [popDataVisible, setPopDataVisible] = React.useState(false);
+    const [state, setSwitchState] = React.useState(1);
     const graph = null;
     let isVisible=false;
     let expandIcon=null;
     let panel=null;
+    //let state=1;
+
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -45,6 +49,14 @@ export default function SidePanel(){
         }
         else
             setIsMaximized(true);
+    }
+    const toggleState=()=>{
+        if (state === 1){
+            setSwitchState(2);
+        } else{
+            setSwitchState(1);
+        }
+        console.log("state is: " + state);
     }
     const handleElectionClick=()=>{
         let bool = !electionDataVisible;
@@ -134,6 +146,7 @@ export default function SidePanel(){
                     <div style={{display:'inline-block',float:'left', fontSize:'20pt',paddingTop:'2%',paddingLeft:'1%'}}>
                         <MinimizeIcon onClick={toggleMinimize} style={{fontSize:'20pt'}}></MinimizeIcon>
                         {expandIcon}
+                        <CottageIcon onClick={toggleState} style={{fontSize:'15pt'}}></CottageIcon>
                     </div>         
                     <div onClick={handleMenu}>
                     <Typography style={{fontSize:'x-large',marginTop:'6%',marginRight:'17%',marginBottom:'5%',display:'inline-block'}}>VIEW DATA</Typography>
@@ -143,8 +156,8 @@ export default function SidePanel(){
                         </Button>
                     </div>
                     <ElectionData visibility={electionDataVisible}/>
-                    <PlanComparison visible={planCompareVisible}/>
-                    <PopulationData visibility2={popDataVisible}/>
+                    <PlanComparison visible={planCompareVisible} state={state}/>
+                    <PopulationData visibility2={popDataVisible} state={state}/>
                     <Menu
                         id="menu-appbar"
                         anchorEl={anchorEl}
@@ -165,7 +178,7 @@ export default function SidePanel(){
     
     if(isMaximized){
         panel=
-                <div style={{height: '750px', width:'1000px',overflow:'scroll'}}>
+                <div style={{height: '600px', width:'1000px',overflow:'scroll'}}>
                     {insidePanel}
                 </div>;
     }
@@ -179,7 +192,7 @@ export default function SidePanel(){
                 </div>;
     }
     else{
-        panel=<div style={{height: '750px', width: '550px', overflow:'scroll'}}>
+        panel=<div style={{height: '600px', width: '550px', overflow:'scroll'}}>
                 {insidePanel}
             </div>;
     }

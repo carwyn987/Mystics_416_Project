@@ -47,6 +47,7 @@ export default function AppToolbar() {
     //setDStoreState(1);
     //store.zoomTN();
     store.loadSidePanel();
+    //store.setStateFocus("TN");
     handleClose();
   };
 
@@ -61,6 +62,7 @@ export default function AppToolbar() {
     //store.zoomMS();
     //setDStoreState(2);
     store.loadSidePanel();
+    //store.setStateFocus("MS");
     handleClose();
   };
 

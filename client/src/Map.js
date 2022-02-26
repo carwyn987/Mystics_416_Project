@@ -50,14 +50,17 @@ function DistMap(props) {
     const openSidePanel=()=>{
         store.loadSidePanel();
     }
+    const closeSidePanel=()=>{
+        store.closeSidePanel();
+    }
     const toggleDistHover=(bool)=>{
         setDistHover(bool);
     }
     const setDistrict=(id)=>{
         setDistHoverNum(id);
     }
-    const setCountyBounds=(st)=>{
-        store.setCountyState(st);
+    const setStoreStateFocus=(str)=>{
+        store.setStateFocus(str);
     }
     const setHoveredDistrict2 = data => {
         hoveredDistrictRef.current = data;
@@ -272,9 +275,12 @@ function DistMap(props) {
                         zoom: 5.77
                     });
                     // store.updateMap(e.target);
+                    //setStoreStateFocus("TN");
                     updateStoreMap(e.target);
                     //setCountyBounds(1);
+                    //closeSidePanel();
                     openSidePanel();
+                    //setStoreStateFocus("TN");
                     // checkStore();
                 });
                 map.on('click', 'ms-district-layer', function (e) {
@@ -283,8 +289,10 @@ function DistMap(props) {
                         zoom: 5.83
                     });
                     // store.updateMap(map);
+                    //setStoreStateFocus("TN");
                     updateStoreMap(e.target);
                     //setCountyBounds(2);
+                    //closeSidePanel();
                     openSidePanel();
 
                     // store.loadSidePanel();

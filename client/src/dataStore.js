@@ -9,7 +9,8 @@ export const GlobalStoreActions = {
     LOAD_ELECTION_DATA: "LOAD_ELECTION_DATA",
     ZOOM_TN: "ZOOM_TN",
     ZOOM_MS: "ZOOM_MS",
-    UPDATE_MAP: "UPDATE_MAP"
+    UPDATE_MAP: "UPDATE_MAP",
+    STATE_FOCUS: "STATE_FOCUS"
     // DISTRICT_MOUSE_HOVER: "DISTRICT_MOUSE_HOVER",
     // DISTRICT_HOVER_NUM: "DISTRICT_HOVER_NUM"
 }
@@ -20,7 +21,8 @@ function GlobalStoreContextProvider(props){
         currentState: null,
         TNzoom: false,
         MSzoom: false,
-        map: null
+        map: null,
+        stateFocus: null
         // isDistMouseHoverVisible: false,
         // distHoverNum: 0
     });
@@ -34,7 +36,8 @@ function GlobalStoreContextProvider(props){
                     currentState: null,
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
-                    map: store.map
+                    map: store.map,
+                    stateFocus: store.stateFocus
                 });
             }
             case GlobalStoreActions.CLOSE_SIDEPANEL:{
@@ -43,7 +46,8 @@ function GlobalStoreContextProvider(props){
                     currentState: null,
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
-                    map: store.map
+                    map: store.map,
+                    stateFocus: store.stateFocus
                 });
             }
             case GlobalStoreActions.LOAD_ELECTION_DATA:{
@@ -58,7 +62,8 @@ function GlobalStoreContextProvider(props){
                     currentState: payload,
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
-                    map: store.map
+                    map: store.map,
+                    stateFocus: store.stateFocus
                 })
             }
             case GlobalStoreActions.ZOOM_TN:{
@@ -67,7 +72,8 @@ function GlobalStoreContextProvider(props){
                     currentState: null,
                     TNzoom: !this.TNzoom,
                     MSzoom: store.MSzoom,
-                    map: store.map
+                    map: store.map,
+                    stateFocus: store.stateFocus
                 });
             }
             case GlobalStoreActions.ZOOM_MS:{
@@ -76,7 +82,8 @@ function GlobalStoreContextProvider(props){
                     currentState: null,
                     TNzoom: store.TNzoom,
                     MSzoom: !this.MSzoom,
-                    map: store.map
+                    map: store.map,
+                    stateFocus: store.stateFocus
                 });
             }
             case GlobalStoreActions.UPDATE_MAP:{
@@ -85,8 +92,19 @@ function GlobalStoreContextProvider(props){
                     currentState: null,
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
-                    map: payload
+                    map: payload,
+                    stateFocus: store.stateFocus
                 });
+            }
+            case GlobalStoreActions.STATE_FOCUS:{
+                return setStore({
+                    isSidePanelVisible: store.isSidePanelVisible,
+                    currentState: null,
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MNSzoom,
+                    map: store.map,
+                    stateFocus: payload
+                })
             }
             // case GlobalStoreActions.DISTRICT_MOUSE_HOVER:{
             //     return setStore({
@@ -143,6 +161,13 @@ function GlobalStoreContextProvider(props){
         storeReducer({
             type: GlobalStoreActions.ZOOM_MS,
             payload: {}
+        });
+    }
+
+    store.setStateFocus = function (st) {
+        storeReducer({
+            type: GlobalStoreActions.STATE_FOCUS,
+            payload: st
         });
     }
 
