@@ -7,6 +7,8 @@ import SidePanel from './SidePanel';
 
 var tnDistricts = require('./district-data/TN/tnDistricts.geojson');
 var msDistricts = require('./district-data/MS/msDistricts.geojson');
+var tnCounties = require('./district-data/TN/tnCounties.geojson');
+var msCounties = require('./district-data/MS/msCounties.geojson');
 
 //import 'mapbox-gl/dist/mapbox/gl.css';
 //const rewind = require('geojson-rewind');
@@ -53,6 +55,9 @@ function DistMap(props) {
     }
     const setDistrict=(id)=>{
         setDistHoverNum(id);
+    }
+    const setCountyBounds=(st)=>{
+        store.setCountyState(st);
     }
     const setHoveredDistrict2 = data => {
         hoveredDistrictRef.current = data;
@@ -161,6 +166,44 @@ function DistMap(props) {
                     }
                 });
 
+                map.addSource('tn-county-source', {
+                    'type': 'geojson',
+                    'data': tnCounties,
+                    'promoteId': 'NAME'
+                });
+
+                map.addLayer({
+                    'id': 'tn-county-layer',
+                    'type': 'line',
+                    'source': 'tn-county-source',
+                    'layout': {
+                        'visibility': 'none'
+                    },
+                    'paint': {
+                        'line-color': 'black',
+                        'line-width': 1
+                    }
+                });
+
+                map.addSource('ms-county-source', {
+                    'type': 'geojson',
+                    'data': msCounties,
+                    'promoteId': 'NAME'
+                });
+
+                map.addLayer({
+                    'id': 'ms-county-layer',
+                    'type': 'line',
+                    'source': 'ms-county-source',
+                    'layout': {
+                        'visibility': 'none'
+                    },
+                    'paint': {
+                        'line-color': 'black',
+                        'line-width': 1
+                    }
+                });
+
                 map.on('mouseleave', 'ms-district-layer', function () {
                     if (hoveredDistrictRef.current) {
                         map.setFeatureState(
@@ -225,11 +268,12 @@ function DistMap(props) {
 
                 map.on('click', 'tn-district-layer', function (e) {
                     map.flyTo({
-                        center: [-87.956, 35.761],
+                        center: [-88.956, 35.761],
                         zoom: 5.77
                     });
                     // store.updateMap(e.target);
                     updateStoreMap(e.target);
+                    //setCountyBounds(1);
                     openSidePanel();
                     // checkStore();
                 });
@@ -240,6 +284,7 @@ function DistMap(props) {
                     });
                     // store.updateMap(map);
                     updateStoreMap(e.target);
+                    //setCountyBounds(2);
                     openSidePanel();
 
                     // store.loadSidePanel();

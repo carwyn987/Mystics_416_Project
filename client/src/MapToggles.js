@@ -8,9 +8,12 @@ import { borders } from '@mui/system';
 import {useState} from 'react';
 import './App.css';
 import Draggable from 'react-draggable';
+import { useContext } from 'react';
+import { GlobalStore } from './DataStore.js';
 
 
 export default function MapToggles(){
+    const { store } = useContext(GlobalStore);
     const [isDistrictToggleSet, setDistrictToggle] = React.useState(false);
     const [isCountyToggleSet, setCountyToggle] = React.useState(false);
     const [isPrecinctToggleSet, setPrecinctToggle] = React.useState(false);
@@ -27,6 +30,19 @@ export default function MapToggles(){
     const handleCountyClick=()=>{
         let current = !isCountyToggleSet;
         setCountyToggle(current);
+        if (current) {
+            //if (store.countyState === 1) {
+                store.map.setLayoutProperty('tn-county-layer', 'visibility', 'visible');
+                //store.map.setLayoutProperty('ms-county-layer', 'visibility', 'none');
+            //} else if (store.countyState === 2) {
+                store.map.setLayoutProperty('ms-county-layer', 'visibility', 'visible');
+                //store.map.setLayoutProperty('tn-county-layer', 'visibility', 'none');
+            //}
+        } else {
+            store.map.setLayoutProperty('tn-county-layer', 'visibility', 'none');
+            store.map.setLayoutProperty('ms-county-layer', 'visibility', 'none');
+        }
+        //setCountyToggle(current);
     }
     const handlePrecClick=()=>{
         let current = !isPrecinctToggleSet;
@@ -65,9 +81,9 @@ export default function MapToggles(){
         <Typography style={{fontSize:'12pt',fontWeight:'bold'}}> Choose Boundary Definitions<br></br></Typography>
         <div>
             <br></br>
-            <div className= "toggle-row" onClick={handleCongClick}>
+            {/* <div className= "toggle-row" onClick={handleCongClick}>
                 {districtToggle}<div style={{display:'inline-block', paddingLeft:'4%',fontSize:'20pt'}}>Congressional Districts</div>
-            </div>
+            </div> */}
             <div className= "toggle-row" onClick={handleCountyClick}>
                 {countyToggle}<div style={{display:'inline-block', paddingLeft:'4%',fontSize:'20pt'}}>Counties</div>
             </div>

@@ -26,6 +26,9 @@ export default function AppToolbar() {
   const handleSidePanelClick = (event) =>{
 
   };
+  const setDStoreState = (state) => {
+    store.setCountyState(state);
+  }
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -36,9 +39,13 @@ export default function AppToolbar() {
 
   const handleTnClick = () => {
     store.map.flyTo({
-      center: [-87.956, 35.761],
+      center: [-88.956, 35.761],
       zoom: 5.77
     });
+    //store.setCurrentState("TN");
+    //store.zoomTN();
+    //setDStoreState(1);
+    //store.zoomTN();
     store.loadSidePanel();
     handleClose();
   };
@@ -48,6 +55,11 @@ export default function AppToolbar() {
       center: [-91.665, 32.780],
       zoom: 5.83
     });
+    //store.setCurrentState("MS");
+    //store.zoomMS();
+    //setDStoreState("MS");
+    //store.zoomMS();
+    //setDStoreState(2);
     store.loadSidePanel();
     handleClose();
   };
