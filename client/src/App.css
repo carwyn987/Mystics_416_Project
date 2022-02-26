@@ -43,25 +43,28 @@
 .sidePanel-data{
   width:25px;
 }
+.election-data{
+  padding-top: 4%;
+}
 #map-toggles{
   position: absolute;
   right:10;
   align-content: center;
   background-color: #4a549e;
   color: white;
-  border-radius: 3%;
+  border-radius: 8px;
 }
 .toggle-row {
   text-align: left;
-  padding-left: 35px;
+  padding-left: 20px;
   color:'green';
 }
 #toggleon-icon{
-  font-size: 10pt;
+  font-size: 15pt;
   background-color:'green';
 }
 #toggleoff-icon{
-  font-size: 10pt;
+  font-size: 15pt;
   color:'red';
 }
 @keyframes App-logo-spin {

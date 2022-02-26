@@ -5,6 +5,7 @@ export const GlobalStoreActions = {
     //    CHANGE_LIST_NAME: "CHANGE_LIST_NAME",
     LOAD_SIDEPANEL: "LOAD_SIDEPANEL",
     CLOSE_SIDEPANEL: "CLOSE_SIDEPANEL",
+    LOAD_ELECTION_DATA: "LOAD_ELECTION_DATA",
     ZOOM_TN: "ZOOM_TN",
     ZOOM_MS: "ZOOM_MS",
     UPDATE_MAP: "UPDATE_MAP"
@@ -15,6 +16,7 @@ export const GlobalStoreActions = {
 function GlobalStoreContextProvider(props){
     const [store, setStore] = useState({
         isSidePanelVisible: false,
+        isElectionDataVisible: false,
         TNzoom: false,
         MSzoom: false,
         map: null
@@ -40,6 +42,12 @@ function GlobalStoreContextProvider(props){
                     MSzoom: store.MSzoom,
                     map: store.map
                 });
+            }
+            case GlobalStoreActions.LOAD_ELECTION_DATA:{
+                return setStore({
+                    isSidePanelVisible: true,
+
+                })
             }
             case GlobalStoreActions.ZOOM_TN:{
                 return setStore({
@@ -82,6 +90,7 @@ function GlobalStoreContextProvider(props){
     }
 
     store.loadSidePanel = function () {
+        console.log('loading side panel');
         storeReducer({
             type: GlobalStoreActions.LOAD_SIDEPANEL,
             payload: {}

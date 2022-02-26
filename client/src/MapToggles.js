@@ -60,19 +60,19 @@ export default function MapToggles(){
     }
 
     let defaultMapToggles=
-    <Box id='map-toggles' style={{width: '450px', height:'225px'}}>
-        <MinimizeIcon onClick={handleWinChange} style={{ fontSize:'20pt', fontWeight:'bold',float:'left', floatBottom:'4%'}}></MinimizeIcon><br></br>
-        <Typography style={{fontSize:'15pt',fontWeight:'bold',paddingTop:'1%'}}> Choose a Boundary Definition<br></br></Typography>
+    <Box id='map-toggles' style={{width: '350px', height:'175px'}}>
+        <MinimizeIcon onClick={handleWinChange} style={{ display:'inline-block',fontSize:'20pt', fontWeight:'bold',float:'left',paddingBottom:'5%'}}></MinimizeIcon><br></br>
+        <Typography style={{fontSize:'12pt',fontWeight:'bold'}}> Choose Boundary Definitions<br></br></Typography>
         <div>
             <br></br>
             <div className= "toggle-row" onClick={handleCongClick}>
-                {districtToggle}<div style={{display:'inline-block', paddingLeft:'4%',fontSize:'15pt'}}>Congressional Districts</div>
+                {districtToggle}<div style={{display:'inline-block', paddingLeft:'4%',fontSize:'20pt'}}>Congressional Districts</div>
             </div>
             <div className= "toggle-row" onClick={handleCountyClick}>
-                {countyToggle}<div style={{display:'inline-block', paddingLeft:'4%',fontSize:'15pt'}}>Counties</div>
+                {countyToggle}<div style={{display:'inline-block', paddingLeft:'4%',fontSize:'20pt'}}>Counties</div>
             </div>
             <div className= "toggle-row" onClick={handlePrecClick}>
-                {precinctToggle}<div style={{display:'inline-block', paddingLeft:'4%',fontSize:'15pt'}}>Precincts</div>
+                {precinctToggle}<div style={{display:'inline-block', paddingLeft:'4%',fontSize:'20pt'}}>Precincts</div>
             </div>
         </div>
     </Box>;
@@ -89,7 +89,7 @@ export default function MapToggles(){
     }
     return(
         <div> 
-            <Draggable>
+            <Draggable bounds='parent'>
                 {mapToggles} 
             </Draggable>
         </div>

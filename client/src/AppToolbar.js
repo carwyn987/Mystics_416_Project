@@ -12,7 +12,7 @@ import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { useContext } from 'react';
-import { GlobalStore } from './dataStore.js';
+import { GlobalStore } from './DataStore.js';
 import { setRef } from '@mui/material';
 
 export default function AppToolbar() {

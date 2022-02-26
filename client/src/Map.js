@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect, useRef, useCallback, useContext} from 'react';
 import mapboxgl from 'mapbox-gl';
-import { GlobalStore } from './dataStore';
+import { GlobalStore } from './DataStore';
 import MouseTooltip from 'react-sticky-mouse-tooltip';
 import SidePanel from './SidePanel';
 
@@ -42,6 +42,9 @@ function DistMap(props) {
     const [distHover, setDistHover] = useState(false);
     const [distHoverNum, setDistHoverNum] = useState(0);
     
+    const updateStoreMap=(map)=>{
+        store.updateMap(map);
+    }
     const openSidePanel=()=>{
         store.loadSidePanel();
     }
@@ -226,7 +229,7 @@ function DistMap(props) {
                         zoom: 5.77
                     });
                     // store.updateMap(e.target);
-                    openSidePanel();
+                    updateStoreMap(e.target);
                     // checkStore();
                 });
                 map.on('click', 'ms-district-layer', function (e) {
@@ -235,8 +238,7 @@ function DistMap(props) {
                         zoom: 5.83
                     });
                     // store.updateMap(map);
-                    openSidePanel();
-
+                    updateStoreMap(e.target);
                     // store.loadSidePanel();
                 });
             });

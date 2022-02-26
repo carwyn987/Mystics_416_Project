@@ -4,17 +4,17 @@ import CloseIcon from '@mui/icons-material/Close';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import Button from '@mui/material/Button';
-import { GlobalStore } from './dataStore'
-import graph1 from './demo-data/dem-votes-graph.png';
-import graph2 from './demo-data/plan-comparison.png';
+import { GlobalStore } from './DataStore'
+import ElectionData from './ElectionData';
+import PlanComparison from './PlanComparison';
 import * as React from 'react';
 import {useContext} from 'react';
 
 export default function SidePanel(){
     const  { store } = useContext(GlobalStore);
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [voteGraphVisible, setVoteGraphVisible] = React.useState(false);
-    const [compareGraphVisible, setCompareGraphVisible] = React.useState(false);
+    const [electionDataVisible, setElectionDataVisible] = React.useState(false);
+    const [planCompareVisible, setPlanCompareVisible] = React.useState(false);
     const graph = null;
     let isVisible=false;
 
@@ -24,20 +24,20 @@ export default function SidePanel(){
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
     };
-    const handleVoteClick=()=>{
-        let bool = !voteGraphVisible;
-        setVoteGraphVisible(bool);
+    const handleElectionClick=()=>{
+        let bool = !electionDataVisible;
+        setElectionDataVisible(bool);
         handleCloseMenu();
     }
     const handleCompareClick=()=>{
-        let bool=!compareGraphVisible;
-        setCompareGraphVisible(bool);
+        let bool=!planCompareVisible;
+        setPlanCompareVisible(bool);
         handleCloseMenu();
     }
     const handleCloseMenu = () => {
         setAnchorEl(null);
     };
-    
+     
     if(store.isSidePanelVisible){
         isVisible=true;
     }
@@ -45,15 +45,15 @@ export default function SidePanel(){
         isVisible=false;
     }
    return(
-        <div class='sidePanel' style={{display: isVisible ? 'block' : 'none'}}>
+        <div class='sidePanel' style={{display: isVisible ? 'block' : 'none',overflow: 'scroll'}}>
             <CloseIcon onClick={handleClose} style={{float:'left', fontSize:'20pt',paddingTop:'2%',paddingLeft:'1%'}}></CloseIcon>
             <div onClick={handleMenu}>
                 <Button variant="outlined" style={{outlineColor:'white',fontSize:'large',marginTop:'2%',color:'white',justifyContent:'center',paddingRight:'4%'}}>
-                    Select the data to view<ArrowDropDownIcon onClick={handleMenu} style={{display:'inline-block',fontSize:'15pt'}}></ArrowDropDownIcon>
+                    VIEW DATA<ArrowDropDownIcon onClick={handleMenu} style={{display:'inline-block',fontSize:'15pt'}}></ArrowDropDownIcon>
                 </Button>
             </div>
-            <img src={graph1} width={500} height={300} style={{visibility: voteGraphVisible ? 'visible' : 'hidden'}}></img>
-            <img src={graph2} width={500} height={300} style={{visibility: compareGraphVisible ? 'visible' : 'hidden'}}></img>
+            <ElectionData visibility={electionDataVisible}/>
+            <PlanComparison visible={planCompareVisible}/>
             <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
@@ -66,7 +66,7 @@ export default function SidePanel(){
                 open={Boolean(anchorEl)}
                 onClose={handleCloseMenu}
               >
-                <MenuItem onClick={handleVoteClick}>Election Data</MenuItem>
+                <MenuItem onClick={handleElectionClick}>Election Data</MenuItem>
                 <MenuItem onClick={handleCompareClick}>Compare Plans</MenuItem>
               </Menu>
         </div>

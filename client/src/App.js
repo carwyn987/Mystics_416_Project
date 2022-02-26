@@ -3,7 +3,7 @@ import React from 'react';
 import './App.css';
 import AppToolbar from './AppToolbar.js';
 import MapWrapper from './MapWrapper.js';
-import { GlobalStoreContextProvider } from './dataStore.js';
+import { GlobalStoreContextProvider } from './DataStore.js';
 //import TNDistricts from './districts/TNDistricts.js';
 
 function App() {
