@@ -130,7 +130,7 @@ export default function SidePanel(){
                         {expandIcon}
                     </div>         
                     <div onClick={handleMenu}>
-                    <Typography style={{fontSize:'x-large',marginTop:'5%',margin:'auto',marginRight:'15%',marginBottom:'3%',display:'inline-block'}}>VIEW DATA</Typography>
+                    <Typography style={{fontSize:'x-large',marginTop:'6%',marginRight:'17%',marginBottom:'5%',display:'inline-block'}}>VIEW DATA</Typography>
                         <Button variant="outlined" style={{width:'400px',fontSize:'25pt',borderColor:'white',fontSize:'large',marginRight:'5%',color:'white'}}>
                             {menuText}
                             <ArrowDropDownIcon onClick={handleMenu} style={{display:'inline-block',fontSize:'15pt'}}></ArrowDropDownIcon>
@@ -159,7 +159,7 @@ export default function SidePanel(){
     
     if(isMaximized){
         panel=
-                <div style={{height: '750px', width:'1000px'}}>
+                <div style={{height: '750px', width:'1000px',overflow:'scroll'}}>
                     {insidePanel}
                 </div>;
     }

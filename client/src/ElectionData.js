@@ -4,7 +4,7 @@ export default function ElectionData(props){
     console.log("props.display = " + props.display);
     return (
     <div class='election-data'>
-        <img src={graph1} width={500} height={300} style={{display: props.visibility ? 'block' : 'none', margin:'auto'}}></img>
+        <img src={graph1} style={{width:'80%', height:'33%',display: props.visibility ? 'block' : 'none', margin:'auto'}}></img>
     </div>
     );
 }
