@@ -2,6 +2,7 @@
 import React from 'react';
 import './App.css';
 import AppToolbar from './AppToolbar.js';
+import AppBanner from './AppBanner';
 import MapWrapper from './MapWrapper.js';
 import { GlobalStoreContextProvider } from './DataStore.js';
 //import TNDistricts from './districts/TNDistricts.js';

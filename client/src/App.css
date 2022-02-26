@@ -12,10 +12,13 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+.app-banner{
+  background-color: #927272;
+  height:55px;
+}
 .App-header {
   background-color: #2b2c33;
-  min-height: 100vh;
+  min-height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -45,23 +48,22 @@
 }
 .election-data{
   padding-top: 4%;
+  height:''
 }
 #map-toggles{
   position: absolute;
   right:10;
   align-content: center;
-  background-color: #4a549e;
+  background-color: #8083D6;
   color: white;
   border-radius: 8px;
 }
 .toggle-row {
   text-align: left;
   padding-left: 20px;
-  color:'green';
 }
 #toggleon-icon{
   font-size: 15pt;
-  background-color:'green';
 }
 #toggleoff-icon{
   font-size: 15pt;

@@ -59,16 +59,17 @@ export default function AppToolbar() {
         <Toolbar>
           <Box component="div" sx={{ flexGrow: 1 }}>
           {(
+            
             <div>
               <IconButton
-                size="large"
+                size="xx-large"
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleMenu}
                 color="inherit"
               >
-                Select a state  
+                Choose A State  
                 <ArrowDropDownIcon></ArrowDropDownIcon>
               </IconButton>
               <Menu

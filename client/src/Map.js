@@ -230,6 +230,7 @@ function DistMap(props) {
                     });
                     // store.updateMap(e.target);
                     updateStoreMap(e.target);
+                    openSidePanel();
                     // checkStore();
                 });
                 map.on('click', 'ms-district-layer', function (e) {
@@ -239,6 +240,8 @@ function DistMap(props) {
                     });
                     // store.updateMap(map);
                     updateStoreMap(e.target);
+                    openSidePanel();
+
                     // store.loadSidePanel();
                 });
             });

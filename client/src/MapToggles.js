@@ -37,21 +37,21 @@ export default function MapToggles(){
         districtToggle=<ToggleOnIcon style={{color:'chartreuse'}} id='toggleon-icon'></ToggleOnIcon>;
     }
     else{
-        districtToggle=<ToggleOffIcon style={{color:'darkgray'}} id='toggleoff-icon' ></ToggleOffIcon>;
+        districtToggle=<ToggleOffIcon style={{color:'gainsboro'}} id='toggleoff-icon' ></ToggleOffIcon>;
     }
 
     if(isCountyToggleSet){
         countyToggle=<ToggleOnIcon style={{color:'chartreuse'}} id='toggleon-icon' ></ToggleOnIcon>;
     }
     else{
-        countyToggle=<ToggleOffIcon style={{color:'darkgray'}} id='toggleoff-icon' ></ToggleOffIcon>;
+        countyToggle=<ToggleOffIcon style={{color:'gainsboro'}} id='toggleoff-icon' ></ToggleOffIcon>;
     }
 
     if(isPrecinctToggleSet){
         precinctToggle=<ToggleOnIcon  style={{color:'chartreuse'}} id='toggleon-icon' ></ToggleOnIcon>;
     }
     else{
-        precinctToggle=<ToggleOffIcon style={{color:'darkgray'}} id='toggleoff-icon'></ToggleOffIcon>;
+        precinctToggle=<ToggleOffIcon style={{color:'gainsboro'}} id='toggleoff-icon'></ToggleOffIcon>;
     }
     const handleWinChange=()=>{
         //console.log("button clicked!!!!!!!!!");
@@ -89,7 +89,7 @@ export default function MapToggles(){
     }
     return(
         <div> 
-            <Draggable bounds='parent'>
+            <Draggable bounds="body" defaultPosition={{x:1300, y:0}}>
                 {mapToggles} 
             </Draggable>
         </div>

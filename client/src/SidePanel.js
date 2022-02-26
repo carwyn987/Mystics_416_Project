@@ -45,10 +45,10 @@ export default function SidePanel(){
         isVisible=false;
     }
    return(
-        <div class='sidePanel' style={{display: isVisible ? 'block' : 'none',overflow: 'scroll'}}>
+        <div class='sidePanel' style={{display: isVisible ? 'block' : 'none'}}>
             <CloseIcon onClick={handleClose} style={{float:'left', fontSize:'20pt',paddingTop:'2%',paddingLeft:'1%'}}></CloseIcon>
             <div onClick={handleMenu}>
-                <Button variant="outlined" style={{outlineColor:'white',fontSize:'large',marginTop:'2%',color:'white',justifyContent:'center',paddingRight:'4%'}}>
+                <Button variant="outlined" style={{fontSize:'45pt',outlineColor:'white',fontSize:'large',marginTop:'2%',color:'white',justifyContent:'center',paddingRight:'4%'}}>
                     VIEW DATA<ArrowDropDownIcon onClick={handleMenu} style={{display:'inline-block',fontSize:'15pt'}}></ArrowDropDownIcon>
                 </Button>
             </div>
