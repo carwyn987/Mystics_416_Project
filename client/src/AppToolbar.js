@@ -61,7 +61,9 @@ export default function AppToolbar() {
           {(
             
             <div>
+              <Typography style={{float:'left', top:'28%',fontSize:'13pt',position:'absolute', /*border:'medium solid white*/}}>Redistricting Assessor</Typography>
               <IconButton
+              style={{margin:'auto%'}}
                 size="xx-large"
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
