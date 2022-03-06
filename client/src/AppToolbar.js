@@ -32,9 +32,6 @@ export default function AppToolbar() {
 
   const handleClose = () => {
     setAnchorEl(null);
-    if(store.map){
-      console.log("HEY");
-    }
   };
 
   const handleTnClick = () => {
@@ -105,7 +102,7 @@ export default function AppToolbar() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleTnClick}>Tennesseee</MenuItem>
+                <MenuItem onClick={handleTnClick}>Tennessee</MenuItem>
                 <MenuItem onClick={handleMsClick}>Mississippi</MenuItem>
               </Menu>
             </div>

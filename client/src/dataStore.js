@@ -6,7 +6,9 @@ export const GlobalStoreActions = {
     LOAD_SIDEPANEL: "LOAD_SIDEPANEL",
     CLOSE_SIDEPANEL: "CLOSE_SIDEPANEL",
     SET_CURRENT_STATE: "SET_CURRENT_STATE",
+    SET_CURRENT_DISTRICT: "SET_CURRENT_DISTRICT",
     LOAD_ELECTION_DATA: "LOAD_ELECTION_DATA",
+    SET_STATE_AND_DISTRICT: "SET_DATE_AND_DISTRICT",
     ZOOM_TN: "ZOOM_TN",
     ZOOM_MS: "ZOOM_MS",
     UPDATE_MAP: "UPDATE_MAP",
@@ -19,6 +21,7 @@ function GlobalStoreContextProvider(props){
     const [store, setStore] = useState({
         isSidePanelVisible: false,
         currentState: null,
+        currentDist: null,
         TNzoom: false,
         MSzoom: false,
         map: null,
@@ -34,6 +37,7 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: true,
                     currentState: null,
+                    currentDist: null,            
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
@@ -44,6 +48,7 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: false,
                     currentState: null,
+                    currentDist: null,            
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
@@ -53,13 +58,24 @@ function GlobalStoreContextProvider(props){
             case GlobalStoreActions.LOAD_ELECTION_DATA:{
                 return setStore({
                     isSidePanelVisible: true,
-                    
                 })
             }
             case GlobalStoreActions.SET_CURRENT_STATE:{
                 return setStore({
                     isSidePanelVisible: true,
                     currentState: payload,
+                    currentDist: store.currentDist,
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MSzoom,
+                    map: store.map,
+                    stateFocus: store.stateFocus
+                })
+            }
+            case GlobalStoreActions.SET_CURRENT_DISTRICT:{
+                return setStore({
+                    isSidePanelVisible: true,
+                    currentState: store.currentState,
+                    currentDist: payload,
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
@@ -70,6 +86,7 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
                     currentState: null,
+                    currentDist: null,
                     TNzoom: !this.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
@@ -80,6 +97,7 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
                     currentState: null,
+                    currentDist: null,
                     TNzoom: store.TNzoom,
                     MSzoom: !this.MSzoom,
                     map: store.map,
@@ -90,6 +108,7 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
                     currentState: null,
+                    currentDist: null,
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: payload,
@@ -129,7 +148,6 @@ function GlobalStoreContextProvider(props){
             payload: {}
         });
     }
-
     store.closeSidePanel = function (){
         storeReducer({
             type: GlobalStoreActions.CLOSE_SIDEPANEL,
@@ -137,12 +155,19 @@ function GlobalStoreContextProvider(props){
         });
     }
     store.setCurrentState= function(currentState){
+        console.log("store.currentState");
         storeReducer({
             type: GlobalStoreActions.SET_CURRENT_STATE,
             payload: currentState
         })
     }
-    
+    store.setCurrentDist=function(currentDist){
+        console.log("store.currentDist");
+        storeReducer({
+            type: GlobalStoreActions.SET_CURRENT_DISTRICT,
+            payload: currentDist
+        })
+    }
     store.zoomTN = function () {
         storeReducer({
             type: GlobalStoreActions.ZOOM_TN,

@@ -40,6 +40,8 @@ function DistMap(props) {
     const mapContainer = useRef(null);
     //const [hoveredDistrict, setHoveredDistrict1] = useState(null)
     const [hoveredDistrict, setHoveredDistrict1] = useState(null);
+    const [demVotes, setDemVotes] = useState(0);
+    const [repVotes, setRepVotes] = useState(0);
     const hoveredDistrictRef = useRef(hoveredDistrict);
     const [distHover, setDistHover] = useState(false);
     const [distHoverNum, setDistHoverNum] = useState(0);
@@ -57,15 +59,27 @@ function DistMap(props) {
         setDistHover(bool);
     }
     const setDistrict=(id)=>{
+        store.setCurrentDist(id);
         setDistHoverNum(id);
     }
     const setStoreStateFocus=(str)=>{
         store.setStateFocus(str);
     }
+    const setState=(state)=>{
+        store.setCurrentState(state);
+    }
+    const setDist=(dist)=>{
+        store.setCurrentDist(dist);
+    }
     const setHoveredDistrict2 = data => {
         hoveredDistrictRef.current = data;
         setHoveredDistrict1(data);
     };
+    const showVotes=(demVotes, repVotes)=>{
+        setDemVotes(demVotes);
+        setRepVotes(repVotes);
+    }
+
     useEffect(() => {
         mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
         const initMap = ({ setMap, mapContainer }) => {
@@ -246,6 +260,8 @@ function DistMap(props) {
                         setHoveredDistrict2(hoveredDistrict1);
                         toggleDistHover(true);
                         setDistrict(hoveredDistrict1);
+                        console.log("hoveredDistrict1: ", hoveredDistrict1) 
+
                     }
                 });
 
@@ -265,7 +281,7 @@ function DistMap(props) {
                         );
                         setHoveredDistrict2(hoveredDistrict1);
                         toggleDistHover(true);
-                        setDistrict(hoveredDistrict1);
+                        setDistrict(hoveredDistrict1);                        
                     }
                 });
 
@@ -276,6 +292,8 @@ function DistMap(props) {
                     });
                     // store.updateMap(e.target);
                     //setStoreStateFocus("TN");
+                    setState("TN");
+                    setDist(hoveredDistrict);
                     updateStoreMap(e.target);
                     //setCountyBounds(1);
                     //closeSidePanel();
@@ -290,6 +308,8 @@ function DistMap(props) {
                     });
                     // store.updateMap(map);
                     //setStoreStateFocus("TN");
+                    setState("MI");
+                    setDist(hoveredDistrict);
                     updateStoreMap(e.target);
                     //setCountyBounds(2);
                     //closeSidePanel();
@@ -307,12 +327,12 @@ function DistMap(props) {
         };
         if (!map) initMap({ setMap, mapContainer });
     }, [map]);
-
     //render() {
     return (
         <div>
             <MouseTooltip visible={distHover} offsetX={10} offsetY={10} style={hoverStyles}>
-                <div>District: {distHoverNum}</div>
+                <div>District: {distHoverNum}<br></br>Democratic Votes: {demVotes}<br></br>Republican Votes: {repVotes}
+                </div>
             </MouseTooltip>
             <div ref={el => (mapContainer.current = el)} style={styles}/>
         </div>
