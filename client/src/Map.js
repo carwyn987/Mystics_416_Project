@@ -45,7 +45,12 @@ function DistMap(props) {
     const hoveredDistrictRef = useRef(hoveredDistrict);
     const [distHover, setDistHover] = useState(false);
     const [distHoverNum, setDistHoverNum] = useState(0);
+    const [distClicked, setDistClicked] = useState(false);
     
+    const clickedDist=()=> {
+        setDistClicked(true);
+    }
+
     const updateStoreMap=(map)=>{
         store.updateMap(map);
     }
@@ -245,7 +250,8 @@ function DistMap(props) {
 
                 map.on('mousemove', 'tn-district-layer', function (e) {
                     //console.log(e.features[0].properties);
-                    if (e.features.length > 0) {
+                    //console.log(distClicked);
+                    if ((e.features.length > 0) && !distClicked) {
                         if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
                             map.setFeatureState(
                                 { source: 'tn-district-source', id: hoveredDistrictRef.current },
@@ -267,7 +273,8 @@ function DistMap(props) {
 
                 map.on('mousemove', 'ms-district-layer', function (e) {
                     //console.log(e.features[0].properties);
-                    if (e.features.length > 0) {
+                    console.log(distClicked);
+                    if ((e.features.length > 0) && !distClicked) {
                         if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
                             map.setFeatureState(
                                 { source: 'ms-district-source', id: hoveredDistrictRef.current },
@@ -292,9 +299,14 @@ function DistMap(props) {
                     });
                     // store.updateMap(e.target);
                     //setStoreStateFocus("TN");
+                    clickedDist();
+                    console.log(distClicked);
                     setState("TN");
                     setDist(hoveredDistrict);
+                    setHoveredDistrict2(hoveredDistrict);
                     updateStoreMap(e.target);
+                    //setDistClicked(true);
+                    console.log(distClicked);
                     //setCountyBounds(1);
                     //closeSidePanel();
                     openSidePanel();
@@ -308,13 +320,16 @@ function DistMap(props) {
                     });
                     // store.updateMap(map);
                     //setStoreStateFocus("TN");
+                    clickedDist();
+                    setDistClicked(true);
                     setState("MI");
                     setDist(hoveredDistrict);
                     updateStoreMap(e.target);
+                    //setDistClicked(true);
                     //setCountyBounds(2);
                     //closeSidePanel();
                     openSidePanel();
-
+                    console.log(distClicked);
                     // store.loadSidePanel();
                 });
             });
@@ -331,7 +346,7 @@ function DistMap(props) {
     return (
         <div>
             <MouseTooltip visible={distHover} offsetX={10} offsetY={10} style={hoverStyles}>
-                <div>District: {distHoverNum}<br></br>Democratic Votes: {demVotes}<br></br>Republican Votes: {repVotes}
+                <div>District: {distHoverNum}
                 </div>
             </MouseTooltip>
             <div ref={el => (mapContainer.current = el)} style={styles}/>

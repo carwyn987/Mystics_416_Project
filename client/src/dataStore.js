@@ -73,7 +73,7 @@ function GlobalStoreContextProvider(props){
             }
             case GlobalStoreActions.SET_CURRENT_DISTRICT:{
                 return setStore({
-                    isSidePanelVisible: true,
+                    isSidePanelVisible: this.isSidePanelVisible,
                     currentState: store.currentState,
                     currentDist: payload,
                     TNzoom: store.TNzoom,

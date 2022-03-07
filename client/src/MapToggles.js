@@ -105,7 +105,7 @@ export default function MapToggles(){
     }
     return(
         <div> 
-            <Draggable bounds="body" defaultPosition={{x:1300, y:0}}>
+            <Draggable bounds="body" defaultPosition={{x:1200, y:0}}>
                 {mapToggles} 
             </Draggable>
         </div>
