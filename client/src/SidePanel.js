@@ -24,17 +24,29 @@ export default function SidePanel(){
     const [electionDataVisible, setElectionDataVisible] = React.useState(false);
     const [planCompareVisible, setPlanCompareVisible] = React.useState(false);
     const [popDataVisible, setPopDataVisible] = React.useState(false);
-    const [currentState, setCurrentState] = React.useState("");
     const [state, setSwitchState] = React.useState(1);
     const graph = null;
-    let isVisible=false, expandIcon=null, panel=null, demVotes=0, repubVotes=0;
+    let isVisible=false, expandIcon=null, panel=null, demVotes=0, repubVotes=0, currentState=null, currentDist= null;
+;
     //let state=1;
+    if(store.currentState){
+        if(store.currentState=="TN")
+            currentState="TENNESSEE";
+        else if(store.currentState=="MI")
+            currentState="MISSISSIPPI";
+        currentDist=store.currentDistrict;
+    }
+    // if(store.currentDistrict){
+    //     currentDist=store.currentDistrict;
+    // }
+    // useEffect(()=> {
+    //     let realState;
+    //     //GET the data for the highlighted 
+    //         realState="TN";
+    //         let res;
+    //         fetch(`http://localhost:8080/electiondata?state=${realState}&district=${currentDist}`).then(response=>response.json()).then((res)=>setVotes(res.demVotes,res.repVotes)/*setVotes(res.demVotes,res.repVotes)*/);        
+    // })
 
-    useEffect(()=> {
-        let response;
-        //GET the data for the highlighted 
-        fetch('http://localhost:8080/electiondata?id=1').then(response => response.json()).then(response => {console.log(response)})
-    })
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -145,19 +157,6 @@ export default function SidePanel(){
     }
     if(!isMaximized)
         expandIcon=<OpenInFullIcon onClick={toggleMaximize}style={{fontSize:'20pt'}}></OpenInFullIcon>;
-    let statee;
-    let currentDistrict;
-    if(store.currentState){
-        console.log("Current state: "+store.currentState);
-        if(store.currentState=="TN")
-            statee="TENNESSEE";
-        else if(store.currentState=="MI")
-            statee="MISSISSIPPI";
-    }
-    if(store.currentDist){
-        console.log("158 SIDEPANEL");
-        currentDistrict=store.currentDist;
-    }
     let insidePanel=
                 <div>
                     <div style={{display:'inline-block',float:'left', fontSize:'20pt',paddingTop:'2%',paddingLeft:'1%'}}>
@@ -166,13 +165,13 @@ export default function SidePanel(){
                         <CottageIcon onClick={toggleState} style={{fontSize:'15pt'}}></CottageIcon>
                     </div>         
                     <div onClick={handleMenu}>
-                    <Typography style={{fontSize:'x-large',marginTop:'8%',marginRight:'17%',marginBottom:'5%',display:'inline-block'}}>VIEW DATA FOR: <br></br> {statee}, DISTRICT {currentDistrict}</Typography>
+                    <Typography style={{fontSize:'x-large',marginTop:'8%',marginRight:'17%',marginBottom:'5%',display:'inline-block'}}>VIEW DATA FOR: <br></br> {currentState}, DISTRICT {store.currentDistrict}</Typography>
                         <Button variant="outlined" style={{width:'400px',fontSize:'25pt',borderColor:'white',fontSize:'large',marginRight:'5%',color:'white'}}>
                             {menuText}
                             <ArrowDropDownIcon onClick={handleMenu} style={{display:'inline-block',fontSize:'15pt'}}></ArrowDropDownIcon>
                         </Button>
                     </div>
-                    <ElectionData visibility={electionDataVisible}/>
+                    <ElectionData demVotes={demVotes} repubVotes={repubVotes} visibility={electionDataVisible}/>
                     <PlanComparison visible={planCompareVisible} state={state}/>
                     <PopulationData visibility2={popDataVisible} state={state}/>
                     <Menu

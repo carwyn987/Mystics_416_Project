@@ -5,8 +5,6 @@ export const GlobalStoreActions = {
     //    CHANGE_LIST_NAME: "CHANGE_LIST_NAME",
     LOAD_SIDEPANEL: "LOAD_SIDEPANEL",
     CLOSE_SIDEPANEL: "CLOSE_SIDEPANEL",
-    SET_CURRENT_STATE: "SET_CURRENT_STATE",
-    SET_CURRENT_DISTRICT: "SET_CURRENT_DISTRICT",
     LOAD_ELECTION_DATA: "LOAD_ELECTION_DATA",
     SET_STATE_AND_DISTRICT: "SET_DATE_AND_DISTRICT",
     ZOOM_TN: "ZOOM_TN",
@@ -21,7 +19,7 @@ function GlobalStoreContextProvider(props){
     const [store, setStore] = useState({
         isSidePanelVisible: false,
         currentState: null,
-        currentDist: null,
+        currentDistrict: null,
         TNzoom: false,
         MSzoom: false,
         map: null,
@@ -37,7 +35,7 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: true,
                     currentState: payload.state,
-                    currentDist: payload.dist,            
+                    currentDistrict: payload.dist,            
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
@@ -48,7 +46,7 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: false,
                     currentState: null,
-                    currentDist: null,            
+                    currentDistrict: null,            
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
@@ -64,7 +62,7 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
                     currentState: null,
-                    currentDist: null,
+                    currentDistrict: null,
                     TNzoom: !this.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
@@ -75,7 +73,7 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
                     currentState: null,
-                    currentDist: null,
+                    currentDistrict: null,
                     TNzoom: store.TNzoom,
                     MSzoom: !this.MSzoom,
                     map: store.map,
@@ -86,7 +84,7 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
                     currentState: store.currentState,
-                    currentDist: store.currentDist,
+                    currentDistrict: store.currentDistrict,
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: payload,
@@ -97,7 +95,7 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
                     currentState: store.currentState,
-                    currentDist: store.currentDist,
+                    currentDistrict: store.currentDistrict,
                     TNzoom: store.TNzoom,
                     MSzoom: store.MNSzoom,
                     map: store.map,

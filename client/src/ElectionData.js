@@ -1,14 +1,32 @@
 import graph1 from './demo-data/dem-votes-graph.png';
 import { GlobalStore } from './DataStore.js';
 import * as React from 'react';
-import {useContext} from 'react'
+import {useContext, useEffect} from 'react'
 export default function ElectionData(props){
     const { store } = useContext(GlobalStore);
-    if(store.currentState)
-        console.log("CURRENT STATE (ELECTION DATA): "+store.currentState);
+    const[demVotes, setDemVotes]=React.useState(0); 
+    const[repubVotes, setRepubVotes]=React.useState(0);
+    
+    useEffect(()=>{
+        if(store.currentState)
+            getElectionData(store.currentState,store.currentDistrict);
+    })
+
+    async function getElectionData(state,district){
+        fetch(`http://localhost:8080/electiondata?state=${state}&district=${district}`).then(response=>response.json()).then((res)=>setVotes(res.demVotes,res.repVotes)/*setVotes(res.demVotes,res.repVotes)*/);        
+    }
+  
+    const setVotes=(dem,rep)=>{
+        if(dem&rep){
+            console.log("setting votes dem: "+dem + "rep: "+rep);
+            setDemVotes(dem);
+            setRepubVotes(rep);
+        }
+    }
     return (
-    <div class='election-data'>
-        <img src={graph1} style={{width:'80%', height:'33%',display: props.visibility ? 'block' : 'none', margin:'auto'}}></img>
+    <div class='election-data' style={{display: props.visibility ? 'block' : 'none'}}>
+        <div>Democratic Votes: {demVotes}<br></br>Republican Votes: {repubVotes}</div>
+        <img src={graph1} style={{width:'80%', height:'33%', margin:'auto'}}></img>
     </div>
     );
 }
