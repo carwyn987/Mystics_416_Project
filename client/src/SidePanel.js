@@ -149,12 +149,13 @@ export default function SidePanel(){
     let currentDistrict;
     if(store.currentState){
         console.log("Current state: "+store.currentState);
-        statee="Tenneessee";
-    }
-    else if(store.currentState=="MI"){
-        statee="Mississippi";
+        if(store.currentState=="TN")
+            statee="TENNESSEE";
+        else if(store.currentState=="MI")
+            statee="MISSISSIPPI";
     }
     if(store.currentDist){
+        console.log("158 SIDEPANEL");
         currentDistrict=store.currentDist;
     }
     let insidePanel=
@@ -165,15 +166,12 @@ export default function SidePanel(){
                         <CottageIcon onClick={toggleState} style={{fontSize:'15pt'}}></CottageIcon>
                     </div>         
                     <div onClick={handleMenu}>
-                    <Typography style={{fontSize:'x-large',marginTop:'8%',marginRight:'17%',marginBottom:'5%',display:'inline-block'}}>VIEW DATA FOR {statee}, DISTRICT {currentDistrict}</Typography>
+                    <Typography style={{fontSize:'x-large',marginTop:'8%',marginRight:'17%',marginBottom:'5%',display:'inline-block'}}>VIEW DATA FOR: <br></br> {statee}, DISTRICT {currentDistrict}</Typography>
                         <Button variant="outlined" style={{width:'400px',fontSize:'25pt',borderColor:'white',fontSize:'large',marginRight:'5%',color:'white'}}>
                             {menuText}
                             <ArrowDropDownIcon onClick={handleMenu} style={{display:'inline-block',fontSize:'15pt'}}></ArrowDropDownIcon>
                         </Button>
                     </div>
-                    <div>District: {currentDistrict}</div>
-                    <div>Democrat Votes: {demVotes}</div>
-                    <div>Republican Votes: {repubVotes}</div>
                     <ElectionData visibility={electionDataVisible}/>
                     <PlanComparison visible={planCompareVisible} state={state}/>
                     <PopulationData visibility2={popDataVisible} state={state}/>

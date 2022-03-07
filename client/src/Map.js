@@ -54,8 +54,8 @@ function DistMap(props) {
     const updateStoreMap=(map)=>{
         store.updateMap(map);
     }
-    const openSidePanel=()=>{
-        store.loadSidePanel();
+    const openSidePanel=(state, dist)=>{
+        store.loadSidePanel(state,dist);
     }
     const closeSidePanel=()=>{
         store.closeSidePanel();
@@ -64,7 +64,6 @@ function DistMap(props) {
         setDistHover(bool);
     }
     const setDistrict=(id)=>{
-        store.setCurrentDist(id);
         setDistHoverNum(id);
     }
     const setStoreStateFocus=(str)=>{
@@ -297,19 +296,9 @@ function DistMap(props) {
                         center: [-88.956, 35.761],
                         zoom: 5.77
                     });
-                    // store.updateMap(e.target);
-                    //setStoreStateFocus("TN");
                     clickedDist();
-                    console.log(distClicked);
-                    setState("TN");
-                    setDist(hoveredDistrict);
-                    setHoveredDistrict2(hoveredDistrict);
-                    updateStoreMap(e.target);
-                    //setDistClicked(true);
-                    console.log(distClicked);
-                    //setCountyBounds(1);
-                    //closeSidePanel();
-                    openSidePanel();
+                    updateStoreMap(e.target);                               //Update the map variable in the DataStore to reflect the new zoom status.      
+                    openSidePanel("TN",e.features[0].properties.DISTRICT);  //Open the SidePanel, recording the state & district that were clicked on the map.
                     //setStoreStateFocus("TN");
                     // checkStore();
                 });
@@ -318,19 +307,11 @@ function DistMap(props) {
                         center: [-91.665, 32.780],
                         zoom: 5.83
                     });
-                    // store.updateMap(map);
-                    //setStoreStateFocus("TN");
-                    clickedDist();
-                    setDistClicked(true);
-                    setState("MI");
-                    setDist(hoveredDistrict);
-                    updateStoreMap(e.target);
-                    //setDistClicked(true);
-                    //setCountyBounds(2);
-                    //closeSidePanel();
-                    openSidePanel();
-                    console.log(distClicked);
-                    // store.loadSidePanel();
+                    // clickedDist();
+                    // setDistClicked(true);
+                    updateStoreMap(e.target);                               //Update the map variable in the DataStore to reflect the new zoom status.
+                    openSidePanel("MI",e.features[0].properties.District);  //Open the SidePanel, recording the state & district that were clicked on the map.
+                    //NOTE: BE CAREFUL, IT's .District for MI & .DISTRICT (ALL CAPS) for TN
                 });
             });
             if (!map) {
