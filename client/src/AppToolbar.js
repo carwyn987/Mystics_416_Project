@@ -90,15 +90,15 @@ export default function AppToolbar() {
                 anchorEl={anchorEl}
                 anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
                 transformOrigin={{vertical: 'top', horizontal: 'center'}}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
+                // anchorOrigin={{
+                //   vertical: 'bottom',
+                //   horizontal: 'right',
+                // }}
                 keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
+                // transformOrigin={{
+                //   vertical: 'top',
+                //   horizontal: 'right',
+                // }}
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >

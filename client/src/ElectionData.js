@@ -6,10 +6,12 @@ export default function ElectionData(props){
     const { store } = useContext(GlobalStore);
     const[demVotes, setDemVotes]=React.useState(0); 
     const[repubVotes, setRepubVotes]=React.useState(0);
-    
+    let backendRequested=false;
     useEffect(()=>{
-        if(store.currentState)
+        if(store.currentState && !backendRequested){
             getElectionData(store.currentState,store.currentDistrict);
+            backendRequested=true;
+        }
     })
 
     async function getElectionData(state,district){
@@ -23,9 +25,10 @@ export default function ElectionData(props){
             setRepubVotes(rep);
         }
     }
+
     return (
     <div class='election-data' style={{display: props.visibility ? 'block' : 'none'}}>
-        <div>Democratic Votes: {demVotes}<br></br>Republican Votes: {repubVotes}</div>
+        <div style={{fontSize:'30pt'}}>Democratic Votes: {demVotes}<br></br>Republican Votes: {repubVotes}</div>
         <img src={graph1} style={{width:'80%', height:'33%', margin:'auto'}}></img>
     </div>
     );
