@@ -14,6 +14,8 @@ import PlanComparison from './PlanComparison';
 import * as React from 'react';
 import {useContext, useEffect} from 'react';
 import CottageIcon from '@mui/icons-material/Cottage';
+import 'animate.css'
+
 
 export default function SidePanel(){
     const  { store } = useContext(GlobalStore);
@@ -208,7 +210,7 @@ export default function SidePanel(){
                 </div>;
     }
     else{
-        panel=<div style={{height: '600px', width: '550px', overflow:'scroll'}}>
+        panel=<div style={{height: '600px', width: '650px', overflow:'scroll'}}>
                 {insidePanel}
             </div>;
     }

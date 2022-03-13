@@ -11,6 +11,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import Button from '@mui/material/Button';
 import { useContext } from 'react';
 import { GlobalStore } from './DataStore.js';
 import { setRef } from '@mui/material';
@@ -62,6 +63,9 @@ export default function AppToolbar() {
     //store.setStateFocus("MS");
     handleClose();
   };
+  const toggleSettings = () =>{
+    store.loadMapSettings();
+  }
 
 
   return (
@@ -69,8 +73,7 @@ export default function AppToolbar() {
       <AppBar position="static" backgroundColor='rgb(214,218,254)'>
         <Toolbar>
           <Box component="div" sx={{ flexGrow: 1 }}>
-          {(
-            
+          {( 
             <div>
               <Typography style={{float:'left', top:'28%',fontSize:'13pt',position:'absolute', /*border:'medium solid white*/}}>Redistricting Assessor</Typography>
               <IconButton
@@ -82,7 +85,7 @@ export default function AppToolbar() {
                 onClick={handleMenu}
                 color="inherit"
               >
-                Choose A State  
+                Choose a State  
                 <ArrowDropDownIcon></ArrowDropDownIcon>
               </IconButton>
               <Menu
@@ -108,7 +111,7 @@ export default function AppToolbar() {
             </div>
           )}
           </Box>
-          
+          <Button onClick={toggleSettings} variant="contained" style={{color: 'white', fontWeight: 'bold',borderColor:'white', backgroundColor:'#8083D6'}}>Map Settings</Button>
         </Toolbar>
       </AppBar>
     </Box>

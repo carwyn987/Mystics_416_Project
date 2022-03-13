@@ -5,6 +5,8 @@ export const GlobalStoreActions = {
     //    CHANGE_LIST_NAME: "CHANGE_LIST_NAME",
     LOAD_SIDEPANEL: "LOAD_SIDEPANEL",
     CLOSE_SIDEPANEL: "CLOSE_SIDEPANEL",
+    LOAD_MAP_SETTINGS: "LOAD_MAP_SETTINGS",
+    CLOSE_MAP_SETTINGS: "CLOSE_MAP_SETTINGS",
     LOAD_ELECTION_DATA: "LOAD_ELECTION_DATA",
     SET_STATE_AND_DISTRICT: "SET_DATE_AND_DISTRICT",
     ZOOM_TN: "ZOOM_TN",
@@ -18,6 +20,7 @@ export const GlobalStoreActions = {
 function GlobalStoreContextProvider(props){
     const [store, setStore] = useState({
         isSidePanelVisible: false,
+        isMapSettingsVisible: false,
         currentState: null,
         currentDistrict: null,
         TNzoom: false,
@@ -34,6 +37,7 @@ function GlobalStoreContextProvider(props){
             case GlobalStoreActions.LOAD_SIDEPANEL:{
                 return setStore({
                     isSidePanelVisible: true,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
                     currentState: payload.state,
                     currentDistrict: payload.dist,            
                     TNzoom: store.TNzoom,
@@ -45,6 +49,7 @@ function GlobalStoreContextProvider(props){
             case GlobalStoreActions.CLOSE_SIDEPANEL:{
                 return setStore({
                     isSidePanelVisible: false,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
                     currentState: null,
                     currentDistrict: null,            
                     TNzoom: store.TNzoom,
@@ -52,6 +57,30 @@ function GlobalStoreContextProvider(props){
                     map: store.map,
                     stateFocus: store.stateFocus
                 });
+            }
+            case GlobalStoreActions.LOAD_MAP_SETTINGS:{
+                return setStore({
+                    isSidePanelVisible: store.isSidePanelVisible,
+                    isMapSettingsVisible: true,
+                    currentState: store.currentState,
+                    currentDistrict: store.currentDistrict,            
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MSzoom,
+                    map: store.map,
+                    stateFocus: store.stateFocus
+                })
+            }
+            case GlobalStoreActions.CLOSE_MAP_SETTINGS:{
+                return setStore({
+                    isSidePanelVisible: store.isSidePanelVisible,
+                    isMapSettingsVisible: false,
+                    currentState: store.currentState,
+                    currentDistrict: store.currentDistrict,            
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MSzoom,
+                    map: store.map,
+                    stateFocus: store.stateFocus
+                })
             }
             case GlobalStoreActions.LOAD_ELECTION_DATA:{
                 return setStore({
@@ -61,6 +90,7 @@ function GlobalStoreContextProvider(props){
             case GlobalStoreActions.ZOOM_TN:{
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
                     currentState: null,
                     currentDistrict: null,
                     TNzoom: !this.TNzoom,
@@ -72,6 +102,7 @@ function GlobalStoreContextProvider(props){
             case GlobalStoreActions.ZOOM_MS:{
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
                     currentState: null,
                     currentDistrict: null,
                     TNzoom: store.TNzoom,
@@ -83,6 +114,7 @@ function GlobalStoreContextProvider(props){
             case GlobalStoreActions.UPDATE_MAP:{
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
                     currentState: store.currentState,
                     currentDistrict: store.currentDistrict,
                     TNzoom: store.TNzoom,
@@ -94,6 +126,7 @@ function GlobalStoreContextProvider(props){
             case GlobalStoreActions.STATE_FOCUS:{
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
                     currentState: store.currentState,
                     currentDistrict: store.currentDistrict,
                     TNzoom: store.TNzoom,
@@ -133,6 +166,16 @@ function GlobalStoreContextProvider(props){
             type: GlobalStoreActions.CLOSE_SIDEPANEL,
             payload:{}
         });
+    }
+    store.loadMapSettings = function(){
+        storeReducer({
+            type: GlobalStoreActions.LOAD_MAP_SETTINGS,
+        })
+    }
+    store.closeMapSettings = function(){
+        storeReducer({
+            type: GlobalStoreActions.CLOSE_MAP_SETTINGS,
+        })
     }
     store.zoomTN = function () {
         storeReducer({
