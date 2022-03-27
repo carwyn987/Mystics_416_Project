@@ -10,6 +10,8 @@ import GlobalStore from './DataStore.js'
 import * as React from 'react'
 import {useContext} from 'react'
 import 'animate.css'
+import Button from '@mui/material/Button';
+import '../App.css';
 
 export default function MapSettings(){
     const {store} = useContext(GlobalStore);
@@ -22,6 +24,7 @@ export default function MapSettings(){
     const handleCountyClick=()=>{
         let current = !isCountyToggleSet;
         setCountyToggle(current);
+        //store.toggleCounty();
         if (current) {
             //if (store.countyState === 1) {
                 store.map.setLayoutProperty('tn-county-layer', 'visibility', 'visible');
@@ -36,6 +39,7 @@ export default function MapSettings(){
         }
         //setCountyToggle(current);
     }
+    let  state;
     const handlePrecClick=()=>{
         let current = !isPrecinctToggleSet;
         setPrecinctToggle(current);
@@ -44,6 +48,7 @@ export default function MapSettings(){
         store.closeMapSettings();
     }
     const handleMenu = (event) => {
+        state = event.currentTarget;
         setAnchorEl(event.currentTarget);
     };
     const handleMenuClose = (event) =>{
@@ -64,12 +69,12 @@ export default function MapSettings(){
         precinctToggle=<ToggleOffIcon style={{color:'gainsboro'}} id='toggleoff-icon'></ToggleOffIcon>;
     }
     let displayToggle;
-    let  state;
+    //let  state;
     if(store.isMapSettingsVisible)
         displayToggle=true;
-    if(store.currentState == "TN")
+    if(store.currentState === "TN")
         state="Tennessee";
-    else if(store.currentState=="MI")
+    else if(store.currentState==="MI")
         state="Mississippi";
     else
         state="Choose state";
@@ -118,6 +123,12 @@ export default function MapSettings(){
                     <MenuItem >Tennessee</MenuItem>
                     <MenuItem>Mississippi</MenuItem>
               </Menu>
+              <Button variant="outlined" class="planSelectButton">
+                  2022 Approved Plan
+              </Button>
+              <Button variant="outlined" class="planSelectButton">
+                  Old Plan (2012-2021)
+              </Button>
             </Box>
         </div>
     );

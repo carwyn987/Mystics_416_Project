@@ -1,7 +1,7 @@
-import graph2 from './demo-data/plan-comparison.png';
-import tnSplit from './demo-data/tnSplitCounties.png';
-import msSplit from './demo-data/msSplitCounties.png';
-import radar from './demo-data/radar.png';
+import graph2 from '../demo-data/plan-comparison.png';
+import tnSplit from '../demo-data/tnSplitCounties.png';
+import msSplit from '../demo-data/msSplitCounties.png';
+import radar from '../demo-data/radar.png';
 export default function PlanComparison(props){
     return(
         <div class="plan-comparison">

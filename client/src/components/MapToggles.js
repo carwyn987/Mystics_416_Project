@@ -6,7 +6,7 @@ import MinimizeIcon from '@mui/icons-material/Minimize';import Box from '@mui/ma
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import { borders } from '@mui/system';
 import {useState} from 'react';
-import './App.css';
+import '../App.css';
 import Draggable from 'react-draggable';
 import { useContext } from 'react';
 import { GlobalStore } from './DataStore.js';
@@ -30,18 +30,19 @@ export default function MapToggles(){
     const handleCountyClick=()=>{
         let current = !isCountyToggleSet;
         setCountyToggle(current);
-        if (current) {
-            //if (store.countyState === 1) {
-                store.map.setLayoutProperty('tn-county-layer', 'visibility', 'visible');
-                //store.map.setLayoutProperty('ms-county-layer', 'visibility', 'none');
-            //} else if (store.countyState === 2) {
-                store.map.setLayoutProperty('ms-county-layer', 'visibility', 'visible');
-                //store.map.setLayoutProperty('tn-county-layer', 'visibility', 'none');
-            //}
-        } else {
-            store.map.setLayoutProperty('tn-county-layer', 'visibility', 'none');
-            store.map.setLayoutProperty('ms-county-layer', 'visibility', 'none');
-        }
+        store.setCountyToggle();
+        // if (current) {
+        //     //if (store.countyState === 1) {
+        //         store.map.setLayoutProperty('tn-county-layer', 'visibility', 'visible');
+        //         //store.map.setLayoutProperty('ms-county-layer', 'visibility', 'none');
+        //     //} else if (store.countyState === 2) {
+        //         store.map.setLayoutProperty('ms-county-layer', 'visibility', 'visible');
+        //         //store.map.setLayoutProperty('tn-county-layer', 'visibility', 'none');
+        //     //}
+        // } else {
+        //     store.map.setLayoutProperty('tn-county-layer', 'visibility', 'none');
+        //     store.map.setLayoutProperty('ms-county-layer', 'visibility', 'none');
+        // }
         //setCountyToggle(current);
     }
     const handlePrecClick=()=>{

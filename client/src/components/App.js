@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import React from 'react';
-import './App.css';
+import '../App.css';
 //import AppToolbar from './AppToolbar.js';
 import AppBanner from './AppBanner';
 import MapWrapper from './MapWrapper.js';

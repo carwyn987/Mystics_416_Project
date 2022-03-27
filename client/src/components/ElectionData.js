@@ -1,4 +1,4 @@
-import graph1 from './demo-data/dem-votes-graph.png';
+import graph1 from '../demo-data/dem-votes-graph.png';
 import { GlobalStore } from './DataStore.js';
 import * as React from 'react';
 import {useContext, useEffect} from 'react'
