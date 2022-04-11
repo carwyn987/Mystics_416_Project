@@ -12,7 +12,8 @@ export const GlobalStoreActions = {
     ZOOM_TN: "ZOOM_TN",
     ZOOM_MS: "ZOOM_MS",
     UPDATE_MAP: "UPDATE_MAP",
-    STATE_FOCUS: "STATE_FOCUS"
+    STATE_FOCUS: "STATE_FOCUS",
+    COUNTY_TOGGLE: "COUNTY_TOGGLE"
     // DISTRICT_MOUSE_HOVER: "DISTRICT_MOUSE_HOVER",
     // DISTRICT_HOVER_NUM: "DISTRICT_HOVER_NUM"
 }
@@ -26,7 +27,8 @@ function GlobalStoreContextProvider(props){
         TNzoom: false,
         MSzoom: false,
         map: null,
-        stateFocus: null
+        stateFocus: null,
+        countyToggle: false
         // isDistMouseHoverVisible: false,
         // distHoverNum: 0
     });
@@ -43,7 +45,8 @@ function GlobalStoreContextProvider(props){
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
-                    stateFocus: store.stateFocus
+                    stateFocus: store.stateFocus,
+                    countyToggle: store.countyToggle
                 });
             }
             case GlobalStoreActions.CLOSE_SIDEPANEL:{
@@ -55,7 +58,8 @@ function GlobalStoreContextProvider(props){
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
-                    stateFocus: store.stateFocus
+                    stateFocus: store.stateFocus,
+                    countyToggle: store.countyToggle
                 });
             }
             case GlobalStoreActions.LOAD_MAP_SETTINGS:{
@@ -67,7 +71,8 @@ function GlobalStoreContextProvider(props){
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
-                    stateFocus: store.stateFocus
+                    stateFocus: store.stateFocus,
+                    countyToggle: store.countyToggle
                 })
             }
             case GlobalStoreActions.CLOSE_MAP_SETTINGS:{
@@ -79,12 +84,14 @@ function GlobalStoreContextProvider(props){
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
-                    stateFocus: store.stateFocus
+                    stateFocus: store.stateFocus,
+                    countyToggle: store.countyToggle
                 })
             }
             case GlobalStoreActions.LOAD_ELECTION_DATA:{
                 return setStore({
                     isSidePanelVisible: true,
+                    countyToggle: store.countyToggle
                 })
             }
             case GlobalStoreActions.ZOOM_TN:{
@@ -96,7 +103,8 @@ function GlobalStoreContextProvider(props){
                     TNzoom: !this.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
-                    stateFocus: store.stateFocus
+                    stateFocus: store.stateFocus,
+                    countyToggle: store.countyToggle
                 });
             }
             case GlobalStoreActions.ZOOM_MS:{
@@ -108,7 +116,8 @@ function GlobalStoreContextProvider(props){
                     TNzoom: store.TNzoom,
                     MSzoom: !this.MSzoom,
                     map: store.map,
-                    stateFocus: store.stateFocus
+                    stateFocus: store.stateFocus,
+                    countyToggle: store.countyToggle
                 });
             }
             case GlobalStoreActions.UPDATE_MAP:{
@@ -120,7 +129,8 @@ function GlobalStoreContextProvider(props){
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: payload,
-                    stateFocus: store.stateFocus
+                    stateFocus: store.stateFocus,
+                    countyToggle: store.countyToggle
                 });
             }
             case GlobalStoreActions.STATE_FOCUS:{
@@ -132,8 +142,23 @@ function GlobalStoreContextProvider(props){
                     TNzoom: store.TNzoom,
                     MSzoom: store.MNSzoom,
                     map: store.map,
-                    stateFocus: payload
-                })
+                    stateFocus: payload,
+                    countyToggle: store.countyToggle
+                });
+            }
+
+            case GlobalStoreActions.COUNTY_TOGGLE:{
+                return setStore({
+                    isSidePanelVisible: store.isSidePanelVisible,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
+                    currentState: store.currentState,
+                    currentDistrict: store.currentDistrict,
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MNSzoom,
+                    map: store.map,
+                    stateFocus: store.stateFocus,
+                    countyToggle: !store.countyToggle
+                });
             }
             // case GlobalStoreActions.DISTRICT_MOUSE_HOVER:{
             //     return setStore({
@@ -202,6 +227,13 @@ function GlobalStoreContextProvider(props){
         storeReducer({
             type: GlobalStoreActions.STATE_FOCUS,
             payload: st
+        });
+    }
+
+    store.toggleCounty = function () {
+        storeReducer({
+            type: GlobalStoreActions.COUNTY_TOGGLE,
+            payload: {}
         });
     }
 

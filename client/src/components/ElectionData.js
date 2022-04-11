@@ -1,7 +1,8 @@
-import graph1 from './demo-data/dem-votes-graph.png';
+import graph1 from '../demo-data/dem-votes-graph.png';
 import { GlobalStore } from './DataStore.js';
 import * as React from 'react';
-import {useContext, useEffect} from 'react'
+import {useContext, useEffect} from 'react';
+
 export default function ElectionData(props){
     const { store } = useContext(GlobalStore);
     const[demVotes, setDemVotes]=React.useState(0); 
