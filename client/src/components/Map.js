@@ -472,6 +472,22 @@ function DistMap(props) {
                     }
                 });
 
+                map.on('click', 'state-boundary-layer', function (e) {
+                    if (e.features[0].id === "Tennessee") {
+                        map.flyTo({
+                            center: [-88.956, 35.761],
+                            zoom: 5.77
+                        });
+                        map.setLayoutProperty()
+                    }
+                    else if (e.features[0].id === "Mississippi") {
+                        map.flyTo({
+                            center: [-91.665, 32.780],
+                            zoom: 5.83
+                        });
+                    }
+                });
+
                 map.on('click', 'tn-district-layer', function (e) {
                     console.log(store.map);
                     map.flyTo({
