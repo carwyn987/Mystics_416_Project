@@ -16,9 +16,11 @@ export default function MapSettings(){
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [isCountyToggleSet, setCountyToggle] = React.useState(false);
     const [isPrecinctToggleSet, setPrecinctToggle] = React.useState(false);
-    let countyToggle;
-    let precinctToggle;
-
+    const [menuChoice, setMenuChoice] = React.useState("");
+    let countyToggle, precinctToggle, displayToggle, state, distPlans;
+    let tenDistPlans = <div>Available plans for Tennessee:</div>
+    let miDistPlans = <div>Available plans for Mississippi:</div>
+    
     const handleCountyClick=()=>{
         let current = !isCountyToggleSet;
         setCountyToggle(current);
@@ -39,6 +41,12 @@ export default function MapSettings(){
     const handlePrecClick=()=>{
         let current = !isPrecinctToggleSet;
         setPrecinctToggle(current);
+    }
+    const handleTenClick=()=>{
+        setMenuChoice("TN");
+    }
+    const handleMisClick=()=>{
+        setMenuChoice=("MI");
     }
     const handleClose=()=>{
         store.closeMapSettings();
@@ -63,16 +71,30 @@ export default function MapSettings(){
     else{
         precinctToggle=<ToggleOffIcon style={{color:'gainsboro'}} id='toggleoff-icon'></ToggleOffIcon>;
     }
-    let displayToggle;
-    let  state;
+    
+    if(menuChoice){
+        switch(menuChoice){
+            case "TN":
+                distPlans = tenDistPlans;
+                break;
+            case "MI":
+                distPlans = miDistPlans;
+                break;
+        }
+    }
+
     if(store.isMapSettingsVisible)
         displayToggle=true;
-    if(store.currentState == "TN")
+    
+    if(store.currentState == "TN"){
         state="Tennessee";
-    else if(store.currentState=="MI")
+    }
+    else if(store.currentState=="MI"){
         state="Mississippi";
+    }
     else
         state="Choose state";
+    
     return(
         <div class="animate__animated animate__fadeInRightBig" id='map-settings' style={{display: displayToggle ? 'inline-block': 'none'}}>
             <div>
@@ -115,9 +137,10 @@ export default function MapSettings(){
                     open={Boolean(anchorEl)}
                     onClose={handleMenuClose}
                     >
-                    <MenuItem >Tennessee</MenuItem>
-                    <MenuItem>Mississippi</MenuItem>
+                    <MenuItem onClick={handleTenClick}>Tennessee</MenuItem>
+                    <MenuItem onClick={handleMisClick}>Mississippi</MenuItem>
               </Menu>
+              {distPlans}
             </Box>
         </div>
     );

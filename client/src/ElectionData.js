@@ -15,7 +15,7 @@ export default function ElectionData(props){
     })
 
     async function getElectionData(state,district){
-        fetch(`http://localhost:8080/electiondata?state=${state}&district=${district}`).then(response=>response.json()).then((res)=>setVotes(res.demVotes,res.repVotes)/*setVotes(res.demVotes,res.repVotes)*/);        
+        fetch("http://localhost:8080/getDistrict?id=45").then(response=>response.json()).then((res)=>console.log(res));/*setVotes(res.demVotes,res.repVotes)*/        
     }
   
     const setVotes=(dem,rep)=>{
