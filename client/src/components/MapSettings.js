@@ -55,7 +55,6 @@ export default function MapSettings(){
         }
         //setCountyToggle(current);
     }
-    let  state;
     const handlePrecClick=()=>{
         let current = !isPrecinctToggleSet;
         setPrecinctToggle(current);
@@ -109,6 +108,7 @@ export default function MapSettings(){
         state="Tennessee";
     }
     else if(store.currentState=="MI"){
+<<<<<<< HEAD
     let displayToggle;
     //let  state;
     if(store.isMapSettingsVisible)
@@ -116,6 +116,8 @@ export default function MapSettings(){
     if(store.currentState === "TN")
         state="Tennessee";
     else if(store.currentState==="MI")
+=======
+>>>>>>> abfb614bb82cc03dabe957287fd72ecfcacdb82a
         state="Mississippi";
     }
     else
@@ -167,12 +169,15 @@ export default function MapSettings(){
                     <MenuItem onClick={handleMisClick}>Mississippi</MenuItem>
               </Menu>
               {distPlans}
+<<<<<<< HEAD
               <Button variant="outlined" class="planSelectButton" onClick = {getDistrictPlan}>
                   2022 Approved Plan
               </Button>
               <Button variant="outlined" class="planSelectButton">
                   Old Plan (2012-2021)
               </Button>
+=======
+>>>>>>> abfb614bb82cc03dabe957287fd72ecfcacdb82a
             </Box>
         </div>
     );

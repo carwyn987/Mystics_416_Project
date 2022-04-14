@@ -7,11 +7,17 @@ import SidePanel from './SidePanel';
 
 var tnDistricts = require('../district-data/TN/tnDistricts.geojson');
 var msDistricts = require('../district-data/MS/msDistricts.geojson');
+var ncDistricts = require('../district-data/NC/ncDistricts.json');
 var tnCounties = require('../district-data/TN/tnCounties.geojson');
 var msCounties = require('../district-data/MS/msCounties.geojson');
 var oldMSDistricts = require('../district-data/MS/OldMSDistricts.json');
 var oldTNDistricts = require('../district-data/TN/OldTNDistricts.json');
 var stateBoundaries = require('../district-data/StateBoundaries.json');
+var tnBoundary = require('../district-data/TN/Tennessee-State.json');
+var msBoundary = require('../district-data/MS/Mississippi-State.json');
+var ncBoundary = require('../district-data/NC/NorthCarolina-State.json');
+
+
 
 //import 'mapbox-gl/dist/mapbox/gl.css';
 //const rewind = require('geojson-rewind');
@@ -52,6 +58,8 @@ function DistMap(props) {
     const [stateHover, setStateHover] = useState(false);
     const [distHoverNum, setDistHoverNum] = useState(0);
     const [distClicked, setDistClicked] = useState(false);
+    const [clickedState, setClickedState] = useState(null);
+    const clickedStateRef = useRef(clickedState);
     const [stateClicked, setStateClicked] = useState(false);
     const [cToggle, setCountyToggle] = useState('none');
     //const [statee, setStatee] = useState(null);
@@ -93,11 +101,22 @@ function DistMap(props) {
     };
     const setHoveredState2 = data => {
         hoveredStateRef.current = data;
+        setStateHover(true);
         setHoveredState1(data);
     }
     const showVotes=(demVotes, repVotes)=>{
         setDemVotes(demVotes);
         setRepVotes(repVotes);
+    }
+
+    const setHover = data => {
+        setStateHover(data);
+    }
+
+    const clickState = id => {
+        setStateClicked(true);
+        setClickedState(id);
+        store.setStateFocus(id);
     }
 
     // if (store.countyToggle){
@@ -132,18 +151,24 @@ function DistMap(props) {
 
                 setMap(map);
                 //store.setMap(map);
-                map.addSource('state-boundaries', {
+                map.addSource('tn-boundary', {
                     'type': 'geojson',
-                    'data': stateBoundaries,
+                    'data': tnBoundary,
                     'promoteId': 'NAME'
                 });
 
                 map.addLayer({
-                    'id': 'state-boundary-layer',
+                    'id': 'tn-boundary-layer',
                     'type': 'fill',
+<<<<<<< HEAD
                     'source': 'state-boundaries',
                     'layout': {
                         'visibility': "none"
+=======
+                    'source': 'tn-boundary',
+                    'layout': {
+                        'visibility': 'visible'
+>>>>>>> abfb614bb82cc03dabe957287fd72ecfcacdb82a
                     },
                     'paint': {
                         'fill-outline-color': 'black',
@@ -152,10 +177,76 @@ function DistMap(props) {
                             ['get', 'NAME'],
                             'Tennessee',
                             '#00ff1a',
+                            // 'Mississippi',
+                            // '#ff7700',
+                            // 'North Carolina',
+                            // '#9900ff',
+                            '#ffffff'
+                        ],
+                        'fill-opacity': [
+                            'case',
+                            ['boolean', ['feature-state', 'hover'], false],
+                            .9,
+                            0.5
+                        ]
+                    }
+                });
+
+                map.addSource('ms-boundary', {
+                    'type': 'geojson',
+                    'data': msBoundary,
+                    'promoteId': 'NAME'
+                });
+
+                map.addLayer({
+                    'id': 'ms-boundary-layer',
+                    'type': 'fill',
+                    'source': 'ms-boundary',
+                    'layout': {
+                        'visibility': 'visible'
+                    },
+                    'paint': {
+                        'fill-outline-color': 'black',
+                        'fill-color': [
+                            'match',
+                            ['get', 'NAME'],
                             'Mississippi',
                             '#ff7700',
+                            '#ffffff'
+                        ],
+                        'fill-opacity': [
+                            'case',
+                            ['boolean', ['feature-state', 'hover'], false],
+                            .9,
+                            0.5
+                        ]
+                    }
+                });
+
+                map.addSource('nc-boundary', {
+                    'type': 'geojson',
+                    'data': ncBoundary,
+                    'promoteId': 'NAME'
+                });
+
+                map.addLayer({
+                    'id': 'nc-boundary-layer',
+                    'type': 'fill',
+                    'source': 'nc-boundary',
+                    'layout': {
+                        'visibility': 'visible'
+                    },
+                    'paint': {
+                        'fill-outline-color': 'black',
+                        'fill-color': [
+                            'match',
+                            ['get', 'NAME'],
                             'North Carolina',
                             '#9900ff',
+                            // 'Mississippi',
+                            // '#ff7700',
+                            // 'North Carolina',
+                            // '#9900ff',
                             '#ffffff'
                         ],
                         'fill-opacity': [
@@ -335,6 +426,63 @@ function DistMap(props) {
                     }
                 });
 
+                map.addSource('nc-district-source', {
+                    'type': 'geojson',
+                    'data': ncDistricts,
+                    'promoteId': 'District_A'
+                });
+
+                map.addLayer({
+                    'id': 'nc-district-layer',
+                    'type': 'fill',
+                    'source': 'nc-district-source',
+                    'layout': {
+                        'visibility': 'none'
+                    },
+                    'paint': {
+                        'fill-outline-color': 'black',
+                        'fill-color': [
+                            'match',
+                            ['get', 'District_A'],
+                            1,
+                            '#e6194B',
+                            2,
+                            '#4363d8',
+                            3,
+                            '#ffe119',
+                            4,
+                            '#911eb4',
+                            5,
+                            '#800000',
+                            6,
+                            '#42d4f4',
+                            7,
+                            '#aaffc3',
+                            8,
+                            '#f032e6',
+                            9,
+                            '#3cb44b',
+                            10,
+                            '#f58231',
+                            11,
+                            '#469990',
+                            12,
+                            '#bfef45',
+                            13,
+                            '#9A6324',
+                            14,
+                            '#000075',
+                            '#ffffff'
+                        ],
+                        'fill-opacity': [
+                            'case',
+                            ['boolean', ['feature-state', 'hover'], false],
+                            .9, 
+                            0.5
+                        ]
+                    }
+                });
+
                 map.addSource('tn-county-source', {
                     'type': 'geojson',
                     'data': tnCounties,
@@ -373,10 +521,33 @@ function DistMap(props) {
                     }
                 });
 
-                map.on('mouseleave', 'state-boundary-layer', function () {
+                map.on('mouseleave', 'tn-boundary-layer', function () {
+                    //setStateHover(false);
                     if (hoveredStateRef.current) {
                         map.setFeatureState(
-                            {source: 'state-boundaries', id: hoveredStateRef.current },
+                            {source: 'tn-boundary', id: hoveredStateRef.current },
+                            {hover: false}
+                        );
+                    }
+                    setHoveredState2(null);
+                    setStateHover(false);
+                });
+                map.on('mouseleave', 'ms-boundary-layer', function () {
+                    //setStateHover(false);
+                    if (hoveredStateRef.current) {
+                        map.setFeatureState(
+                            {source: 'ms-boundary', id: hoveredStateRef.current },
+                            {hover: false}
+                        );
+                    }
+                    setHoveredState2(null);
+                    setStateHover(false);
+                });
+                map.on('mouseleave', 'nc-boundary-layer', function () {
+                    setStateHover(false);
+                    if (hoveredStateRef.current) {
+                        map.setFeatureState(
+                            {source: 'nc-boundary', id: hoveredStateRef.current },
                             {hover: false}
                         );
                     }
@@ -385,6 +556,7 @@ function DistMap(props) {
                 });
 
                 map.on('mouseleave', 'ms-district-layer', function () {
+                    //setStateHover(false);
                     console.log(store.map);
                     if (hoveredDistrictRef.current) {
                         map.setFeatureState(
@@ -397,6 +569,7 @@ function DistMap(props) {
                 });
 
                 map.on('mouseleave', 'tn-district-layer', function () {
+                    //setStateHover(false);
                     console.log(store.map);
                     if (hoveredDistrictRef.current) {
                         map.setFeatureState(
@@ -408,28 +581,57 @@ function DistMap(props) {
                     toggleDistHover(false);
                 });
 
-                map.on('mousemove', 'state-boundary-layer', function (e) {
+                map.on('mousemove', 'tn-boundary-layer', function (e) {
+                    //setHover(true);
+                    //console.log(e.features[0].id);
                     setStateHover(true);
-                    console.log(e.features[0].id);
                     if ((e.features.length > 0) && !stateClicked) {
-                        if (hoveredStateRef.current !== e.features[0].id) {
-                            map.setFeatureState(
-                                { source: 'state-boundaries', id: hoveredStateRef.current},
-                                { hover: false }
-                            );
-                        }
                         let hoveredState1 = e.features[0].id;
                         map.setFeatureState(
-                            { source: 'state-boundaries', id: hoveredState1 },
+                            { source: 'tn-boundary', id: hoveredState1 },
                             { hover: true }
                         );
                         setHoveredState2(hoveredState1);
                         setState(hoveredState1);
                     }
-                })
+                    console.log(hoveredState);
+                    console.log(hoveredStateRef);
+                    console.log(stateHover);
+                });
+                map.on('mousemove', 'ms-boundary-layer', function (e) {
+                    setStateHover(true);
+                    console.log(stateHover);
+                    console.log(e.features[0].id);
+                    if ((e.features.length > 0) && !stateClicked) {
+                        let hoveredState1 = e.features[0].id;
+                        map.setFeatureState(
+                            { source: 'ms-boundary', id: hoveredState1 },
+                            { hover: true }
+                        );
+                        setHoveredState2(hoveredState1);
+                        setState(hoveredState1);
+                    }
+                    console.log(hoveredState);
+                    console.log(hoveredStateRef);
+                    console.log(stateHover);
+                });
+                map.on('mousemove', 'nc-boundary-layer', function (e) {
+                    //setHover(true);
+                    setStateHover(true);
+                    console.log(e.features[0].id);
+                    if ((e.features.length > 0) && !stateClicked) {
+                        let hoveredState1 = e.features[0].id;
+                        map.setFeatureState(
+                            { source: 'nc-boundary', id: hoveredState1 },
+                            { hover: true }
+                        );
+                        setHoveredState2(hoveredState1);
+                        setState(hoveredState1);
+                    }
+                });
 
                 map.on('mousemove', 'tn-district-layer', function (e) {
-                    console.log(store.map);
+                    //console.log(store.map);
                     //console.log(e.features[0].properties);
                     //console.log(distClicked);
                     if ((e.features.length > 0) && !distClicked) {
@@ -447,15 +649,13 @@ function DistMap(props) {
                         setHoveredDistrict2(hoveredDistrict1);
                         toggleDistHover(true);
                         setDistrict(hoveredDistrict1);
-                        console.log("hoveredDistrict1: ", hoveredDistrict1) 
-
                     }
                 });
 
                 map.on('mousemove', 'ms-district-layer', function (e) {
-                    console.log(store.map);
+                    //console.log(store.map);
                     //console.log(e.features[0].properties);
-                    console.log(distClicked);
+                    //console.log(distClicked);
                     if ((e.features.length > 0) && !distClicked) {
                         if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
                             map.setFeatureState(
@@ -474,20 +674,81 @@ function DistMap(props) {
                     }
                 });
 
-                map.on('click', 'state-boundary-layer', function (e) {
-                    if (e.features[0].id === "Tennessee") {
-                        map.flyTo({
-                            center: [-88.956, 35.761],
-                            zoom: 5.77
-                        });
-                        map.setLayoutProperty()
+                map.on('mousemove', 'nc-district-layer', function (e) {
+                    //console.log(store.map);
+                    //console.log(e.features[0].properties);
+                    //console.log(distClicked);
+                    if ((e.features.length > 0) && !distClicked) {
+                        if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
+                            map.setFeatureState(
+                                { source: 'nc-district-source', id: hoveredDistrictRef.current },
+                                { hover: false }
+                            );
+                        }
+                        let hoveredDistrict1 = e.features[0].properties.District_A;
+                        map.setFeatureState(
+                            { source: 'nc-district-source', id: hoveredDistrict1 },
+                            { hover: true }
+                        );
+                        setHoveredDistrict2(hoveredDistrict1);
+                        toggleDistHover(true);
+                        setDistrict(hoveredDistrict1);                        
                     }
-                    else if (e.features[0].id === "Mississippi") {
-                        map.flyTo({
-                            center: [-91.665, 32.780],
-                            zoom: 5.83
-                        });
+                });
+
+                map.on('click', 'tn-boundary-layer', function (e) {
+                    if (map.getLayoutProperty('ms-district-layer', 'visibility') === 'visible') {
+                        map.setLayoutProperty('ms-district-layer', 'visibility', 'none');
+                        map.setLayoutProperty('ms-boundary-layer', 'visibility', 'visible');
                     }
+                    if (map.getLayoutProperty('nc-district-layer', 'visibility') === 'visible') {
+                        map.setLayoutProperty('nc-district-layer', 'visibility', 'none');
+                        map.setLayoutProperty('nc-boundary-layer', 'visibility', 'visible');
+                    }
+                    map.flyTo({
+                        center: [-88.956, 35.761],
+                        zoom: 5.77
+                    });
+                    map.setLayoutProperty('tn-boundary-layer', 'visibility', 'none');
+                    map.setLayoutProperty('tn-district-layer', 'visibility', 'visible');
+                    clickState("Tennessee");
+                });
+
+                map.on('click', 'ms-boundary-layer', function (e) {
+                    if (map.getLayoutProperty('tn-district-layer', 'visibility') === 'visible') {
+                        map.setLayoutProperty('tn-district-layer', 'visibility', 'none');
+                        map.setLayoutProperty('tn-boundary-layer', 'visibility', 'visible');
+                    }
+                    if (map.getLayoutProperty('nc-district-layer', 'visibility') === 'visible') {
+                        map.setLayoutProperty('nc-district-layer', 'visibility', 'none');
+                        map.setLayoutProperty('nc-boundary-layer', 'visibility', 'visible');
+                    }
+                    map.flyTo({
+                        center: [-91.665, 32.780],
+                        zoom: 5.83
+                    });
+                    map.setLayoutProperty('ms-boundary-layer', 'visibility', 'none');
+                    map.setLayoutProperty('ms-district-layer', 'visibility', 'visible');
+                    clickState("Mississippi");
+                });
+
+                map.on('click', 'nc-boundary-layer', function (e) {
+                    if (map.getLayoutProperty('tn-district-layer', 'visibility') === 'visible') {
+                        map.setLayoutProperty('tn-district-layer', 'visibility', 'none');
+                        map.setLayoutProperty('tn-boundary-layer', 'visibility', 'visible');
+                    }
+                    if (map.getLayoutProperty('ms-district-layer', 'visibility') === 'visible') {
+                        map.setLayoutProperty('ms-district-layer', 'visibility', 'none');
+                        map.setLayoutProperty('ms-boundary-layer', 'visibility', 'visible');
+                    }
+                    map.flyTo({
+                        center: [-79.121, 35.480],
+                        zoom: 5.61
+                    });
+                    //5.6135.480,-79.121
+                    map.setLayoutProperty('nc-boundary-layer', 'visibility', 'none');
+                    map.setLayoutProperty('nc-district-layer', 'visibility', 'visible');
+                    clickState("North Carolina");
                 });
 
                 map.on('click', 'tn-district-layer', function (e) {
