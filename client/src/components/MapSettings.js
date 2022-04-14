@@ -19,9 +19,23 @@ export default function MapSettings(){
     const [isCountyToggleSet, setCountyToggle] = React.useState(false);
     const [isPrecinctToggleSet, setPrecinctToggle] = React.useState(false);
     const [menuChoice, setMenuChoice] = React.useState("");
-    let countyToggle, precinctToggle, displayToggle, state, distPlans;
+    let countyToggle, precinctToggle, displayToggle, distPlans;
     let tenDistPlans = <div>Available plans for Tennessee:</div>
     let miDistPlans = <div>Available plans for Mississippi:</div>
+
+    const PLAN_TYPE={
+        ENACTED: 0,
+        PROPOSED: 1, 
+        OLD: 2, 
+        DEM: 3,
+        REP: 4
+    }
+    
+    //FIRST DIGIT = STATE, SECOND DIGIT = TYPE OF PLAN. 1=ENACTED, 2 = PROPOSED, etc.
+    const getDistrictPlan=(planID)=>{
+        fetch("http://localhost:8080/getPlan?planID=11").then(response=>response.json()).then((res)=>console.log(res));/*setVotes(res.demVotes,res.repVotes)*/        
+        console.log(res);
+    }
     
     const handleCountyClick=()=>{
         let current = !isCountyToggleSet;
@@ -76,7 +90,6 @@ export default function MapSettings(){
     else{
         precinctToggle=<ToggleOffIcon style={{color:'gainsboro'}} id='toggleoff-icon'></ToggleOffIcon>;
     }
-<<<<<<< HEAD:client/src/MapSettings.js
     
     if(menuChoice){
         switch(menuChoice){
@@ -96,7 +109,6 @@ export default function MapSettings(){
         state="Tennessee";
     }
     else if(store.currentState=="MI"){
-=======
     let displayToggle;
     //let  state;
     if(store.isMapSettingsVisible)
@@ -104,7 +116,6 @@ export default function MapSettings(){
     if(store.currentState === "TN")
         state="Tennessee";
     else if(store.currentState==="MI")
->>>>>>> 345143764b19bd11e3277eb06b8d0edeee75ac7d:client/src/components/MapSettings.js
         state="Mississippi";
     }
     else
@@ -155,16 +166,13 @@ export default function MapSettings(){
                     <MenuItem onClick={handleTenClick}>Tennessee</MenuItem>
                     <MenuItem onClick={handleMisClick}>Mississippi</MenuItem>
               </Menu>
-<<<<<<< HEAD:client/src/MapSettings.js
               {distPlans}
-=======
-              <Button variant="outlined" class="planSelectButton">
+              <Button variant="outlined" class="planSelectButton" onClick = {getDistrictPlan}>
                   2022 Approved Plan
               </Button>
               <Button variant="outlined" class="planSelectButton">
                   Old Plan (2012-2021)
               </Button>
->>>>>>> 345143764b19bd11e3277eb06b8d0edeee75ac7d:client/src/components/MapSettings.js
             </Box>
         </div>
     );
