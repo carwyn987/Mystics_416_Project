@@ -622,9 +622,6 @@ function DistMap(props) {
                         setHoveredState2(hoveredState1);
                         setState(hoveredState1);
                     }
-                    console.log(hoveredState);
-                    console.log(hoveredStateRef);
-                    console.log(stateHover);
                 });
 
                 map.on('mousemove', 'tn-district-layer', function (e) {
@@ -646,15 +643,13 @@ function DistMap(props) {
                         setHoveredDistrict2(hoveredDistrict1);
                         toggleDistHover(true);
                         setDistrict(hoveredDistrict1);
-                        console.log("hoveredDistrict1: ", hoveredDistrict1) 
-
                     }
                 });
 
                 map.on('mousemove', 'ms-district-layer', function (e) {
-                    console.log(store.map);
+                    //console.log(store.map);
                     //console.log(e.features[0].properties);
-                    console.log(distClicked);
+                    //console.log(distClicked);
                     if ((e.features.length > 0) && !distClicked) {
                         if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
                             map.setFeatureState(
@@ -665,6 +660,28 @@ function DistMap(props) {
                         let hoveredDistrict1 = e.features[0].properties.District;
                         map.setFeatureState(
                             { source: 'ms-district-source', id: hoveredDistrict1 },
+                            { hover: true }
+                        );
+                        setHoveredDistrict2(hoveredDistrict1);
+                        toggleDistHover(true);
+                        setDistrict(hoveredDistrict1);                        
+                    }
+                });
+
+                map.on('mousemove', 'nc-district-layer', function (e) {
+                    //console.log(store.map);
+                    //console.log(e.features[0].properties);
+                    //console.log(distClicked);
+                    if ((e.features.length > 0) && !distClicked) {
+                        if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
+                            map.setFeatureState(
+                                { source: 'nc-district-source', id: hoveredDistrictRef.current },
+                                { hover: false }
+                            );
+                        }
+                        let hoveredDistrict1 = e.features[0].properties.District_A;
+                        map.setFeatureState(
+                            { source: 'nc-district-source', id: hoveredDistrict1 },
                             { hover: true }
                         );
                         setHoveredDistrict2(hoveredDistrict1);
