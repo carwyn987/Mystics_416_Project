@@ -257,7 +257,7 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'tn-district-source',
                     'layout': {
-                        //'visibility': 'none'
+                        'visibility': 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
@@ -304,7 +304,7 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'tn-old-districts',
                     'layout': {
-                        //'visibility': 'none'
+                        'visibility': 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
@@ -351,7 +351,7 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'ms-old-districts',
                     'layout': {
-                        //'visibility': 'none'
+                        'visibility': 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
@@ -443,7 +443,7 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'ms-district-source',
                     'layout': {
-                        //'visibility': 'none'
+                        'visibility': 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
