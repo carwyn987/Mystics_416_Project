@@ -155,7 +155,7 @@ export default function MapSettings(){
             <Box id='settings-block'>
                 <Typography style={{fontSize:'12pt',fontWeight:'bold'}}>Choose District Plan to View for {store.stateFocus}<br></br></Typography>
                 <Typography style={{fontSize:'18pt'}}>{state}</Typography>
-                <Typography>Currrent Plan: Enacted<ArrowDropDownIcon style={{fontSize:'12pt'}}onClick={handleMenu}>Approved Plan</ArrowDropDownIcon></Typography>
+                <Typography>Currrent Plan: Enacted<ArrowDropDownIcon style={{fontSize:'12pt'}}onClick={handleMenu}>Enacted Plan</ArrowDropDownIcon></Typography>
                 <Menu
                     id="menu-appbar"
                     anchorEl={anchorEl}
