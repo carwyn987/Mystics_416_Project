@@ -160,9 +160,15 @@ function DistMap(props) {
                 map.addLayer({
                     'id': 'tn-boundary-layer',
                     'type': 'fill',
+<<<<<<< HEAD
+                    'source': 'state-boundaries',
+                    'layout': {
+                        'visibility': "none"
+=======
                     'source': 'tn-boundary',
                     'layout': {
                         'visibility': 'visible'
+>>>>>>> abfb614bb82cc03dabe957287fd72ecfcacdb82a
                     },
                     'paint': {
                         'fill-outline-color': 'black',
@@ -263,7 +269,7 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'tn-district-source',
                     'layout': {
-                        'visibility': 'none'
+                        //'visibility': 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
@@ -310,7 +316,7 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'tn-old-districts',
                     'layout': {
-                        'visibility': 'none'
+                        //'visibility': 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
@@ -357,7 +363,7 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'ms-old-districts',
                     'layout': {
-                        'visibility': 'none'
+                        //'visibility': 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
@@ -394,7 +400,7 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'ms-district-source',
                     'layout': {
-                        'visibility': 'none'
+                        //'visibility': 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
