@@ -154,15 +154,9 @@ function DistMap(props) {
                 map.addLayer({
                     'id': 'tn-boundary-layer',
                     'type': 'fill',
-<<<<<<< HEAD
-                    'source': 'state-boundaries',
-                    'layout': {
-                        'visibility': "none"
-=======
                     'source': 'tn-boundary',
                     'layout': {
                         'visibility': 'visible'
->>>>>>> abfb614bb82cc03dabe957287fd72ecfcacdb82a
                     },
                     'paint': {
                         'fill-outline-color': 'black',

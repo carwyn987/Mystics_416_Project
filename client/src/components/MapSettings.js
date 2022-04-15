@@ -19,28 +19,8 @@ export default function MapSettings(){
     const [isCountyToggleSet, setCountyToggle] = React.useState(false);
     const [isPrecinctToggleSet, setPrecinctToggle] = React.useState(false);
     const [menuChoice, setMenuChoice] = React.useState("");
-<<<<<<< HEAD
     const [availablePlans, setAvailablePlans] = React.useState(null);
     let countyToggle, precinctToggle, displayToggle, state, distPlans, plans;
-=======
-    let countyToggle, precinctToggle, displayToggle, distPlans;
-    let tenDistPlans = <div>Available plans for Tennessee:</div>
-    let miDistPlans = <div>Available plans for Mississippi:</div>
-
-    const PLAN_TYPE={
-        ENACTED: 0,
-        PROPOSED: 1, 
-        OLD: 2, 
-        DEM: 3,
-        REP: 4
-    }
-    
-    //FIRST DIGIT = STATE, SECOND DIGIT = TYPE OF PLAN. 1=ENACTED, 2 = PROPOSED, etc.
-    const getDistrictPlan=(planID)=>{
-        fetch("http://localhost:8080/getPlan?planID=11").then(response=>response.json()).then((res)=>console.log(res));/*setVotes(res.demVotes,res.repVotes)*/        
-        console.log(res);
-    }
->>>>>>> e8b39a3896cca8fab96d1a0be5c65f97135eb528
     
     const PLAN_TYPE={
         ENACTED:1,
@@ -141,21 +121,7 @@ export default function MapSettings(){
     if(store.stateFocus == "TN"){
         state="Tennessee";
     }
-<<<<<<< HEAD
     else if(store.stateFocus=="MI"){
-=======
-    else if(store.currentState=="MI"){
-<<<<<<< HEAD
-    let displayToggle;
-    //let  state;
-    if(store.isMapSettingsVisible)
-        displayToggle=true;
-    if(store.currentState === "TN")
-        state="Tennessee";
-    else if(store.currentState==="MI")
-=======
->>>>>>> abfb614bb82cc03dabe957287fd72ecfcacdb82a
->>>>>>> e8b39a3896cca8fab96d1a0be5c65f97135eb528
         state="Mississippi";
     }
     else if(store.stateFocus=="NC"){
@@ -209,19 +175,6 @@ export default function MapSettings(){
                     >
                     <div>{distPlans}</div>
               </Menu>
-<<<<<<< HEAD
-=======
-              {distPlans}
-<<<<<<< HEAD
-              <Button variant="outlined" class="planSelectButton" onClick = {getDistrictPlan}>
-                  2022 Approved Plan
-              </Button>
-              <Button variant="outlined" class="planSelectButton">
-                  Old Plan (2012-2021)
-              </Button>
-=======
->>>>>>> abfb614bb82cc03dabe957287fd72ecfcacdb82a
->>>>>>> e8b39a3896cca8fab96d1a0be5c65f97135eb528
             </Box>
         </div>
     );
