@@ -19,10 +19,30 @@ export default function MapSettings(){
     const [isCountyToggleSet, setCountyToggle] = React.useState(false);
     const [isPrecinctToggleSet, setPrecinctToggle] = React.useState(false);
     const [menuChoice, setMenuChoice] = React.useState("");
-    let countyToggle, precinctToggle, displayToggle, state, distPlans;
-    let tenDistPlans = <div>Available plans for Tennessee:</div>
-    let miDistPlans = <div>Available plans for Mississippi:</div>
+    const [availablePlans, setAvailablePlans] = React.useState(null);
+    let countyToggle, precinctToggle, displayToggle, state, distPlans, plans;
     
+    const PLAN_TYPE={
+        ENACTED:1,
+        PROPOSED:2,
+        OLD:3,
+        DEM:4,
+        REP:5
+    }
+    let tnDistPlans=<div>
+                        <MenuItem>Enacted Plan</MenuItem>
+                        <MenuItem>Previous Plan (2012-2020)</MenuItem> 
+                    </div>;
+    let miDistPlans=<div>
+                        <MenuItem>Enacted</MenuItem>
+                        <MenuItem>Proposed by Democratic Party</MenuItem>
+                        <MenuItem>Previous Plan (2012-2020)</MenuItem>
+                    </div>;
+    let ncDistPlans=<div>
+                        <MenuItem>Enacted </MenuItem>
+                        <MenuItem>Proposed</MenuItem>
+                        <MenuItem>Previous Plan (2012-2020)</MenuItem>
+                    </div>;
     const handleCountyClick=()=>{
         let current = !isCountyToggleSet;
         setCountyToggle(current);
@@ -61,7 +81,12 @@ export default function MapSettings(){
     const handleMenuClose = (event) =>{
         setAnchorEl(null);
     }
-
+    const availPlans=(plans)=>{
+        setAvailablePlans(plans);
+    }
+    const setPlan=(planID)=>{
+        store.setDistrictPlan(planID);
+    }
     if(isCountyToggleSet){
         countyToggle=<ToggleOnIcon style={{color:'chartreuse'}} id='toggleon-icon' ></ToggleOnIcon>;
     }
@@ -75,14 +100,17 @@ export default function MapSettings(){
     else{
         precinctToggle=<ToggleOffIcon style={{color:'gainsboro'}} id='toggleoff-icon'></ToggleOffIcon>;
     }
-    
-    if(menuChoice){
-        switch(menuChoice){
-            case "TN":
-                distPlans = tenDistPlans;
+    if(store.stateFocus){
+        let theState=store.stateFocus
+        switch(theState){
+            case "Tennessee":
+                distPlans=tnDistPlans;
                 break;
-            case "MI":
+            case "Mississippi":
                 distPlans = miDistPlans;
+                break;
+            case "North Carolina":
+                distPlans = ncDistPlans; 
                 break;
         }
     }
@@ -90,15 +118,18 @@ export default function MapSettings(){
     if(store.isMapSettingsVisible)
         displayToggle=true;
     
-    if(store.currentState == "TN"){
+    if(store.stateFocus == "TN"){
         state="Tennessee";
     }
-    else if(store.currentState=="MI"){
+    else if(store.stateFocus=="MI"){
         state="Mississippi";
     }
-    else
-        state="Choose state";
+    else if(store.stateFocus=="NC"){
+        state="North Carolina";
+    }
+
     
+
     return(
         <div class="animate__animated animate__fadeInRightBig" id='map-settings' style={{display: displayToggle ? 'inline-block': 'none'}}>
             <div>
@@ -120,10 +151,11 @@ export default function MapSettings(){
                     </div>
                 </div>
             </Box>
-            <br></br>
+            <br></br> 
             <Box id='settings-block'>
-                <Typography style={{fontSize:'12pt',fontWeight:'bold'}}>Choose District Plan for<br></br></Typography>
-                <Typography style={{fontSize:'18pt'}}>{state}<ArrowDropDownIcon onClick={handleMenu}></ArrowDropDownIcon></Typography>
+                <Typography style={{fontSize:'12pt',fontWeight:'bold'}}>Choose District Plan to View for {store.stateFocus}<br></br></Typography>
+                <Typography style={{fontSize:'18pt'}}>{state}</Typography>
+                <Typography>Currrent Plan: Enacted<ArrowDropDownIcon style={{fontSize:'12pt'}}onClick={handleMenu}>Approved Plan</ArrowDropDownIcon></Typography>
                 <Menu
                     id="menu-appbar"
                     anchorEl={anchorEl}
@@ -141,10 +173,8 @@ export default function MapSettings(){
                     open={Boolean(anchorEl)}
                     onClose={handleMenuClose}
                     >
-                    <MenuItem onClick={handleTenClick}>Tennessee</MenuItem>
-                    <MenuItem onClick={handleMisClick}>Mississippi</MenuItem>
+                    <div>{distPlans}</div>
               </Menu>
-              {distPlans}
             </Box>
         </div>
     );

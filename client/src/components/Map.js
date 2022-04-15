@@ -586,7 +586,7 @@ function DistMap(props) {
                             { hover: true }
                         );
                         setHoveredState2(hoveredState1);
-                        setState(hoveredState1);
+                        //setState(hoveredState1);
                     }
                     console.log(hoveredState);
                     console.log(hoveredStateRef);
