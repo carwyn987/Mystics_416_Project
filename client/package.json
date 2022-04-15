@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^13.5.0",
     "animate": "^1.0.0",
     "animate.css": "^4.1.1",
+    "d3": "^7.4.4",
     "deck.gl": "^8.6.8",
     "mapbox-gl": "^2.7.0",
     "react": "^17.0.2",

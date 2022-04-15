@@ -12,7 +12,7 @@ var tnCounties = require('../district-data/TN/tnCounties.geojson');
 var msCounties = require('../district-data/MS/msCounties.geojson');
 var oldMSDistricts = require('../district-data/MS/OldMSDistricts.json');
 var oldTNDistricts = require('../district-data/TN/OldTNDistricts.json');
-var stateBoundaries = require('../district-data/StateBoundaries.json');
+var oldNCDistricts = require('../district-data/NC/NCOldCongDists.json');
 var tnBoundary = require('../district-data/TN/Tennessee-State.json');
 var msBoundary = require('../district-data/MS/Mississippi-State.json');
 var ncBoundary = require('../district-data/NC/NorthCarolina-State.json');
@@ -61,7 +61,7 @@ function DistMap(props) {
     const [clickedState, setClickedState] = useState(null);
     const clickedStateRef = useRef(clickedState);
     const [stateClicked, setStateClicked] = useState(false);
-    const [cToggle, setCountyToggle] = useState('none');
+    //const [distPlan, setDistPlan] = useState(store.distPlan);
     //const [statee, setStatee] = useState(null);
 
     let countyVis;
@@ -118,12 +118,6 @@ function DistMap(props) {
         setClickedState(id);
         store.setStateFocus(id);
     }
-
-    // if (store.countyToggle){
-    //     setCountyToggle('visible');
-    // } else {
-    //     setCountyToggle('none');
-    // }
 
     useEffect(() => {
         // if (map.current){
@@ -389,6 +383,61 @@ function DistMap(props) {
                     }
                 });
 
+                map.addSource('nc-old-districts', {
+                    'type': 'geojson',
+                    'data': oldNCDistricts,
+                    'promoteId': 'DISTRICT'
+                });
+
+                map.addLayer({
+                    'id': 'nc-old-district-layer',
+                    'type': 'fill',
+                    'source': 'nc-old-districts',
+                    'layout': {
+                        'visibility': 'none'
+                    },
+                    'paint': {
+                        'fill-outline-color': 'black',
+                        'fill-color': [
+                            'match',
+                            ['get', 'DISTRICT'],
+                            1,
+                            '#e6194B',
+                            2,
+                            '#4363d8',
+                            3,
+                            '#ffe119',
+                            4,
+                            '#911eb4',
+                            5,
+                            '#800000',
+                            6,
+                            '#42d4f4',
+                            7,
+                            '#aaffc3',
+                            8,
+                            '#f032e6',
+                            9,
+                            '#3cb44b',
+                            10,
+                            '#f58231',
+                            11,
+                            '#469990',
+                            12,
+                            '#bfef45',
+                            13,
+                            '#9A6324',
+                            '#ffffff'
+                        ],
+                        'fill-opacity': [
+                            'case',
+                            ['boolean', ['feature-state', 'hover'], false],
+                            .9, 
+                            0.5
+                        ]
+                    }
+                })
+
                 map.addSource('ms-district-source', {
                     'type': 'geojson',
                     'data': msDistricts,
@@ -494,7 +543,7 @@ function DistMap(props) {
                     'type': 'line',
                     'source': 'tn-county-source',
                     'layout': {
-                        'visibility': 'none'
+                        'visibility': store.countyToggle? 'visible' : 'none'
                     },
                     'paint': {
                         'line-color': '#808080',
@@ -513,13 +562,15 @@ function DistMap(props) {
                     'type': 'line',
                     'source': 'ms-county-source',
                     'layout': {
-                        'visibility': 'none'
+                        'visibility': store.countyToggle? 'visible' : 'none'
                     },
                     'paint': {
                         'line-color': '#808080',
                         'line-width': 0.7
                     }
                 });
+
+                
 
                 map.on('mouseleave', 'tn-boundary-layer', function () {
                     //setStateHover(false);
