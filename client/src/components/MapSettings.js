@@ -29,17 +29,23 @@ export default function MapSettings(){
         DEM:4,
         REP:5
     }
+
+    const setPlan = (p) => {
+        console.log(p);
+        store.setDistrictPlan(PLAN_TYPE[p]);
+    }
+
     let tnDistPlans=<div>
                         <MenuItem>Enacted Plan</MenuItem>
                         <MenuItem>Previous Plan (2012-2020)</MenuItem> 
                     </div>;
     let miDistPlans=<div>
-                        <MenuItem>Enacted</MenuItem>
+                        <MenuItem>Enacted Plan</MenuItem>
                         <MenuItem>Proposed by Democratic Party</MenuItem>
                         <MenuItem>Previous Plan (2012-2020)</MenuItem>
                     </div>;
     let ncDistPlans=<div>
-                        <MenuItem>Enacted </MenuItem>
+                        <MenuItem>Enacted Plan</MenuItem>
                         <MenuItem>Proposed</MenuItem>
                         <MenuItem>Previous Plan (2012-2020)</MenuItem>
                     </div>;
@@ -84,9 +90,21 @@ export default function MapSettings(){
     const availPlans=(plans)=>{
         setAvailablePlans(plans);
     }
-    const setPlan=(planID)=>{
-        store.setDistrictPlan(planID);
+    const handlePlanClick = (e) => {
+        console.log(e.target.textContent);
+        if (e.target.textContent.includes("Proposed")) {
+            store.setDistrictPlan(PLAN_TYPE.PROPOSED);
+        }
+        else if (e.target.textContent.includes("Enacted")) {
+            store.setDistrictPlan(PLAN_TYPE.ENACTED);
+        }
+        else if (e.target.textContent.includes("Previous")) {
+            store.setDistrictPlan(PLAN_TYPE.OLD);
+        }
     }
+    // const setPlan=(planID)=>{
+    //     store.setDistrictPlan(planID);
+    // }
     if(isCountyToggleSet){
         countyToggle=<ToggleOnIcon style={{color:'chartreuse'}} id='toggleon-icon' ></ToggleOnIcon>;
     }
@@ -118,13 +136,13 @@ export default function MapSettings(){
     if(store.isMapSettingsVisible)
         displayToggle=true;
     
-    if(store.stateFocus == "TN"){
+    if(store.stateFocus === "TN"){
         state="Tennessee";
     }
-    else if(store.stateFocus=="MI"){
+    else if(store.stateFocus === "MI"){
         state="Mississippi";
     }
-    else if(store.stateFocus=="NC"){
+    else if(store.stateFocus === "NC"){
         state="North Carolina";
     }
 
@@ -173,7 +191,7 @@ export default function MapSettings(){
                     open={Boolean(anchorEl)}
                     onClose={handleMenuClose}
                     >
-                    <div>{distPlans}</div>
+                    <div onClick={handlePlanClick}>{distPlans}</div>
               </Menu>
             </Box>
         </div>

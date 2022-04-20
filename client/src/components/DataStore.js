@@ -185,20 +185,9 @@ function GlobalStoreContextProvider(props){
                     countyToggle: !store.countyToggle
                 });
             }
-            // case GlobalStoreActions.DISTRICT_MOUSE_HOVER:{
-            //     return setStore({
-            //         isDistMouseHoverVisible: payload
-            //     });
-            // }
-            // case GlobalStoreActions.DISTRICT_HOVER_NUM:{
-            //     return setStore({
-            //         distHoverNum: payload
-            //     });
-            // }
             default:
                 return store;
         }
-        //}
     }
 
     store.loadSidePanel = function (state,dist) {
@@ -267,20 +256,6 @@ function GlobalStoreContextProvider(props){
             payload: {}
         });
     }
-
-    // store.setDistHover = function (bool) {
-    //     storeReducer({
-    //         type: GlobalStoreActions.DISTRICT_MOUSE_HOVER,
-    //         payload: bool
-    //     });
-    // }
-
-    // store.setDistHoverNum = function (num) {
-    //     storeReducer({
-    //         type: GlobalStoreActions.DISTRICT_HOVER_NUM,
-    //         payload: num
-    //     });
-    // }
     
     return (
         <GlobalStore.Provider value={{ store }}>

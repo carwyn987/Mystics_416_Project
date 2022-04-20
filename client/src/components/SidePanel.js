@@ -14,7 +14,8 @@ import PlanComparison from './PlanComparison';
 import * as React from 'react';
 import {useContext, useEffect} from 'react';
 import CottageIcon from '@mui/icons-material/Cottage';
-import 'animate.css'
+import 'animate.css';
+import PopulationGraph from './PopulationGraph.js';
 
 
 export default function SidePanel(){
@@ -22,21 +23,21 @@ export default function SidePanel(){
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [isMinimized, setIsMinimized] = React.useState(false);
     const [isMaximized, setIsMaximized] = React.useState(false);
-    const [menuText,setMenuText] = React.useState("NONE SELECTED");
+    const [menuText, setMenuText] = React.useState("NONE SELECTED");
     const [electionDataVisible, setElectionDataVisible] = React.useState(false);
     const [planCompareVisible, setPlanCompareVisible] = React.useState(false);
     const [popDataVisible, setPopDataVisible] = React.useState(false);
     const [state, setSwitchState] = React.useState(1);
     const graph = null;
-    let isVisible=false, expandIcon=null, panel=null, demVotes=0, repubVotes=0, currentState=null, currentDist= null;
+    let isVisible = false, expandIcon = null, panel = null, demVotes = 0, repubVotes = 0, currentState = null, currentPlan = null;
 ;
     //let state=1;
     if(store.currentState){
-        if(store.currentState=="TN")
-            currentState="TENNESSEE";
-        else if(store.currentState=="MI")
-            currentState="MISSISSIPPI";
-        currentDist=store.currentDistrict;
+        if(store.currentState === "TN")
+            currentState = "TENNESSEE";
+        else if(store.currentState === "MI")
+            currentState = "MISSISSIPPI";
+        currentPlan = store.districtPlan;
     }
     // if(store.currentDistrict){
     //     currentDist=store.currentDistrict;
@@ -167,7 +168,7 @@ export default function SidePanel(){
                         <CottageIcon onClick={toggleState} style={{fontSize:'15pt'}}></CottageIcon>
                     </div>         
                     <div onClick={handleMenu}>
-                    <Typography style={{fontSize:'x-large',marginTop:'8%',marginRight:'17%',marginBottom:'5%',display:'inline-block'}}>VIEW DATA FOR: <br></br> {currentState}, DISTRICT {store.currentDistrict}</Typography>
+                    <Typography style={{fontSize:'x-large',marginTop:'8%',marginRight:'17%',marginBottom:'5%',display:'inline-block'}}>VIEW DATA FOR: <br></br> {currentState} {/*, DISTRICT {store.currentDistrict}*/}</Typography>
                         <Button variant="outlined" style={{width:'400px',fontSize:'25pt',borderColor:'white',fontSize:'large',marginRight:'5%',color:'white'}}>
                             {menuText}
                             <ArrowDropDownIcon onClick={handleMenu} style={{display:'inline-block',fontSize:'15pt'}}></ArrowDropDownIcon>
@@ -192,6 +193,9 @@ export default function SidePanel(){
                         <MenuItem onClick={handleCompareClick}>Compare Plans</MenuItem>
                         <MenuItem onClick={handlePopClick}>Demographics</MenuItem>
                     </Menu>
+                    {/* <div id="pop-container"> */}
+                        <PopulationGraph></PopulationGraph>
+                    {/* </div> */}
                 </div>
     
     if(isMaximized){
