@@ -137,7 +137,7 @@ function GlobalStoreContextProvider(props){
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
-                    currentState: payload.stateID,
+                    currentState: payload,
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle
                 });
@@ -221,9 +221,10 @@ function GlobalStoreContextProvider(props){
 
     store.setCurrentState = function (stateID) {
         storeReducer({
-            type: GlobalStoreActions.CURRENT_STATE,
+            type: GlobalStoreActions.SET_CURRENT_STATE,
             payload: stateID
         });
+        console.log("setCurrent state in store: "+store.currentState);
     }
     store.setDistrictPlan = function(id){
         storeReducer({

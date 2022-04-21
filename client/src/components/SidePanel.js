@@ -27,14 +27,15 @@ export default function SidePanel(){
     const [electionDataVisible, setElectionDataVisible] = React.useState(false);
     const [planCompareVisible, setPlanCompareVisible] = React.useState(false);
     const [popDataVisible, setPopDataVisible] = React.useState(false);
-    const [state, setSwitchState] = React.useState(1);
     const graph = null;
-    let isVisible = false, expandIcon = null, panel = null, demVotes = 0, repubVotes = 0, currentState = null, currentPlan = null;
+    let isVisible = false, expandIcon = null, panel = null, demVotes = 0, repubVotes = 0, stateName;
 ;
     if(store.currentState){
-        console.log("store.currentState: SidePanel.js "+ store.currentState)
-        state = store.currentState;
-        currentPlan = store.districtPlan;
+        console.log(store.currentState);
+        stateName=store.currentState;
+    //     console.log("store.currentState: SidePanel.js "+ store.currentState)
+    //     state = store.currentState;
+    //     currentPlan = store.districtPlan;
     }
    
     const handleMenu = (event) => {
@@ -55,13 +56,6 @@ export default function SidePanel(){
         }
         else
             setIsMaximized(true);
-    }
-    const toggleState=()=>{
-        if (state === 1){
-            setSwitchState(2);
-        } else{
-            setSwitchState(1);
-        }
     }
     const handleElectionClick=()=>{
         let bool = !electionDataVisible;
@@ -150,18 +144,15 @@ export default function SidePanel(){
                     <div style={{display:'inline-block',float:'left', fontSize:'20pt',paddingTop:'2%',paddingLeft:'1%'}}>
                         <MinimizeIcon onClick={toggleMinimize} style={{fontSize:'20pt'}}></MinimizeIcon>
                         {expandIcon}
-                        <CottageIcon onClick={toggleState} style={{fontSize:'15pt'}}></CottageIcon>
+                        <CottageIcon  style={{fontSize:'15pt'}}></CottageIcon>
                     </div>         
                     <div onClick={handleMenu}>
-                    <Typography style={{fontSize:'x-large',marginTop:'8%',marginRight:'17%',marginBottom:'5%',display:'inline-block'}}>VIEW DATA FOR: <br></br> {state} {/*, DISTRICT {store.currentDistrict}*/}</Typography>
+                    <Typography style={{fontSize:'x-large',marginTop:'8%',marginRight:'17%',marginBottom:'5%',display:'inline-block'}}>VIEW DATA FOR: <br></br> {stateName}</Typography>
                         <Button variant="outlined" style={{width:'400px',fontSize:'25pt',borderColor:'white',fontSize:'large',marginRight:'5%',color:'white'}}>
                             {menuText}
                             <ArrowDropDownIcon onClick={handleMenu} style={{display:'inline-block',fontSize:'15pt'}}></ArrowDropDownIcon>
                         </Button>
                     </div>
-                    <ElectionData demVotes={demVotes} repubVotes={repubVotes} visibility={electionDataVisible}/>
-                    <PlanComparison visible={planCompareVisible} state={state}/>
-                    <PopulationData visibility2={popDataVisible} state={state}/>
                     <Menu
                         id="menu-appbar"
                         anchorEl={anchorEl}
@@ -178,9 +169,7 @@ export default function SidePanel(){
                         <MenuItem onClick={handleCompareClick}>Compare Plans</MenuItem>
                         <MenuItem onClick={handlePopClick}>Demographics</MenuItem>
                     </Menu>
-                    {/* <div id="pop-container"> */}
-                        <PopulationGraph></PopulationGraph>
-                    {/* </div> */}
+                    <PopulationGraph></PopulationGraph>
                 </div>
     
     if(isMaximized){
