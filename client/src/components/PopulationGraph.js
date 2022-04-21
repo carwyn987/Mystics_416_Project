@@ -131,7 +131,7 @@ export function PopulationGraph() {
 
     function graphData() {
         let state = store.stateFocus;
-        if (state === "TN") {
+        if (state === "Tennessee") {
             return [{
                 name: 'White',
                 data: [87.85, 82.15, 77.81, 75.85, 69.18, 77.71, 69.44, 72.02, 26.15]
@@ -149,7 +149,7 @@ export function PopulationGraph() {
                 data: [0.88, 1.02, 0.95, 0.94, 1.03, 0.96, 1.19, 0.83, 0.69]
               }];
         }
-        else if (state === "MS") {
+        else if (state === "Mississippi") {
             return [{
                 name: 'White',
                 data: [504495, 209590, 438695, 527045]
@@ -167,7 +167,7 @@ export function PopulationGraph() {
                 data: [4715, 3740, 9375, 8235]
               }];
         }
-        else if (state === "NC") {
+        else if (state === "North Carolina") {
             return [{
                 name: 'White',
                 data: [317905, 564180, 509160, 472050, 447045, 503540, 547315, 470840, 367140, 586180, 654930, 238440, 495445, 350000]
@@ -189,19 +189,19 @@ export function PopulationGraph() {
 
     function graphCategories() {
         let state = store.stateFocus;
-        if (state === "TN") {
+        if (state === "Tennessee") {
             return ["District 1", "District 2", "District 3", "District 4", "District 5", "District 6", "District 7", "District 8", "District 9"];
         }
-        else if (state === "MS") {
+        else if (state === "Mississippi") {
             return ["District 1", "District 2", "District 3", "District 4"];
         }
-        else if (state === "NC") {
+        else if (state === "North Carolina") {
             return ["District 1", "District 2", "District 3", "District 4", "District 5", "District 6", "District 7", "District 8", "District 9", "District 10", "District 11", "District 12", "District 13", "District 14"];
         }
     };
 
     let state = {
-        series: graphData(),
+        series: TNPopData,
         options: {
           chart: {
             id: 'bar-chart',
@@ -221,15 +221,19 @@ export function PopulationGraph() {
             }
           }],
           xaxis: {
-            categories: graphCategories()//["District 1", "District 2", "District 3", "District 4", "District 5", "District 6", "District 7", "District 8", "District 9"],
-          },
+            style: {
+                color: 'rgb(255,255,255)'
+            },
+            categories: ["District 1", "District 2", "District 3", "District 4", "District 5", "District 6", "District 7", "District 8", "District 9"], //["District 1", "District 2", "District 3", "District 4", "District 5", "District 6", "District 7", "District 8", "District 9"],
+        },
           fill: {
             opacity: 1
           },
           legend: {
             position: 'right',
             offsetX: 0,
-            offsetY: 50
+            offsetY: 50,
+            color: 'white'
           },
         },
       };
