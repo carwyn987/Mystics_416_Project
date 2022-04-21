@@ -18,12 +18,6 @@ var tnBoundary = require('../district-data/TN/Tennessee-State.json');
 var msBoundary = require('../district-data/MS/Mississippi-State.json');
 var ncBoundary = require('../district-data/NC/NorthCarolina-State.json');
 
-
-
-//import 'mapbox-gl/dist/mapbox/gl.css';
-//const rewind = require('geojson-rewind');
-//import tnDistricts from './district-data/TN/TN-Redistricting-Data.geojson';
-
 const STATE_ID={
     TN: "TN",
     MS: "MS",
@@ -84,8 +78,8 @@ function DistMap(props) {
     const setDistrict=(id)=>{
         setDistHoverNum(id);
     }
-    const setStoreStateFocus=(str)=>{
-        store.setStateFocus(str);
+    const setStoreCurrentState=(str)=>{
+        store.setCurrentState(str);
     }
     const setState=(state)=>{
         store.setCurrentState(state);
@@ -116,7 +110,7 @@ function DistMap(props) {
     const clickState = id => {
         setStateClicked(true);
         setClickedState(id);
-        store.setStateFocus(id);
+        store.setCurrentState(id);
         switch(id){
             case STATE_ID.TN:
                 StateController.getState(TN);
@@ -142,7 +136,6 @@ function DistMap(props) {
                 console.log(countyVis);
 
                 setMap(map);
-                //store.setMap(map);
                 map.addSource('tn-boundary', {
                     'type': 'geojson',
                     'data': tnBoundary,
@@ -163,10 +156,6 @@ function DistMap(props) {
                             ['get', 'NAME'],
                             'Tennessee',
                             '#00ff1a',
-                            // 'Mississippi',
-                            // '#ff7700',
-                            // 'North Carolina',
-                            // '#9900ff',
                             '#ffffff'
                         ],
                         'fill-opacity': [
@@ -229,10 +218,6 @@ function DistMap(props) {
                             ['get', 'NAME'],
                             'North Carolina',
                             '#9900ff',
-                            // 'Mississippi',
-                            // '#ff7700',
-                            // 'North Carolina',
-                            // '#9900ff',
                             '#ffffff'
                         ],
                         'fill-opacity': [
@@ -255,7 +240,7 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'tn-district-source',
                     'layout': {
-                        'visibility': store.stateFocus === 'Tennessee' ? (store.districtPlan === 1 ? 'visible' : 'none') : 'none'
+                        'visibility': store.currentState === 'Tennessee' ? (store.districtPlan === 1 ? 'visible' : 'none') : 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
@@ -302,7 +287,7 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'tn-old-districts',
                     'layout': {
-                        'visibility': store.stateFocus === 'Tennessee' ? (store.districtPlan === 3 ? 'visible' : 'none') : 'none'
+                        'visibility': store.currentState === 'TN' ? (store.districtPlan === 3 ? 'visible' : 'none') : 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
@@ -349,7 +334,7 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'ms-old-districts',
                     'layout': {
-                        'visibility': store.stateFocus === 'Mississippi' ? (store.districtPlan === 3 ? 'visible' : 'none') : 'none'
+                        'visibility': store.currentState === 'MS' ? (store.districtPlan === 3 ? 'visible' : 'none') : 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
@@ -386,7 +371,7 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'nc-old-districts',
                     'layout': {
-                        'visibility': store.stateFocus === 'North Carolina' ? (store.districtPlan === 3 ? 'visible' : 'none') : 'none'
+                        'visibility': store.currentState === 'NC' ? (store.districtPlan === 3 ? 'visible' : 'none') : 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
@@ -441,7 +426,7 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'ms-district-source',
                     'layout': {
-                        'visibility': store.stateFocus === 'Mississippi' ? (store.districtPlan === 1 ? 'visible' : 'none') : 'none'
+                        'visibility': store.currentState === 'MS' ? (store.districtPlan === 1 ? 'visible' : 'none') : 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
@@ -478,7 +463,7 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'nc-district-source',
                     'layout': {
-                        'visibility': store.stateFocus === 'North Carolina' ? (store.districtPlan === 1 ? 'visible' : 'none') : 'none'
+                        'visibility': store.currentState === 'NC' ? (store.districtPlan === 1 ? 'visible' : 'none') : 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
@@ -597,7 +582,6 @@ function DistMap(props) {
                 });
 
                 map.on('mouseleave', 'ms-district-layer', function () {
-                    //setStateHover(false);
                     console.log(store.map);
                     if (hoveredDistrictRef.current) {
                         map.setFeatureState(
@@ -610,7 +594,6 @@ function DistMap(props) {
                 });
 
                 map.on('mouseleave', 'tn-district-layer', function () {
-                    //setStateHover(false);
                     console.log(store.map);
                     if (hoveredDistrictRef.current) {
                         map.setFeatureState(
@@ -634,8 +617,6 @@ function DistMap(props) {
                 });
 
                 map.on('mousemove', 'tn-boundary-layer', function (e) {
-                    //setHover(true);
-                    //console.log(e.features[0].id);
                     setStateHover(true);
                     if ((e.features.length > 0) && !stateClicked) {
                         let hoveredState1 = e.features[0].id;
@@ -644,7 +625,6 @@ function DistMap(props) {
                             { hover: true }
                         );
                         setHoveredState2(hoveredState1);
-                        //setState(hoveredState1);
                     }
                     console.log(hoveredState);
                     console.log(hoveredStateRef);
@@ -668,7 +648,6 @@ function DistMap(props) {
                     console.log(stateHover);
                 });
                 map.on('mousemove', 'nc-boundary-layer', function (e) {
-                    //setHover(true);
                     setStateHover(true);
                     console.log(e.features[0].id);
                     if ((e.features.length > 0) && !stateClicked) {
@@ -683,9 +662,6 @@ function DistMap(props) {
                 });
 
                 map.on('mousemove', 'tn-district-layer', function (e) {
-                    //console.log(store.map);
-                    //console.log(e.features[0].properties);
-                    //console.log(distClicked);
                     if ((e.features.length > 0) && !distClicked) {
                         if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
                             map.setFeatureState(
@@ -705,9 +681,6 @@ function DistMap(props) {
                 });
 
                 map.on('mousemove', 'ms-district-layer', function (e) {
-                    //console.log(store.map);
-                    //console.log(e.features[0].properties);
-                    //console.log(distClicked);
                     if ((e.features.length > 0) && !distClicked) {
                         if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
                             map.setFeatureState(
@@ -727,9 +700,6 @@ function DistMap(props) {
                 });
 
                 map.on('mousemove', 'nc-district-layer', function (e) {
-                    //console.log(store.map);
-                    //console.log(e.features[0].properties);
-                    //console.log(distClicked);
                     if ((e.features.length > 0) && !distClicked) {
                         if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
                             map.setFeatureState(
@@ -763,7 +733,7 @@ function DistMap(props) {
                     });
                     map.setLayoutProperty('tn-boundary-layer', 'visibility', 'none');
                     map.setLayoutProperty('tn-district-layer', 'visibility', 'visible');
-                    openSidePanel("TN",e.features[0].properties.DISTRICT);  //Open the SidePanel, recording the state & district that were clicked on the map.
+                    openSidePanel("TN",e.features[0].properties.DISTRICT); 
                     clickState("TN");
                 });
 
@@ -782,7 +752,7 @@ function DistMap(props) {
                     });
                     map.setLayoutProperty('ms-boundary-layer', 'visibility', 'none');
                     map.setLayoutProperty('ms-district-layer', 'visibility', 'visible');
-                    openSidePanel("MS",e.features[0].properties.District);  //Open the SidePanel, recording the state & district that were clicked on the map.
+                    openSidePanel("MS",e.features[0].properties.District); 
                     clickState("MS");
                 });
 
@@ -799,10 +769,9 @@ function DistMap(props) {
                         center: [-82.121, 35.480],
                         zoom: 5.61
                     });
-                    //5.6135.480,-79.121
                     map.setLayoutProperty('nc-boundary-layer', 'visibility', 'none');
                     map.setLayoutProperty('nc-district-layer', 'visibility', 'visible');
-                    openSidePanel("NC",e.features[0].properties.District);  //Open the SidePanel, recording the state & district that were clicked on the map.
+                    openSidePanel("NC",e.features[0].properties.District);  
                     clickState("NC");
                 });
 
@@ -813,10 +782,7 @@ function DistMap(props) {
                         zoom: 5.77
                     });
                     clickedDist();
-                    //updateStoreMap(map);                               //Update the map variable in the DataStore to reflect the new zoom status.      
-                    openSidePanel("TN",e.features[0].properties.DISTRICT);  //Open the SidePanel, recording the state & district that were clicked on the map.
-                    //setStoreStateFocus("TN");
-                    // checkStore();
+                    openSidePanel("TN",e.features[0].properties.DISTRICT);
                 });
                 map.on('click', 'ms-district-layer', function (e) {
                     console.log(store.map);
@@ -824,11 +790,7 @@ function DistMap(props) {
                         center: [-91.665, 32.780],
                         zoom: 5.83
                     });
-                    // clickedDist();
-                    // setDistClicked(true);
-                    //updateStoreMap(map);                               //Update the map variable in the DataStore to reflect the new zoom status.
-                    openSidePanel("MS",e.features[0].properties.District);  //Open the SidePanel, recording the state & district that were clicked on the map.
-                    //NOTE: BE CAREFUL, IT's .District for MI & .DISTRICT (ALL CAPS) for TN
+                    openSidePanel("MS",e.features[0].properties.District); 
                 });
             });
             if (!map) {
@@ -836,11 +798,9 @@ function DistMap(props) {
             } else {
                 updateStoreMap(map);
             }
-            //store.setMap(map);
         };
         if (!map) initMap({ setMap, mapContainer });
     }, [map]);
-    //render() {
     return (
         <div>
             <MouseTooltip visible={stateHover} offsetX={10} offsetY={10} style={hoverStyles}>
@@ -855,7 +815,6 @@ function DistMap(props) {
             <div ref={el => (mapContainer.current = el)} style={styles}/>
         </div>
     );
-    //}
 }
 
 export default DistMap;
