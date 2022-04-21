@@ -2,7 +2,6 @@ import { createContext, useContext, useState } from 'react'
 
 export const GlobalStore = createContext({});
 export const GlobalStoreActions = {
-    //    CHANGE_LIST_NAME: "CHANGE_LIST_NAME",
     LOAD_SIDEPANEL: "LOAD_SIDEPANEL",
     CLOSE_SIDEPANEL: "CLOSE_SIDEPANEL",
     LOAD_MAP_SETTINGS: "LOAD_MAP_SETTINGS",
@@ -15,8 +14,6 @@ export const GlobalStoreActions = {
     CURRENT_STATE: "CURRENT_STATE",
     DISTRICT_PLAN: "DISTRICT_PLAN",
     COUNTY_TOGGLE: "COUNTY_TOGGLE"
-    // DISTRICT_MOUSE_HOVER: "DISTRICT_MOUSE_HOVER",
-    // DISTRICT_HOVER_NUM: "DISTRICT_HOVER_NUM"
 }
 
 function GlobalStoreContextProvider(props){
@@ -30,8 +27,6 @@ function GlobalStoreContextProvider(props){
         currentState: null,
         districtPlan: 0,
         countyToggle: false
-        // isDistMouseHoverVisible: false,
-        // distHoverNum: 0
     });
 
     const storeReducer = (action) => {
