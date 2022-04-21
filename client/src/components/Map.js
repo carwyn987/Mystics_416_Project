@@ -4,7 +4,7 @@ import mapboxgl from 'mapbox-gl';
 import { GlobalStore } from './DataStore';
 import MouseTooltip from 'react-sticky-mouse-tooltip';
 import SidePanel from './SidePanel';
-import API from './API';
+import StateController from '../Controllers/StateController';
 
 var tnDistricts = require('../district-data/TN/tnDistricts.geojson');
 var msDistricts = require('../district-data/MS/msDistricts.geojson');
@@ -24,31 +24,19 @@ var ncBoundary = require('../district-data/NC/NorthCarolina-State.json');
 //const rewind = require('geojson-rewind');
 //import tnDistricts from './district-data/TN/TN-Redistricting-Data.geojson';
 
+const STATE_ID={
+    TN: "TN",
+    MS: "MS",
+    NC: "NC"
+}
+const TN = 0
+const MS = 1
+const NC = 2
+
 function DistMap(props) {
     const { store } = useContext(GlobalStore);
-    //ReactMapGL.mapboxAccessToken = process.env.REACT_APP_MAPBOX_TOKEN;
-    //const tnDistricts = rewind('./district-data/TN/TN-Redistricting-Data.geojson', true);
-    const styles = {
-        width: "100vw",
-        height: "100vh"
-    };
-
-    const hoverStyles = {
-        backgroundColor: '#191970',
-        color: 'white',
-        padding: '2px',
-        borderRadius: '5px'
-    };
-
-    const bounds = [
-        [-128.947, 22.802],
-        [-62.548, 51.201]
-    ];
-
-    //const DistMap = () => {
     const [map, setMap] = useState(null);
     const mapContainer = useRef(null);
-    //const [hoveredDistrict, setHoveredDistrict1] = useState(null)
     const [hoveredDistrict, setHoveredDistrict1] = useState(null);
     const [hoveredState, setHoveredState1] = useState(null);
     const [demVotes, setDemVotes] = useState(0);
@@ -62,15 +50,24 @@ function DistMap(props) {
     const [clickedState, setClickedState] = useState(null);
     const clickedStateRef = useRef(clickedState);
     const [stateClicked, setStateClicked] = useState(false);
-    //const [distPlan, setDistPlan] = useState(store.distPlan);
-    //const [statee, setStatee] = useState(null);
-
     let countyVis;
-    
+    const styles = {
+        width: "100vw",
+        height: "100vh"
+    };
+    const hoverStyles = {
+        backgroundColor: '#191970',
+        color: 'white',
+        padding: '2px',
+        borderRadius: '5px'
+    };
+    const bounds = [
+        [-128.947, 22.802],
+        [-62.548, 51.201]
+    ];
     const clickedDist=()=> {
         setDistClicked(true);
     }
-
     const updateStoreMap=(map)=>{
         store.updateMap(map);
         console.log(store.map);
@@ -114,11 +111,20 @@ function DistMap(props) {
         setStateHover(data);
     }
 
+    //The id will be in the form of a 2 character string, namely "TN", "MS", or "NC." The STATE_ID constant maps the character codes to the string,
+    //and the direct constants TN, MS and NC refer to enums that match those on the server side (since the function to getById from the database must be an int).
     const clickState = id => {
         setStateClicked(true);
         setClickedState(id);
         store.setStateFocus(id);
-        API.getState("TN");
+        switch(id){
+            case STATE_ID.TN:
+                StateController.getState(TN);
+            case STATE_ID.MS:
+                StateController.getState(MS);
+            case STATE_ID.NC:
+                StateController.getState(NC);
+        }
     }
 
     useEffect(() => {
@@ -757,8 +763,8 @@ function DistMap(props) {
                     });
                     map.setLayoutProperty('tn-boundary-layer', 'visibility', 'none');
                     map.setLayoutProperty('tn-district-layer', 'visibility', 'visible');
-                    clickState("TN");
                     openSidePanel("TN",e.features[0].properties.DISTRICT);  //Open the SidePanel, recording the state & district that were clicked on the map.
+                    clickState("TN");
                 });
 
                 map.on('click', 'ms-boundary-layer', function (e) {
@@ -776,8 +782,8 @@ function DistMap(props) {
                     });
                     map.setLayoutProperty('ms-boundary-layer', 'visibility', 'none');
                     map.setLayoutProperty('ms-district-layer', 'visibility', 'visible');
-                    clickState("MS");
                     openSidePanel("MS",e.features[0].properties.District);  //Open the SidePanel, recording the state & district that were clicked on the map.
+                    clickState("MS");
                 });
 
                 map.on('click', 'nc-boundary-layer', function (e) {
@@ -796,8 +802,8 @@ function DistMap(props) {
                     //5.6135.480,-79.121
                     map.setLayoutProperty('nc-boundary-layer', 'visibility', 'none');
                     map.setLayoutProperty('nc-district-layer', 'visibility', 'visible');
-                    clickState("NC");
                     openSidePanel("NC",e.features[0].properties.District);  //Open the SidePanel, recording the state & district that were clicked on the map.
+                    clickState("NC");
                 });
 
                 map.on('click', 'tn-district-layer', function (e) {
@@ -821,7 +827,7 @@ function DistMap(props) {
                     // clickedDist();
                     // setDistClicked(true);
                     //updateStoreMap(map);                               //Update the map variable in the DataStore to reflect the new zoom status.
-                    openSidePanel("MI",e.features[0].properties.District);  //Open the SidePanel, recording the state & district that were clicked on the map.
+                    openSidePanel("MS",e.features[0].properties.District);  //Open the SidePanel, recording the state & district that were clicked on the map.
                     //NOTE: BE CAREFUL, IT's .District for MI & .DISTRICT (ALL CAPS) for TN
                 });
             });

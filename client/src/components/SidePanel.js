@@ -24,15 +24,37 @@ export default function SidePanel(){
     const [isMinimized, setIsMinimized] = React.useState(false);
     const [isMaximized, setIsMaximized] = React.useState(false);
     const [menuText, setMenuText] = React.useState("NONE SELECTED");
-   
+    const [electionDataVisible, setElectionDataVisible] = React.useState(false);
+    const [planCompareVisible, setPlanCompareVisible] = React.useState(false);
+    const [popDataVisible, setPopDataVisible] = React.useState(false);
     const [state, setSwitchState] = React.useState(1);
     const graph = null;
     let isVisible = false, expandIcon = null, panel = null, demVotes = 0, repubVotes = 0, currentState = null, currentPlan = null;
 ;
+    //let state=1;
+    if(store.currentState){
+        if(store.stateFocus === "TN")
+            currentState = "TENNESSEE";
+        else if(store.stateFocus === "MI")
+            currentState = "MISSISSIPPI";
+        else if(store.stateFocus === "NC")
+            currentState = "NORTH CAROLINA";
+        currentPlan = store.districtPlan;
+    }
+    // if(store.currentDistrict){
+    //     currentDist=store.currentDistrict;
+    // }
+    // useEffect(()=> {
+    //     let realState;
+    //     //GET the data for the highlighted 
+    //         realState="TN";
+    //         let res;
+    //         fetch(`http://localhost:8080/electiondata?state=${realState}&district=${currentDist}`).then(response=>response.json()).then((res)=>setVotes(res.demVotes,res.repVotes)/*setVotes(res.demVotes,res.repVotes)*/);        
+    // })
+
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
-    }
-
+    };
     const toggleMinimize=()=>{
         if(isMaximized){
             setIsMinimized(false);
@@ -41,7 +63,6 @@ export default function SidePanel(){
         else
             setIsMinimized(true);
     }
-
     const toggleMaximize=()=>{
         if(isMinimized){
             setIsMinimized(false);
@@ -50,7 +71,6 @@ export default function SidePanel(){
         else
             setIsMaximized(true);
     }
-
     const toggleState=()=>{
         console.log("toggleState, SidePanel");
         if (state === 1){
@@ -60,34 +80,88 @@ export default function SidePanel(){
         }
         console.log("state is: " + state);
     }
-
+    const handleElectionClick=()=>{
+        let bool = !electionDataVisible;
+        setElectionDataVisible(bool);
+        let text;
+        if(bool && planCompareVisible && popDataVisible)
+            text="ELECTION RESULTS, PLAN COMPARISON & DEMOGRAPHICS";
+        else if(bool && planCompareVisible)
+            text = "ELECTION RESULTS & PLAN COMPARISON";
+        else if(bool && popDataVisible)
+            text="ELECTION RESULTS & DEMOGRAPHICS";
+        else if(planCompareVisible && popDataVisible)
+            text = "PLAN COMPARISON & DEMOGRAPHICS";
+        else if(bool)  
+            text="ELECTION RESULTS";
+        else if(planCompareVisible)
+            text="PLAN COMPARISON";
+        else if(popDataVisible)
+            text="DEMOGRAPHICS";
+        else
+            text="NONE SELECTED";
+        setMenuText(text);
+        handleCloseMenu();
+    }
+    const handleCompareClick=()=>{
+        let bool=!planCompareVisible;
+        setPlanCompareVisible(bool);
+        let text;
+        if(bool && electionDataVisible && popDataVisible)
+            text="ELECTION RESULTS, PLAN COMPARISON & DEMOGRAPHICS";
+        else if(bool && electionDataVisible)
+            text="ELECTION RESULTS & PLAN COMPARISON";
+        else if(bool && popDataVisible)
+            text="PLAN COMPARISON & DEMOGRAPHICS";
+        else if(electionDataVisible && popDataVisible)
+            text="ELECTION RESULTS & DEMOGRAPHICS";
+        else if(bool)  
+            text="PLAN COMPARISON";
+        else if(electionDataVisible)
+            text="ELECTION RESULTS";
+        else if(popDataVisible)
+            text="DEMOGRAPHICS"
+        else
+            text="NONE SELECTED";
+        setMenuText(text);
+        handleCloseMenu();
+    }
+    const handlePopClick=()=>{
+        let bool=!popDataVisible;
+        setPopDataVisible(bool);
+        let text;
+        if(bool && electionDataVisible && planCompareVisible)
+            text="ELECTION RESULTS, PLAN COMPARISON & DEMOGRAPHICS";
+        else if(bool && planCompareVisible)
+            text="PLAN COMPARISON & DEMOGRAPHICS";
+        else if(bool && electionDataVisible)
+            text="ELECTION RESULTS & DEMOGRAPHICS";
+        else if(electionDataVisible && planCompareVisible)
+            text="ELECTION RESULTS & PLAN COMPARISON";
+        else if(bool)  
+            text="DEMOGRAPHICS";
+        else if(electionDataVisible)
+            text="ELECTION RESULTS";
+        else if(planCompareVisible)
+            text="PLAN COMPARISON"
+        else
+            text="NONE SELECTED";
+        setMenuText(text);
+        handleCloseMenu();
+    }
+    
     const handleCloseMenu = () => {
         setAnchorEl(null);
-    }
+    };
 
-    if(store.currentState){
-        switch(store.currentState){
-            case("TN"):
-                currentState = "TENNESSEE";
-                break;
-            case("MS"):
-                currentState = "MISSISSIPPI";
-                break;
-            case("NC"):
-                currentState = "NORTH CAROLINA";
-                break
-            default:
-                break;
-        }
-    }
-    if(store.isSidePanelVisible)
+    if(store.isSidePanelVisible){
         isVisible=true;
-    else
+    }
+    else{
         isVisible=false;
-
+    }
     if(!isMaximized)
         expandIcon=<OpenInFullIcon onClick={toggleMaximize}style={{fontSize:'20pt'}}></OpenInFullIcon>;
-
     let insidePanel=
                 <div>
                     <div style={{display:'inline-block',float:'left', fontSize:'20pt',paddingTop:'2%',paddingLeft:'1%'}}>
@@ -102,6 +176,9 @@ export default function SidePanel(){
                             <ArrowDropDownIcon onClick={handleMenu} style={{display:'inline-block',fontSize:'15pt'}}></ArrowDropDownIcon>
                         </Button>
                     </div>
+                    <ElectionData demVotes={demVotes} repubVotes={repubVotes} visibility={electionDataVisible}/>
+                    <PlanComparison visible={planCompareVisible} state={state}/>
+                    <PopulationData visibility2={popDataVisible} state={state}/>
                     <Menu
                         id="menu-appbar"
                         anchorEl={anchorEl}
@@ -114,6 +191,9 @@ export default function SidePanel(){
                         open={Boolean(anchorEl)}
                         onClose={handleCloseMenu}
                         >
+                        <MenuItem onClick={handleElectionClick}>Election Data</MenuItem>
+                        <MenuItem onClick={handleCompareClick}>Compare Plans</MenuItem>
+                        <MenuItem onClick={handlePopClick}>Demographics</MenuItem>
                     </Menu>
                     {/* <div id="pop-container"> */}
                         <PopulationGraph></PopulationGraph>

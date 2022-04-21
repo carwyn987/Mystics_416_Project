@@ -107,7 +107,7 @@ export default function MapSettings(){
         setMenuChoice("TN");
     }
     const handleMisClick=()=>{
-        setMenuChoice=("MI");
+        setMenuChoice=("MS");
     }
     const handleClose=()=>{
         store.closeMapSettings();
@@ -146,7 +146,7 @@ export default function MapSettings(){
             state="Tennessee";
             distPlans=tnDistPlans;
             break;
-        case "MI":
+        case "MS":
             state="Mississippi";
             distPlans=miDistPlans;
             break;
