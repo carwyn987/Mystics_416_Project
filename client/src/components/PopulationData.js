@@ -3,6 +3,7 @@ import tnTable from '../demo-data/tnDistsTable.png';
 import msTable from '../demo-data/msDistsTable.png';
 import tnDemo from '../demo-data/tnDemoData.png';
 import msDemo from '../demo-data/msDemoData.png';
+import PopulationGraph from './PopulationGraph.js';
 
 export default function PopulationData(props){
     return(
