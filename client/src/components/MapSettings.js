@@ -35,12 +35,6 @@ export default function MapSettings(){
     const OLD = 2
     const DEM = 3
     const REP = 4
-    
-
-    // const setPlan = (p) => {
-    //     console.log(p);
-    //     store.setDistrictPlan(PLAN_NAME[p]);
-    // }
 
     const handlePlanClick = (e) => {
         if(e.target.textContent==PLAN_NAME.ENACTED){

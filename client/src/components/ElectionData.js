@@ -10,18 +10,17 @@ export default function ElectionData(props){
     let backendRequested=false;
     useEffect(()=>{
         if(store.currentState && !backendRequested){
-            getElectionData(store.currentState,store.currentDistrict);
+          //  getElectionData(store.currentState,store.currentDistrict);
             backendRequested=true;
         }
     })
 
     async function getElectionData(state,district){
-        fetch("http://localhost:8080/getDistrict?id=45").then(response=>response.json()).then((res)=>console.log(res));/*setVotes(res.demVotes,res.repVotes)*/        
+        fetch("http://localhost:8080/getDistrict?id=45").then(response=>response.json()).then((res)=>console.log(res));      
     }
   
     const setVotes=(dem,rep)=>{
         if(dem&rep){
-            console.log("setting votes dem: "+dem + "rep: "+rep);
             setDemVotes(dem);
             setRepubVotes(rep);
         }

@@ -31,27 +31,12 @@ export default function SidePanel(){
     const graph = null;
     let isVisible = false, expandIcon = null, panel = null, demVotes = 0, repubVotes = 0, currentState = null, currentPlan = null;
 ;
-    //let state=1;
     if(store.currentState){
-        if(store.stateFocus === "TN")
-            currentState = "TENNESSEE";
-        else if(store.stateFocus === "MI")
-            currentState = "MISSISSIPPI";
-        else if(store.stateFocus === "NC")
-            currentState = "NORTH CAROLINA";
+        console.log("store.currentState: SidePanel.js "+ store.currentState)
+        state = store.currentState;
         currentPlan = store.districtPlan;
     }
-    // if(store.currentDistrict){
-    //     currentDist=store.currentDistrict;
-    // }
-    // useEffect(()=> {
-    //     let realState;
-    //     //GET the data for the highlighted 
-    //         realState="TN";
-    //         let res;
-    //         fetch(`http://localhost:8080/electiondata?state=${realState}&district=${currentDist}`).then(response=>response.json()).then((res)=>setVotes(res.demVotes,res.repVotes)/*setVotes(res.demVotes,res.repVotes)*/);        
-    // })
-
+   
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -72,13 +57,11 @@ export default function SidePanel(){
             setIsMaximized(true);
     }
     const toggleState=()=>{
-        console.log("toggleState, SidePanel");
         if (state === 1){
             setSwitchState(2);
         } else{
             setSwitchState(1);
         }
-        console.log("state is: " + state);
     }
     const handleElectionClick=()=>{
         let bool = !electionDataVisible;
@@ -170,7 +153,7 @@ export default function SidePanel(){
                         <CottageIcon onClick={toggleState} style={{fontSize:'15pt'}}></CottageIcon>
                     </div>         
                     <div onClick={handleMenu}>
-                    <Typography style={{fontSize:'x-large',marginTop:'8%',marginRight:'17%',marginBottom:'5%',display:'inline-block'}}>VIEW DATA FOR: <br></br> {currentState} {/*, DISTRICT {store.currentDistrict}*/}</Typography>
+                    <Typography style={{fontSize:'x-large',marginTop:'8%',marginRight:'17%',marginBottom:'5%',display:'inline-block'}}>VIEW DATA FOR: <br></br> {state} {/*, DISTRICT {store.currentDistrict}*/}</Typography>
                         <Button variant="outlined" style={{width:'400px',fontSize:'25pt',borderColor:'white',fontSize:'large',marginRight:'5%',color:'white'}}>
                             {menuText}
                             <ArrowDropDownIcon onClick={handleMenu} style={{display:'inline-block',fontSize:'15pt'}}></ArrowDropDownIcon>

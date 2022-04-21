@@ -64,28 +64,15 @@ function DistMap(props) {
     }
     const updateStoreMap=(map)=>{
         store.updateMap(map);
-        console.log(store.map);
     }
-    const openSidePanel=(state, dist)=>{
-        store.loadSidePanel(state,dist);
-    }
-    const closeSidePanel=()=>{
-        store.closeSidePanel();
+    const openSidePanel=()=>{
+        store.loadSidePanel();
     }
     const toggleDistHover=(bool)=>{
         setDistHover(bool);
     }
     const setDistrict=(id)=>{
         setDistHoverNum(id);
-    }
-    const setStoreCurrentState=(str)=>{
-        store.setCurrentState(str);
-    }
-    const setState=(state)=>{
-        store.setCurrentState(state);
-    }
-    const setDist=(dist)=>{
-        store.setCurrentDist(dist);
     }
     const setHoveredDistrict2 = data => {
         hoveredDistrictRef.current = data;
@@ -96,29 +83,23 @@ function DistMap(props) {
         setStateHover(true);
         setHoveredState1(data);
     }
-    const showVotes=(demVotes, repVotes)=>{
-        setDemVotes(demVotes);
-        setRepVotes(repVotes);
-    }
-
-    const setHover = data => {
-        setStateHover(data);
-    }
 
     //The id will be in the form of a 2 character string, namely "TN", "MS", or "NC." The STATE_ID constant maps the character codes to the string,
     //and the direct constants TN, MS and NC refer to enums that match those on the server side (since the function to getById from the database must be an int).
-    const clickState = id => {
+    const clickState = (id) => {
         setStateClicked(true);
         setClickedState(id);
         store.setCurrentState(id);
-        switch(id){
-            case STATE_ID.TN:
-                StateController.getState(TN);
-            case STATE_ID.MS:
-                StateController.getState(MS);
-            case STATE_ID.NC:
-                StateController.getState(NC);
-        }
+        store.loadSidePanel();
+        console.log("store.currentState in Map.js after calling setCurrentState: "+store.currentState);
+        // switch(id){
+        //     case STATE_ID.TN:
+        //         StateController.getState(TN);
+        //     case STATE_ID.MS:
+        //         StateController.getState(MS);
+        //     case STATE_ID.NC:
+        //         StateController.getState(NC);
+        // }
     }
 
     useEffect(() => {
@@ -133,7 +114,6 @@ function DistMap(props) {
             });
 
             map.on("load", function () {
-                console.log(countyVis);
 
                 setMap(map);
                 map.addSource('tn-boundary', {
@@ -594,7 +574,6 @@ function DistMap(props) {
                 });
 
                 map.on('mouseleave', 'tn-district-layer', function () {
-                    console.log(store.map);
                     if (hoveredDistrictRef.current) {
                         map.setFeatureState(
                             { source: 'tn-district-source', id: hoveredDistrictRef.current },
@@ -626,14 +605,9 @@ function DistMap(props) {
                         );
                         setHoveredState2(hoveredState1);
                     }
-                    console.log(hoveredState);
-                    console.log(hoveredStateRef);
-                    console.log(stateHover);
                 });
                 map.on('mousemove', 'ms-boundary-layer', function (e) {
                     setStateHover(true);
-                    console.log(stateHover);
-                    console.log(e.features[0].id);
                     if ((e.features.length > 0) && !stateClicked) {
                         let hoveredState1 = e.features[0].id;
                         map.setFeatureState(
@@ -641,15 +615,10 @@ function DistMap(props) {
                             { hover: true }
                         );
                         setHoveredState2(hoveredState1);
-                        setState(hoveredState1);
                     }
-                    console.log(hoveredState);
-                    console.log(hoveredStateRef);
-                    console.log(stateHover);
                 });
                 map.on('mousemove', 'nc-boundary-layer', function (e) {
                     setStateHover(true);
-                    console.log(e.features[0].id);
                     if ((e.features.length > 0) && !stateClicked) {
                         let hoveredState1 = e.features[0].id;
                         map.setFeatureState(
@@ -657,7 +626,6 @@ function DistMap(props) {
                             { hover: true }
                         );
                         setHoveredState2(hoveredState1);
-                        setState(hoveredState1);
                     }
                 });
 
@@ -733,7 +701,6 @@ function DistMap(props) {
                     });
                     map.setLayoutProperty('tn-boundary-layer', 'visibility', 'none');
                     map.setLayoutProperty('tn-district-layer', 'visibility', 'visible');
-                    openSidePanel("TN",e.features[0].properties.DISTRICT); 
                     clickState("TN");
                 });
 
@@ -752,7 +719,6 @@ function DistMap(props) {
                     });
                     map.setLayoutProperty('ms-boundary-layer', 'visibility', 'none');
                     map.setLayoutProperty('ms-district-layer', 'visibility', 'visible');
-                    openSidePanel("MS",e.features[0].properties.District); 
                     clickState("MS");
                 });
 
@@ -771,7 +737,6 @@ function DistMap(props) {
                     });
                     map.setLayoutProperty('nc-boundary-layer', 'visibility', 'none');
                     map.setLayoutProperty('nc-district-layer', 'visibility', 'visible');
-                    openSidePanel("NC",e.features[0].properties.District);  
                     clickState("NC");
                 });
 
@@ -782,7 +747,6 @@ function DistMap(props) {
                         zoom: 5.77
                     });
                     clickedDist();
-                    openSidePanel("TN",e.features[0].properties.DISTRICT);
                 });
                 map.on('click', 'ms-district-layer', function (e) {
                     console.log(store.map);
@@ -790,7 +754,7 @@ function DistMap(props) {
                         center: [-91.665, 32.780],
                         zoom: 5.83
                     });
-                    openSidePanel("MS",e.features[0].properties.District); 
+                    clickedDist();
                 });
             });
             if (!map) {

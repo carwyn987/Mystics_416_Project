@@ -71,7 +71,6 @@ export default function MapToggles(){
         precinctToggle=<ToggleOffIcon style={{color:'gainsboro'}} id='toggleoff-icon'></ToggleOffIcon>;
     }
     const handleWinChange=()=>{
-        //console.log("button clicked!!!!!!!!!");
         let truth = !isMinimized;
         setMinimized(truth);
     }

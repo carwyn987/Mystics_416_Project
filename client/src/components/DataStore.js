@@ -7,11 +7,11 @@ export const GlobalStoreActions = {
     LOAD_MAP_SETTINGS: "LOAD_MAP_SETTINGS",
     CLOSE_MAP_SETTINGS: "CLOSE_MAP_SETTINGS",
     LOAD_ELECTION_DATA: "LOAD_ELECTION_DATA",
-    SET_STATE_AND_DISTRICT: "SET_DATE_AND_DISTRICT",
+    SET_STATE_AND_DISTRICT: "SET_STATE_AND_DISTRICT",
     ZOOM_TN: "ZOOM_TN",
     ZOOM_MS: "ZOOM_MS",
     UPDATE_MAP: "UPDATE_MAP",
-    CURRENT_STATE: "CURRENT_STATE",
+    SET_CURRENT_STATE: "SET_CURRENT_STATE",
     DISTRICT_PLAN: "DISTRICT_PLAN",
     COUNTY_TOGGLE: "COUNTY_TOGGLE"
 }
@@ -36,7 +36,7 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: true,
                     isMapSettingsVisible: store.isMapSettingsVisible,
-                    currentDistrict: payload.dist,            
+                    currentDistrict: store.currentDistrict,            
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
@@ -49,7 +49,7 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: false,
                     isMapSettingsVisible: store.isMapSettingsVisible,
-                    currentDistrict: null,            
+                    currentDistrict: store.currentDistrict,            
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
@@ -129,15 +129,15 @@ function GlobalStoreContextProvider(props){
                     countyToggle: store.countyToggle
                 });
             }
-            case GlobalStoreActions.CURRENT_STATE:{
+            case GlobalStoreActions.SET_CURRENT_STATE:{
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
                     isMapSettingsVisible: store.isMapSettingsVisible,
                     currentDistrict: store.currentDistrict,
                     TNzoom: store.TNzoom,
-                    MSzoom: store.MNSzoom,
+                    MSzoom: store.MSzoom,
                     map: store.map,
-                    currentState: payload,
+                    currentState: payload.stateID,
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle
                 });
@@ -148,10 +148,10 @@ function GlobalStoreContextProvider(props){
                     isMapSettingsVisible: store.isMapSettingsVisible,
                     currentDistrict: store.currentDistrict,
                     TNzoom: store.TNzoom,
-                    MSzoom: store.MNSzoom,
+                    MSzoom: store.MSzoom,
                     map: store.map,
                     currentState: store.currentState,
-                    districtPlan: payload,
+                    districtPlan: payload.id,
                     countyToggle: store.countyToggle
                 });
             }
@@ -162,7 +162,7 @@ function GlobalStoreContextProvider(props){
                     isMapSettingsVisible: store.isMapSettingsVisible,
                     currentDistrict: store.currentDistrict,
                     TNzoom: store.TNzoom,
-                    MSzoom: store.MNSzoom,
+                    MSzoom: store.MSzoom,
                     map: store.map,
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
@@ -174,14 +174,10 @@ function GlobalStoreContextProvider(props){
         }
     }
 
-    store.loadSidePanel = function (state,dist) {
-        console.log('loading side panel');
+    store.loadSidePanel = function () {
         storeReducer({
             type: GlobalStoreActions.LOAD_SIDEPANEL,
-            payload: {
-                state: state,
-                dist: dist
-            }
+            payload:{}
         });
     }
     store.closeSidePanel = function (){
@@ -193,11 +189,13 @@ function GlobalStoreContextProvider(props){
     store.loadMapSettings = function(){
         storeReducer({
             type: GlobalStoreActions.LOAD_MAP_SETTINGS,
+            payload:{}
         })
     }
     store.closeMapSettings = function(){
         storeReducer({
             type: GlobalStoreActions.CLOSE_MAP_SETTINGS,
+            payload:{}
         })
     }
     store.zoomTN = function () {
@@ -221,10 +219,10 @@ function GlobalStoreContextProvider(props){
         });
     }
 
-    store.setCurrentState = function (st) {
+    store.setCurrentState = function (stateID) {
         storeReducer({
             type: GlobalStoreActions.CURRENT_STATE,
-            payload: st
+            payload: stateID
         });
     }
     store.setDistrictPlan = function(id){
