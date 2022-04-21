@@ -2,7 +2,6 @@ import { createContext, useContext, useState } from 'react'
 
 export const GlobalStore = createContext({});
 export const GlobalStoreActions = {
-    //    CHANGE_LIST_NAME: "CHANGE_LIST_NAME",
     LOAD_SIDEPANEL: "LOAD_SIDEPANEL",
     CLOSE_SIDEPANEL: "CLOSE_SIDEPANEL",
     LOAD_MAP_SETTINGS: "LOAD_MAP_SETTINGS",
@@ -12,11 +11,9 @@ export const GlobalStoreActions = {
     ZOOM_TN: "ZOOM_TN",
     ZOOM_MS: "ZOOM_MS",
     UPDATE_MAP: "UPDATE_MAP",
-    STATE_FOCUS: "STATE_FOCUS",
+    CURRENT_STATE: "CURRENT_STATE",
     DISTRICT_PLAN: "DISTRICT_PLAN",
     COUNTY_TOGGLE: "COUNTY_TOGGLE"
-    // DISTRICT_MOUSE_HOVER: "DISTRICT_MOUSE_HOVER",
-    // DISTRICT_HOVER_NUM: "DISTRICT_HOVER_NUM"
 }
 
 function GlobalStoreContextProvider(props){
@@ -27,11 +24,9 @@ function GlobalStoreContextProvider(props){
         TNzoom: false,
         MSzoom: false,
         map: null,
-        stateFocus: null,
+        currentState: null,
         districtPlan: 0,
         countyToggle: false
-        // isDistMouseHoverVisible: false,
-        // distHoverNum: 0
     });
 
     const storeReducer = (action) => {
@@ -45,7 +40,7 @@ function GlobalStoreContextProvider(props){
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
-                    stateFocus: store.stateFocus,
+                    currentState: store.currentState,
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle
                 });
@@ -58,7 +53,7 @@ function GlobalStoreContextProvider(props){
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
-                    stateFocus: store.stateFocus,
+                    currentState: store.currentState,
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle
                 });
@@ -71,7 +66,7 @@ function GlobalStoreContextProvider(props){
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
-                    stateFocus: store.stateFocus,
+                    currentState: store.currentState,
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle
                 })
@@ -84,7 +79,7 @@ function GlobalStoreContextProvider(props){
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
-                    stateFocus: store.stateFocus,
+                    currentState: store.currentState,
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle
                 })
@@ -103,7 +98,7 @@ function GlobalStoreContextProvider(props){
                     TNzoom: !this.TNzoom,
                     MSzoom: store.MSzoom,
                     map: store.map,
-                    stateFocus: store.stateFocus,
+                    currentState: store.currentState,
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle
                 });
@@ -116,7 +111,7 @@ function GlobalStoreContextProvider(props){
                     TNzoom: store.TNzoom,
                     MSzoom: !this.MSzoom,
                     map: store.map,
-                    stateFocus: store.stateFocus,
+                    currentState: store.currentState,
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle
                 });
@@ -129,12 +124,12 @@ function GlobalStoreContextProvider(props){
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
                     map: payload,
-                    stateFocus: store.stateFocus,
+                    currentState: store.currentState,
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle
                 });
             }
-            case GlobalStoreActions.STATE_FOCUS:{
+            case GlobalStoreActions.CURRENT_STATE:{
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
                     isMapSettingsVisible: store.isMapSettingsVisible,
@@ -142,7 +137,7 @@ function GlobalStoreContextProvider(props){
                     TNzoom: store.TNzoom,
                     MSzoom: store.MNSzoom,
                     map: store.map,
-                    stateFocus: payload,
+                    currentState: payload,
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle
                 });
@@ -155,7 +150,7 @@ function GlobalStoreContextProvider(props){
                     TNzoom: store.TNzoom,
                     MSzoom: store.MNSzoom,
                     map: store.map,
-                    stateFocus: store.stateFocus,
+                    currentState: store.currentState,
                     districtPlan: payload,
                     countyToggle: store.countyToggle
                 });
@@ -169,7 +164,7 @@ function GlobalStoreContextProvider(props){
                     TNzoom: store.TNzoom,
                     MSzoom: store.MNSzoom,
                     map: store.map,
-                    stateFocus: store.stateFocus,
+                    currentState: store.currentState,
                     districtPlan: store.districtPlan,
                     countyToggle: !store.countyToggle
                 });
@@ -226,9 +221,9 @@ function GlobalStoreContextProvider(props){
         });
     }
 
-    store.setStateFocus = function (st) {
+    store.setCurrentState = function (st) {
         storeReducer({
-            type: GlobalStoreActions.STATE_FOCUS,
+            type: GlobalStoreActions.CURRENT_STATE,
             payload: st
         });
     }
