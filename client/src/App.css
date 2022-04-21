@@ -97,4 +97,12 @@
   color: #000000!important
 }
 
+.apexcharts-legend-text {
+  color: rgb(255,255,255)!important;
+}
+
+.xaxis.labels.style.colors {
+  color: rgb(255,255,255)!important;
+}
+
 
