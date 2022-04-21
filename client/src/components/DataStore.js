@@ -23,7 +23,6 @@ function GlobalStoreContextProvider(props){
     const [store, setStore] = useState({
         isSidePanelVisible: false,
         isMapSettingsVisible: false,
-        currentState: null,
         currentDistrict: null,
         TNzoom: false,
         MSzoom: false,
@@ -42,7 +41,6 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: true,
                     isMapSettingsVisible: store.isMapSettingsVisible,
-                    currentState: payload.state,
                     currentDistrict: payload.dist,            
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
@@ -56,7 +54,6 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: false,
                     isMapSettingsVisible: store.isMapSettingsVisible,
-                    currentState: null,
                     currentDistrict: null,            
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
@@ -70,7 +67,6 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
                     isMapSettingsVisible: true,
-                    currentState: store.currentState,
                     currentDistrict: store.currentDistrict,            
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
@@ -84,7 +80,6 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
                     isMapSettingsVisible: false,
-                    currentState: store.currentState,
                     currentDistrict: store.currentDistrict,            
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
@@ -104,7 +99,6 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
                     isMapSettingsVisible: store.isMapSettingsVisible,
-                    currentState: null,
                     currentDistrict: null,
                     TNzoom: !this.TNzoom,
                     MSzoom: store.MSzoom,
@@ -118,7 +112,6 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
                     isMapSettingsVisible: store.isMapSettingsVisible,
-                    currentState: null,
                     currentDistrict: null,
                     TNzoom: store.TNzoom,
                     MSzoom: !this.MSzoom,
@@ -132,7 +125,6 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
                     isMapSettingsVisible: store.isMapSettingsVisible,
-                    currentState: store.currentState,
                     currentDistrict: store.currentDistrict,
                     TNzoom: store.TNzoom,
                     MSzoom: store.MSzoom,
@@ -146,7 +138,6 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
                     isMapSettingsVisible: store.isMapSettingsVisible,
-                    currentState: store.currentState,
                     currentDistrict: store.currentDistrict,
                     TNzoom: store.TNzoom,
                     MSzoom: store.MNSzoom,
@@ -160,7 +151,6 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
                     isMapSettingsVisible: store.isMapSettingsVisible,
-                    currentState: store.currentState,
                     currentDistrict: store.currentDistrict,
                     TNzoom: store.TNzoom,
                     MSzoom: store.MNSzoom,
@@ -175,7 +165,6 @@ function GlobalStoreContextProvider(props){
                 return setStore({
                     isSidePanelVisible: store.isSidePanelVisible,
                     isMapSettingsVisible: store.isMapSettingsVisible,
-                    currentState: store.currentState,
                     currentDistrict: store.currentDistrict,
                     TNzoom: store.TNzoom,
                     MSzoom: store.MNSzoom,

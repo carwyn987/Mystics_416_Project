@@ -4,6 +4,7 @@ import mapboxgl from 'mapbox-gl';
 import { GlobalStore } from './DataStore';
 import MouseTooltip from 'react-sticky-mouse-tooltip';
 import SidePanel from './SidePanel';
+import API from './API';
 
 var tnDistricts = require('../district-data/TN/tnDistricts.geojson');
 var msDistricts = require('../district-data/MS/msDistricts.geojson');
@@ -117,6 +118,7 @@ function DistMap(props) {
         setStateClicked(true);
         setClickedState(id);
         store.setStateFocus(id);
+        API.getState("TN");
     }
 
     useEffect(() => {
@@ -755,7 +757,7 @@ function DistMap(props) {
                     });
                     map.setLayoutProperty('tn-boundary-layer', 'visibility', 'none');
                     map.setLayoutProperty('tn-district-layer', 'visibility', 'visible');
-                    clickState("Tennessee");
+                    clickState("TN");
                     openSidePanel("TN",e.features[0].properties.DISTRICT);  //Open the SidePanel, recording the state & district that were clicked on the map.
                 });
 
@@ -774,8 +776,8 @@ function DistMap(props) {
                     });
                     map.setLayoutProperty('ms-boundary-layer', 'visibility', 'none');
                     map.setLayoutProperty('ms-district-layer', 'visibility', 'visible');
-                    clickState("Mississippi");
-                    openSidePanel("MI",e.features[0].properties.District);  //Open the SidePanel, recording the state & district that were clicked on the map.
+                    clickState("MS");
+                    openSidePanel("MS",e.features[0].properties.District);  //Open the SidePanel, recording the state & district that were clicked on the map.
                 });
 
                 map.on('click', 'nc-boundary-layer', function (e) {
@@ -794,7 +796,7 @@ function DistMap(props) {
                     //5.6135.480,-79.121
                     map.setLayoutProperty('nc-boundary-layer', 'visibility', 'none');
                     map.setLayoutProperty('nc-district-layer', 'visibility', 'visible');
-                    clickState("North Carolina");
+                    clickState("NC");
                     openSidePanel("NC",e.features[0].properties.District);  //Open the SidePanel, recording the state & district that were clicked on the map.
                 });
 

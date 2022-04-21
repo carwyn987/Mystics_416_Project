@@ -141,7 +141,7 @@ export default function MapSettings(){
         displayToggle=true;
     
     planViewTitle = "View available plans for ";
-    switch(store.currentState){
+    switch(store.stateFocus){
         case "TN":
             state="Tennessee";
             distPlans=tnDistPlans;
@@ -159,7 +159,6 @@ export default function MapSettings(){
             planViewTitle="Choose a state to view available district plans.";
             break;
     }
-
 
     return(
         <div class="animate__animated animate__fadeInRightBig" id='map-settings' style={{display: displayToggle ? 'inline-block': 'none'}}>
