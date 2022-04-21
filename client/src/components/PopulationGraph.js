@@ -167,7 +167,7 @@ export function PopulationGraph() {
                 data: [4715, 3740, 9375, 8235]
               }];
         }
-        else if (state === "NC Carolina") {
+        else if (state === "NC") {
             return [{
                 name: 'White',
                 data: [317905, 564180, 509160, 472050, 447045, 503540, 547315, 470840, 367140, 586180, 654930, 238440, 495445, 350000]
@@ -195,7 +195,7 @@ export function PopulationGraph() {
         else if (state === "MS") {
             return ["District 1", "District 2", "District 3", "District 4"];
         }
-        else if (state === "NC Carolina") {
+        else if (state === "NC") {
             return ["District 1", "District 2", "District 3", "District 4", "District 5", "District 6", "District 7", "District 8", "District 9", "District 10", "District 11", "District 12", "District 13", "District 14"];
         }
     };
