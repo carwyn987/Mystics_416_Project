@@ -20,35 +20,67 @@ export default function MapSettings(){
     const [isPrecinctToggleSet, setPrecinctToggle] = React.useState(false);
     const [menuChoice, setMenuChoice] = React.useState("");
     const [availablePlans, setAvailablePlans] = React.useState(null);
-    let countyToggle, precinctToggle, displayToggle, state, distPlans, plans;
+    const [currentPlan, setCurrentPlan] = React.useState(null);
+    let countyToggle, precinctToggle, displayToggle, state, distPlans, planString, planViewTitle;
     
-    const PLAN_TYPE={
-        ENACTED:1,
-        PROPOSED:2,
-        OLD:3,
-        DEM:4,
-        REP:5
+    const PLAN_NAME={
+        ENACTED: "Enacted Plan",
+        PROPOSED: "Proposed Plan",
+        OLD: "Previous Plan (2012-2020)",
+        DEM: "Proposed Plan from Democratic Party",
+        REP: "Proposed Plan from Republican Party"
     }
+    const ENACTED = 0
+    const PROPOSED = 1
+    const OLD = 2
+    const DEM = 3
+    const REP = 4
+    
 
-    const setPlan = (p) => {
-        console.log(p);
-        store.setDistrictPlan(PLAN_TYPE[p]);
+    // const setPlan = (p) => {
+    //     console.log(p);
+    //     store.setDistrictPlan(PLAN_NAME[p]);
+    // }
+
+    const handlePlanClick = (e) => {
+        if(e.target.textContent==PLAN_NAME.ENACTED){
+            store.setDistrictPlan(ENACTED);
+            planString = PLAN_NAME.ENACTED;
+        }
+        else if (e.target.textContent==PLAN_NAME.PROPOSED) {
+            store.setDistrictPlan(PROPOSED);
+            planString = PLAN_NAME.PROPOSED;
+        }
+        else if (e.target.textContent==PLAN_NAME.OLD) {
+            store.setDistrictPlan(OLD);
+            planString = PLAN_NAME.OLD;
+        }
+        else if (e.target.textContent==PLAN_NAME.DEM) {
+            store.setDistrictPlan(DEM);
+            planString = PLAN_NAME.DEM;
+        }
+        else if(e.target.textContent==PLAN_NAME.REP){
+            store.setDistrictPlan(REP);
+            planString = PLAN_NAME.REP;
+        }
+        console.log(store.districtPlan);
     }
 
     let tnDistPlans=<div>
-                        <MenuItem>Enacted Plan</MenuItem>
-                        <MenuItem>Previous Plan (2012-2020)</MenuItem> 
+                        <MenuItem onClick={handlePlanClick}>Enacted Plan</MenuItem>
+                        <MenuItem onClick={handlePlanClick}>Previous Plan (2012-2020)</MenuItem> 
                     </div>;
     let miDistPlans=<div>
-                        <MenuItem>Enacted Plan</MenuItem>
-                        <MenuItem>Proposed by Democratic Party</MenuItem>
-                        <MenuItem>Previous Plan (2012-2020)</MenuItem>
+                        <MenuItem onClick={handlePlanClick}>Enacted Plan</MenuItem>
+                        <MenuItem onClick={handlePlanClick}>Proposed by Democratic Party</MenuItem>
+                        <MenuItem onClick={handlePlanClick}>Previous Plan (2012-2020)</MenuItem>
                     </div>;
     let ncDistPlans=<div>
-                        <MenuItem>Enacted Plan</MenuItem>
-                        <MenuItem>Proposed</MenuItem>
-                        <MenuItem>Previous Plan (2012-2020)</MenuItem>
+                        <MenuItem onClick={handlePlanClick}>Enacted Plan</MenuItem>
+                        <MenuItem onClick={handlePlanClick}>Proposed</MenuItem>
+                        <MenuItem onClick={handlePlanClick}>Previous Plan (2012-2020)</MenuItem>
                     </div>;
+   
     const handleCountyClick=()=>{
         let current = !isCountyToggleSet;
         setCountyToggle(current);
@@ -87,21 +119,7 @@ export default function MapSettings(){
     const handleMenuClose = (event) =>{
         setAnchorEl(null);
     }
-    const availPlans=(plans)=>{
-        setAvailablePlans(plans);
-    }
-    const handlePlanClick = (e) => {
-        console.log(e.target.textContent);
-        if (e.target.textContent.includes("Proposed")) {
-            store.setDistrictPlan(PLAN_TYPE.PROPOSED);
-        }
-        else if (e.target.textContent.includes("Enacted")) {
-            store.setDistrictPlan(PLAN_TYPE.ENACTED);
-        }
-        else if (e.target.textContent.includes("Previous")) {
-            store.setDistrictPlan(PLAN_TYPE.OLD);
-        }
-    }
+
     // const setPlan=(planID)=>{
     //     store.setDistrictPlan(planID);
     // }
@@ -118,35 +136,30 @@ export default function MapSettings(){
     else{
         precinctToggle=<ToggleOffIcon style={{color:'gainsboro'}} id='toggleoff-icon'></ToggleOffIcon>;
     }
-    if(store.stateFocus){
-        let theState=store.stateFocus
-        switch(theState){
-            case "Tennessee":
-                distPlans=tnDistPlans;
-                break;
-            case "Mississippi":
-                distPlans = miDistPlans;
-                break;
-            case "North Carolina":
-                distPlans = ncDistPlans; 
-                break;
-        }
-    }
 
     if(store.isMapSettingsVisible)
         displayToggle=true;
     
-    if(store.stateFocus === "TN"){
-        state="Tennessee";
-    }
-    else if(store.stateFocus === "MI"){
-        state="Mississippi";
-    }
-    else if(store.stateFocus === "NC"){
-        state="North Carolina";
+    planViewTitle = "View available plans for ";
+    switch(store.currentState){
+        case "TN":
+            state="Tennessee";
+            distPlans=tnDistPlans;
+            break;
+        case "MI":
+            state="Mississippi";
+            distPlans=miDistPlans;
+            break;
+        case "NC":
+            state="North Carolina";
+            distPlans=ncDistPlans;
+            break;
+        default:
+            state="";
+            planViewTitle="Choose a state to view available district plans.";
+            break;
     }
 
-    
 
     return(
         <div class="animate__animated animate__fadeInRightBig" id='map-settings' style={{display: displayToggle ? 'inline-block': 'none'}}>
@@ -155,7 +168,7 @@ export default function MapSettings(){
                 <CloseIcon onClick = {handleClose}style={{display: 'inline-block', float:'right'}}></CloseIcon>
             </div>
             <Box id='settings-block'>
-                <Typography style={{fontSize:'12pt',fontWeight:'bold'}}> Choose Boundary Definitions<br></br></Typography>
+                <Typography style={{fontSize:'12pt'}}> Choose Boundary Definitions<br></br></Typography>
                 <div>
                     <br></br>
                     {/* <div className= "toggle-row" onClick={handleCongClick}>
@@ -171,9 +184,8 @@ export default function MapSettings(){
             </Box>
             <br></br> 
             <Box id='settings-block'>
-                <Typography style={{fontSize:'12pt',fontWeight:'bold'}}>Choose District Plan to View for {store.stateFocus}<br></br></Typography>
-                <Typography style={{fontSize:'18pt'}}>{state}</Typography>
-                <Typography>Currrent Plan: Enacted<ArrowDropDownIcon style={{fontSize:'12pt'}}onClick={handleMenu}>Enacted Plan</ArrowDropDownIcon></Typography>
+                <Typography style={{fontSize:'12pt'}}>{planViewTitle} <Typography style={{fontWeight:'bold', fontSize: '12pt'}}>{state}</Typography><br></br></Typography>
+                <Typography>Currrent Plan: {planString}<ArrowDropDownIcon style={{fontSize:'12pt'}}onClick={handleMenu}>Enacted Plan</ArrowDropDownIcon></Typography>
                 <Menu
                     id="menu-appbar"
                     anchorEl={anchorEl}
@@ -191,7 +203,7 @@ export default function MapSettings(){
                     open={Boolean(anchorEl)}
                     onClose={handleMenuClose}
                     >
-                    <div onClick={handlePlanClick}>{distPlans}</div>
+                    <div>{distPlans}</div>
               </Menu>
             </Box>
         </div>
