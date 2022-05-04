@@ -4,7 +4,7 @@ import mapboxgl from 'mapbox-gl';
 import { GlobalStore } from './DataStore';
 import MouseTooltip from 'react-sticky-mouse-tooltip';
 import SidePanel from './SidePanel';
-import StateController from '../Controllers/StateController';
+import {getState}  from '../Controllers/StateController';
 
 var tnDistricts = require('../district-data/TN/tnDistricts.geojson');
 var msDistricts = require('../district-data/MS/msDistricts.geojson');
@@ -23,9 +23,9 @@ const STATE_ID={
     MS: "MS",
     NC: "NC"
 }
-const TN = 0
-const MS = 1
-const NC = 2
+const TN = 1
+const MS = 2
+const NC = 3
 
 function DistMap(props) {
     const { store } = useContext(GlobalStore);
@@ -91,15 +91,21 @@ function DistMap(props) {
         setClickedState(id);
         store.setCurrentState(id);
         store.loadSidePanel();
+        let response;
         console.log("store.currentState in Map.js after calling setCurrentState: "+store.currentState);
-        // switch(id){
-        //     case STATE_ID.TN:
-        //         StateController.getState(TN);
-        //     case STATE_ID.MS:
-        //         StateController.getState(MS);
-        //     case STATE_ID.NC:
-        //         StateController.getState(NC);
-        // }
+        switch(id){
+            case STATE_ID.TN:
+                response = getState(TN);
+                break;
+            case STATE_ID.MS:
+                response=getState(MS);
+                break;
+            case STATE_ID.NC:
+                response=getState(NC);
+                break;
+            default:
+                break;
+        }
     }
 
     useEffect(() => {
@@ -687,6 +693,7 @@ function DistMap(props) {
                 });
 
                 map.on('click', 'tn-boundary-layer', function (e) {
+                    clickState("TN");
                     if (map.getLayoutProperty('ms-district-layer', 'visibility') === 'visible') {
                         map.setLayoutProperty('ms-district-layer', 'visibility', 'none');
                         map.setLayoutProperty('ms-boundary-layer', 'visibility', 'visible');
@@ -701,10 +708,10 @@ function DistMap(props) {
                     });
                     map.setLayoutProperty('tn-boundary-layer', 'visibility', 'none');
                     map.setLayoutProperty('tn-district-layer', 'visibility', 'visible');
-                    clickState("TN");
                 });
 
                 map.on('click', 'ms-boundary-layer', function (e) {
+                    clickState("MS");
                     if (map.getLayoutProperty('tn-district-layer', 'visibility') === 'visible') {
                         map.setLayoutProperty('tn-district-layer', 'visibility', 'none');
                         map.setLayoutProperty('tn-boundary-layer', 'visibility', 'visible');
@@ -719,10 +726,10 @@ function DistMap(props) {
                     });
                     map.setLayoutProperty('ms-boundary-layer', 'visibility', 'none');
                     map.setLayoutProperty('ms-district-layer', 'visibility', 'visible');
-                    clickState("MS");
                 });
 
                 map.on('click', 'nc-boundary-layer', function (e) {
+                    clickState("NC");
                     if (map.getLayoutProperty('tn-district-layer', 'visibility') === 'visible') {
                         map.setLayoutProperty('tn-district-layer', 'visibility', 'none');
                         map.setLayoutProperty('tn-boundary-layer', 'visibility', 'visible');
@@ -737,11 +744,9 @@ function DistMap(props) {
                     });
                     map.setLayoutProperty('nc-boundary-layer', 'visibility', 'none');
                     map.setLayoutProperty('nc-district-layer', 'visibility', 'visible');
-                    clickState("NC");
                 });
 
                 map.on('click', 'tn-district-layer', function (e) {
-                    console.log(store.map);
                     map.flyTo({
                         center: [-88.956, 35.761],
                         zoom: 5.77
@@ -749,7 +754,6 @@ function DistMap(props) {
                     clickedDist();
                 });
                 map.on('click', 'ms-district-layer', function (e) {
-                    console.log(store.map);
                     map.flyTo({
                         center: [-91.665, 32.780],
                         zoom: 5.83

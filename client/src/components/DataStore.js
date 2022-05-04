@@ -13,7 +13,8 @@ export const GlobalStoreActions = {
     UPDATE_MAP: "UPDATE_MAP",
     SET_CURRENT_STATE: "SET_CURRENT_STATE",
     DISTRICT_PLAN: "DISTRICT_PLAN",
-    COUNTY_TOGGLE: "COUNTY_TOGGLE"
+    COUNTY_TOGGLE: "COUNTY_TOGGLE",
+    STATE_POP: "STATE_POP"
 }
 
 function GlobalStoreContextProvider(props){
@@ -26,7 +27,8 @@ function GlobalStoreContextProvider(props){
         map: null,
         currentState: null,
         districtPlan: 0,
-        countyToggle: false
+        countyToggle: false,
+        statePop: 0
     });
 
     const storeReducer = (action) => {
@@ -42,7 +44,8 @@ function GlobalStoreContextProvider(props){
                     map: store.map,
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
-                    countyToggle: store.countyToggle
+                    countyToggle: store.countyToggle,
+                    statePop: store.statePop
                 });
             }
             case GlobalStoreActions.CLOSE_SIDEPANEL:{
@@ -55,7 +58,8 @@ function GlobalStoreContextProvider(props){
                     map: store.map,
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
-                    countyToggle: store.countyToggle
+                    countyToggle: store.countyToggle,
+                    statePop: store.statePop
                 });
             }
             case GlobalStoreActions.LOAD_MAP_SETTINGS:{
@@ -68,7 +72,8 @@ function GlobalStoreContextProvider(props){
                     map: store.map,
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
-                    countyToggle: store.countyToggle
+                    countyToggle: store.countyToggle,
+                    statePop: store.statePop
                 })
             }
             case GlobalStoreActions.CLOSE_MAP_SETTINGS:{
@@ -81,7 +86,8 @@ function GlobalStoreContextProvider(props){
                     map: store.map,
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
-                    countyToggle: store.countyToggle
+                    countyToggle: store.countyToggle,
+                    statePop: store.statePop
                 })
             }
             case GlobalStoreActions.LOAD_ELECTION_DATA:{
@@ -100,7 +106,8 @@ function GlobalStoreContextProvider(props){
                     map: store.map,
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
-                    countyToggle: store.countyToggle
+                    countyToggle: store.countyToggle,
+                    statePop: store.statePop
                 });
             }
             case GlobalStoreActions.ZOOM_MS:{
@@ -113,7 +120,8 @@ function GlobalStoreContextProvider(props){
                     map: store.map,
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
-                    countyToggle: store.countyToggle
+                    countyToggle: store.countyToggle,
+                    statePop: store.statePop
                 });
             }
             case GlobalStoreActions.UPDATE_MAP:{
@@ -126,7 +134,8 @@ function GlobalStoreContextProvider(props){
                     map: payload,
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
-                    countyToggle: store.countyToggle
+                    countyToggle: store.countyToggle,
+                    statePop: store.statePop
                 });
             }
             case GlobalStoreActions.SET_CURRENT_STATE:{
@@ -139,7 +148,8 @@ function GlobalStoreContextProvider(props){
                     map: store.map,
                     currentState: payload,
                     districtPlan: store.districtPlan,
-                    countyToggle: store.countyToggle
+                    countyToggle: store.countyToggle,
+                    statePop: store.statePop
                 });
             }
             case GlobalStoreActions.DISTRICT_PLAN:{
@@ -151,8 +161,9 @@ function GlobalStoreContextProvider(props){
                     MSzoom: store.MSzoom,
                     map: store.map,
                     currentState: store.currentState,
-                    districtPlan: payload.id,
-                    countyToggle: store.countyToggle
+                    districtPlan: payload,
+                    countyToggle: store.countyToggle,
+                    statePop: store.statePop
                 });
             }
 
@@ -166,8 +177,23 @@ function GlobalStoreContextProvider(props){
                     map: store.map,
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
-                    countyToggle: !store.countyToggle
+                    countyToggle: !store.countyToggle,
+                    statePop: store.statePop
                 });
+            }
+            case GlobalStoreActions.STATE_POP:{
+                return setStore({
+                    isSidePanelVisible: store.isSidePanelVisible,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
+                    currentDistrict: store.currentDistrict,
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MSzoom,
+                    map: store.map,
+                    currentState: store.currentState,
+                    districtPlan: store.districtPlan,
+                    countyToggle: !store.countyToggle,
+                    statePop: payload
+                })
             }
             default:
                 return store;
@@ -224,7 +250,6 @@ function GlobalStoreContextProvider(props){
             type: GlobalStoreActions.SET_CURRENT_STATE,
             payload: stateID
         });
-        console.log("setCurrent state in store: "+store.currentState);
     }
     store.setDistrictPlan = function(id){
         storeReducer({
@@ -239,7 +264,13 @@ function GlobalStoreContextProvider(props){
             payload: {}
         });
     }
-    
+    store.statePop=function(httpResponse){
+        let pop = httpResponse.population;
+        storeReducer({
+            type: GlobalStoreActions.STATE_POP,
+            payload: {pop}
+        })
+    }
     return (
         <GlobalStore.Provider value={{ store }}>
             {props.children}

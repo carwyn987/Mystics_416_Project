@@ -29,13 +29,10 @@ export default function SidePanel(){
     const [popDataVisible, setPopDataVisible] = React.useState(false);
     const graph = null;
     let isVisible = false, expandIcon = null, panel = null, demVotes = 0, repubVotes = 0, stateName;
-;
+
     if(store.currentState){
-        console.log(store.currentState);
+        console.log("currentState in sdepanel: "+store.currentState);
         stateName=store.currentState;
-    //     console.log("store.currentState: SidePanel.js "+ store.currentState)
-    //     state = store.currentState;
-    //     currentPlan = store.districtPlan;
     }
    
     const handleMenu = (event) => {
