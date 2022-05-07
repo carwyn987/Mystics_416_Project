@@ -19,7 +19,7 @@ import PopulationGraph from './PopulationGraph.js';
 
 
 export default function SidePanel(){
-    const  { store } = useContext(GlobalStore);
+    let  { store } = useContext(GlobalStore);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [isMinimized, setIsMinimized] = React.useState(false);
     const [isMaximized, setIsMaximized] = React.useState(false);
@@ -27,12 +27,27 @@ export default function SidePanel(){
     const [electionDataVisible, setElectionDataVisible] = React.useState(false);
     const [planCompareVisible, setPlanCompareVisible] = React.useState(false);
     const [popDataVisible, setPopDataVisible] = React.useState(false);
+    //const [sidePanelVisible, setPanelVis] = React.useState(false);
     const graph = null;
-    let isVisible = false, expandIcon = null, panel = null, demVotes = 0, repubVotes = 0, stateName;
+    let sidePanelVisible = false, expandIcon = null, panel = null, demVotes = 0, repubVotes = 0, stateName;
 
     if(store.currentState){
+        sidePanelVisible = true;
         console.log("currentState in sdepanel: "+store.currentState);
         stateName=store.currentState;
+        switch(stateName) {
+            case "TN":
+                stateName = "Tennessee";
+                break;
+            case "MS":
+                stateName = "Mississippi";
+                break;
+            case "NC":
+                stateName = "North Carolina";
+                break;
+            default:
+                break;
+        }
     }
    
     const handleMenu = (event) => {
@@ -128,12 +143,12 @@ export default function SidePanel(){
         setAnchorEl(null);
     };
 
-    if(store.isSidePanelVisible){
-        isVisible=true;
-    }
-    else{
-        isVisible=false;
-    }
+    // if(store.isSidePanelVisible){
+    //     isVisible=true;
+    // }
+    // else{
+    //     isVisible=false;
+    // }
     if(!isMaximized)
         expandIcon=<OpenInFullIcon onClick={toggleMaximize}style={{fontSize:'20pt'}}></OpenInFullIcon>;
     let insidePanel=
@@ -191,7 +206,7 @@ export default function SidePanel(){
     }
     
    return(
-        <div class='sidePanel' style={{display: isVisible ? 'block' : 'none'}}>
+        <div class='sidePanel' style={{display: sidePanelVisible ? 'block' : 'none'}}>
                 {panel}
         </div>
     );

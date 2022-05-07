@@ -28,7 +28,7 @@ const MS = 2
 const NC = 3
 
 function DistMap(props) {
-    const { store } = useContext(GlobalStore);
+    let { store } = useContext(GlobalStore);
     const [map, setMap] = useState(null);
     const mapContainer = useRef(null);
     const [hoveredDistrict, setHoveredDistrict1] = useState(null);
@@ -84,13 +84,21 @@ function DistMap(props) {
         setHoveredState1(data);
     }
 
+    const setStoreState = (id) => {
+        store.setCurrentState(id);
+    }
+
     //The id will be in the form of a 2 character string, namely "TN", "MS", or "NC." The STATE_ID constant maps the character codes to the string,
     //and the direct constants TN, MS and NC refer to enums that match those on the server side (since the function to getById from the database must be an int).
     const clickState = (id) => {
         setStateClicked(true);
         setClickedState(id);
-        store.setCurrentState(id);
+        //store.setCurrentState(id);
         store.loadSidePanel();
+        store.setCurrentState(id);
+        //store.loadSidePanel();
+        //setStoreState(id);
+        //store.loadSidePanel();
         let response;
         console.log("store.currentState in Map.js after calling setCurrentState: "+store.currentState);
         switch(id){
@@ -226,7 +234,7 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'tn-district-source',
                     'layout': {
-                        'visibility': store.currentState === 'Tennessee' ? (store.districtPlan === 1 ? 'visible' : 'none') : 'none'
+                        'visibility': store.currentState === 'TN' ? (store.districtPlan === 1 ? 'visible' : 'none') : 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',

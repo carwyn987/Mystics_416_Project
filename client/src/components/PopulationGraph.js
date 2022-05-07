@@ -7,7 +7,7 @@ import ReactApexChart from 'react-apexcharts';
 import '../App.css';
 
 export function PopulationGraph(props) {
-    const { store } = useContext(GlobalStore);
+    let { store } = useContext(GlobalStore);
     let graph;
     const tnPopData = 
     [{
@@ -184,7 +184,7 @@ export function PopulationGraph(props) {
             case "TN":
                 graph = tnGraph;
                 break;
-            case "MI":
+            case "MS":
                 graph = msGraph;
                 break;
             case "NC":

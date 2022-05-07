@@ -14,7 +14,8 @@ export const GlobalStoreActions = {
     SET_CURRENT_STATE: "SET_CURRENT_STATE",
     DISTRICT_PLAN: "DISTRICT_PLAN",
     COUNTY_TOGGLE: "COUNTY_TOGGLE",
-    STATE_POP: "STATE_POP"
+    STATE_POP: "STATE_POP",
+    PANEL_VIS: "PANEL_VIS"
 }
 
 function GlobalStoreContextProvider(props){
@@ -74,7 +75,7 @@ function GlobalStoreContextProvider(props){
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle,
                     statePop: store.statePop
-                })
+                });
             }
             case GlobalStoreActions.CLOSE_MAP_SETTINGS:{
                 return setStore({
@@ -88,13 +89,21 @@ function GlobalStoreContextProvider(props){
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle,
                     statePop: store.statePop
-                })
+                });
             }
             case GlobalStoreActions.LOAD_ELECTION_DATA:{
                 return setStore({
                     isSidePanelVisible: true,
-                    countyToggle: store.countyToggle
-                })
+                    countyToggle: store.countyToggle,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
+                    currentDistrict: null,
+                    TNzoom: !this.TNzoom,
+                    MSzoom: store.MSzoom,
+                    map: store.map,
+                    currentState: store.currentState,
+                    districtPlan: store.districtPlan,
+                    statePop: store.statePop
+                });
             }
             case GlobalStoreActions.ZOOM_TN:{
                 return setStore({
@@ -193,7 +202,21 @@ function GlobalStoreContextProvider(props){
                     districtPlan: store.districtPlan,
                     countyToggle: !store.countyToggle,
                     statePop: payload
-                })
+                });
+            }
+            case GlobalStoreActions.PANEL_VIS:{
+                return setStore({
+                    isSidePanelVisible: payload,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
+                    currentDistrict: store.currentDistrict,
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MSzoom,
+                    map: store.map,
+                    currentState: store.currentState,
+                    districtPlan: store.districtPlan,
+                    countyToggle: !store.countyToggle,
+                    statePop: store.statePop
+                });
             }
             default:
                 return store;
@@ -206,70 +229,76 @@ function GlobalStoreContextProvider(props){
             payload:{}
         });
     }
-    store.closeSidePanel = function (){
+    store.closeSidePanel = async function (){
         storeReducer({
             type: GlobalStoreActions.CLOSE_SIDEPANEL,
             payload:{}
         });
     }
-    store.loadMapSettings = function(){
+    store.loadMapSettings = async function(){
         storeReducer({
             type: GlobalStoreActions.LOAD_MAP_SETTINGS,
             payload:{}
-        })
+        });
     }
-    store.closeMapSettings = function(){
+    store.closeMapSettings = async function(){
         storeReducer({
             type: GlobalStoreActions.CLOSE_MAP_SETTINGS,
             payload:{}
-        })
+        });
     }
-    store.zoomTN = function () {
+    store.zoomTN = async function () {
         storeReducer({
             type: GlobalStoreActions.ZOOM_TN,
             payload: {}
         });
     }
 
-    store.updateMap = function (mapInput) {
+    store.updateMap = async function (mapInput) {
         storeReducer({
             type: GlobalStoreActions.UPDATE_MAP,
             payload: mapInput
         });
     }
 
-    store.zoomMS = function () {
+    store.zoomMS = async function () {
         storeReducer({
             type: GlobalStoreActions.ZOOM_MS,
             payload: {}
         });
     }
 
-    store.setCurrentState = function (stateID) {
+    store.setCurrentState = async function (stateID) {
         storeReducer({
             type: GlobalStoreActions.SET_CURRENT_STATE,
             payload: stateID
         });
     }
-    store.setDistrictPlan = function(id){
+    store.setDistrictPlan = async function(id){
         storeReducer({
             type: GlobalStoreActions.DISTRICT_PLAN,
             payload: id
         });
     }
 
-    store.toggleCounty = function () {
+    store.toggleCounty = async function () {
         storeReducer({
             type: GlobalStoreActions.COUNTY_TOGGLE,
             payload: {}
         });
     }
-    store.statePop=function(httpResponse){
+    store.statePop= async function(httpResponse){
         let pop = httpResponse.population;
         storeReducer({
             type: GlobalStoreActions.STATE_POP,
             payload: {pop}
-        })
+        });
+    }
+    store.setSidePanelVis = async function (bool) {
+        storeReducer({
+            type: GlobalStoreActions.PANEL_VIS,
+            payload: {bool}
+        });
     }
     return (
         <GlobalStore.Provider value={{ store }}>

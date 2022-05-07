@@ -27,7 +27,7 @@ export default function AppToolbar() {
       center: [-88.956, 35.761],
       zoom: 5.77
     });
-    store.loadSidePanel();
+    store.setCurrentState("TN");
     handleClose();
   };
 
@@ -36,7 +36,15 @@ export default function AppToolbar() {
       center: [-91.665, 32.780],
       zoom: 5.83
     });
-    store.loadSidePanel();
+    store.setCurrentState("MS");
+    handleClose();
+  };
+  const handleNcClick = () => {
+    store.map.flyTo({
+      center: [-82.121, 35.480],
+      zoom: 5.61
+    });
+    store.setCurrentState("NC");
     handleClose();
   };
   const toggleSettings = () =>{
@@ -75,6 +83,7 @@ export default function AppToolbar() {
               >
                 <MenuItem onClick={handleTnClick}>Tennessee</MenuItem>
                 <MenuItem onClick={handleMsClick}>Mississippi</MenuItem>
+                <MenuItem onClick={handleNcClick}>North Carolina</MenuItem>
               </Menu>
             </div>
           )}
