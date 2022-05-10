@@ -8,7 +8,7 @@ import PopulationGraph from './PopulationGraph.js';
 export default function PopulationData(props){
     return(
          <div class="population-data">
-            <img src={props.state === 1 ? tnTable : msTable } style={{width:'70%', height:'33%', display: props.visibility2 ? 'block' : 'none', margin:'auto'}}></img>
+            <img src={props.state === 1 ? tnTable : msTable } style={{width:'1000%', height:'33%', display: props.visibility2 ? 'block' : 'none', margin:'auto'}}></img>
             <img src={props.state === 1 ? tnDemo : msDemo} style={{width:'80%', height:'33%',display: props.visibility2 ? 'block' : 'none', margin:'auto'}}></img>
         </div>
     );

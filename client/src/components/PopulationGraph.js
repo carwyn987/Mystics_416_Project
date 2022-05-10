@@ -198,7 +198,7 @@ export function PopulationGraph(props) {
     if (graph) {
         return (
             <div id="pop-chart">
-                <ReactApexChart id="bar-chart" options={graph.options} series={graph.series} type="bar" height={350} />
+                <ReactApexChart id="bar-chart" options={graph.options} series={graph.series} type="bar" height={'150%'} />
             </div>
         );
     }

@@ -159,7 +159,7 @@ export default function SidePanel(){
                         <CottageIcon  style={{fontSize:'15pt'}}></CottageIcon>
                     </div>         
                     <div onClick={handleMenu}>
-                    <Typography style={{fontSize:'x-large',marginTop:'8%',marginRight:'17%',marginBottom:'5%',display:'inline-block'}}>VIEW DATA FOR: <br></br> {stateName}</Typography>
+                    <Typography style={{fontSize:'x-large',marginTop:'8%',marginRight:'17%',marginBottom:'5%',display:'inline-block'}}>Viewing data for <br></br> <Typography style={{fontWeight:'bold',fontSize:'35px'}}>{stateName}</Typography></Typography>
                         <Button variant="outlined" style={{width:'400px',fontSize:'25pt',borderColor:'white',fontSize:'large',marginRight:'5%',color:'white'}}>
                             {menuText}
                             <ArrowDropDownIcon onClick={handleMenu} style={{display:'inline-block',fontSize:'15pt'}}></ArrowDropDownIcon>
@@ -186,21 +186,21 @@ export default function SidePanel(){
     
     if(isMaximized){
         panel=
-                <div style={{height: '600px', width:'1000px',overflow:'scroll'}}>
+                <div style={{height: '600px', width:'5000px'}}>
                     {insidePanel}
                 </div>;
     }
     else if(isMinimized){
         panel=
-                <div style={{width: '100px',height:'1%', top:'1%'}}>
+                <div style={{width: '100px',height:'25%'}}>
                     <OpenInFullIcon onClick={toggleMaximize} style={{display: 'inline-block',borderRadius:'15px', top: '-10%'}}></OpenInFullIcon>
                     <Box>
-                            View Data
+                            Viewing Data for
                     </Box>
                 </div>;
     }
     else{
-        panel=<div style={{height: '600px', width: '650px', overflow:'scroll'}}>
+        panel=<div style={{height: '600px', width: '2000px'}}>
                 {insidePanel}
             </div>;
     }
