@@ -287,7 +287,7 @@ function GlobalStoreContextProvider(props){
             payload: {}
         });
     }
-    store.statePop= async function(httpResponse){
+    store.statePop = async function(httpResponse){
         let pop = httpResponse.population;
         storeReducer({
             type: GlobalStoreActions.STATE_POP,

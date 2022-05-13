@@ -5,6 +5,7 @@ import { GlobalStore } from './DataStore';
 import MouseTooltip from 'react-sticky-mouse-tooltip';
 import SidePanel from './SidePanel';
 import {getState}  from '../Controllers/StateController';
+import MapSettings from './MapSettings';
 
 var tnDistricts = require('../district-data/TN/tnDistricts.geojson');
 var msDistricts = require('../district-data/MS/msDistricts.geojson');
@@ -13,7 +14,7 @@ var tnCounties = require('../district-data/TN/tnCounties.geojson');
 var msCounties = require('../district-data/MS/msCounties.geojson');
 var oldMSDistricts = require('../district-data/MS/OldMSDistricts.json');
 var oldTNDistricts = require('../district-data/TN/OldTNDistricts.json');
-var oldNCDistricts = require('../district-data/NC/NCOldCongDists.json');
+var oldNCDistricts = require('../district-data/NC/OldNCDistricts.json');
 var tnBoundary = require('../district-data/TN/Tennessee-State.json');
 var msBoundary = require('../district-data/MS/Mississippi-State.json');
 var ncBoundary = require('../district-data/NC/NorthCarolina-State.json');
@@ -30,7 +31,7 @@ const NC = 3
 function DistMap(props) {
     let { store } = useContext(GlobalStore);
     const [map, setMap] = useState(null);
-    const mapContainer = useRef(null);
+    const mapContainer = useRef("");
     const [hoveredDistrict, setHoveredDistrict1] = useState(null);
     const [hoveredState, setHoveredState1] = useState(null);
     const [demVotes, setDemVotes] = useState(0);
@@ -44,7 +45,17 @@ function DistMap(props) {
     const [clickedState, setClickedState] = useState(null);
     const clickedStateRef = useRef(clickedState);
     const [stateClicked, setStateClicked] = useState(false);
+    const [distPlan, setDistPlan] = useState(0);
+    const [mapFlag, setMapFlag] = useState(0);
     let countyVis;
+
+    if (store.districtPlan !== distPlan) {
+        console.log("calling set plan in map");
+        let planNum = store.districtPlan;
+        setMapFlag(1);
+        setDistPlan(planNum);
+    }
+
     const styles = {
         width: "100vw",
         height: "100vh"
@@ -100,7 +111,6 @@ function DistMap(props) {
         //setStoreState(id);
         //store.loadSidePanel();
         let response;
-        console.log("store.currentState in Map.js after calling setCurrentState: "+store.currentState);
         switch(id){
             case STATE_ID.TN:
                 response = getState(TN);
@@ -117,8 +127,10 @@ function DistMap(props) {
     }
 
     useEffect(() => {
+        console.log("district plan in useEffect: " + distPlan);
         mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
         const initMap = ({ setMap, mapContainer }) => {
+            console.log("in initMap");
             const map = new mapboxgl.Map({
                 container: mapContainer.current,
                 style: process.env.REACT_APP_MAPBOX_STYLE,
@@ -234,7 +246,7 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'tn-district-source',
                     'layout': {
-                        'visibility': store.currentState === 'TN' ? (store.districtPlan === 1 ? 'visible' : 'none') : 'none'
+                        'visibility': 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
@@ -281,7 +293,7 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'tn-old-districts',
                     'layout': {
-                        'visibility': store.currentState === 'TN' ? (store.districtPlan === 3 ? 'visible' : 'none') : 'none'
+                        'visibility': 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
@@ -328,13 +340,13 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'ms-old-districts',
                     'layout': {
-                        'visibility': store.currentState === 'MS' ? (store.districtPlan === 3 ? 'visible' : 'none') : 'none'
+                        'visibility': 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
                         'fill-color': [
                             'match',
-                            ['get', 'District'],
+                            ['get', 'DISTRICT'],
                             '1',
                             '#0006ad',
                             '2',
@@ -361,42 +373,42 @@ function DistMap(props) {
                 });
 
                 map.addLayer({
-                    'id': 'nc-old-district-layer',
+                    'id': 'nc-old-dist-layer',
                     'type': 'fill',
                     'source': 'nc-old-districts',
                     'layout': {
-                        'visibility': store.currentState === 'NC' ? (store.districtPlan === 3 ? 'visible' : 'none') : 'none'
+                        'visibility': 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
                         'fill-color': [
                             'match',
                             ['get', 'DISTRICT'],
-                            1,
+                            '1',
                             '#e6194B',
-                            2,
+                            '2',
                             '#4363d8',
-                            3,
+                            '3',
                             '#ffe119',
-                            4,
+                            '4',
                             '#911eb4',
-                            5,
+                            '5',
                             '#800000',
-                            6,
+                            '6',
                             '#42d4f4',
-                            7,
+                            '7',
                             '#aaffc3',
-                            8,
+                            '8',
                             '#f032e6',
-                            9,
+                            '9',
                             '#3cb44b',
-                            10,
+                            '10',
                             '#f58231',
-                            11,
+                            '11',
                             '#469990',
-                            12,
+                            '12',
                             '#bfef45',
-                            13,
+                            '13',
                             '#9A6324',
                             '#ffffff'
                         ],
@@ -420,7 +432,7 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'ms-district-source',
                     'layout': {
-                        'visibility': store.currentState === 'MS' ? (store.districtPlan === 1 ? 'visible' : 'none') : 'none'
+                        'visibility': 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
@@ -457,7 +469,7 @@ function DistMap(props) {
                     'type': 'fill',
                     'source': 'nc-district-source',
                     'layout': {
-                        'visibility': store.currentState === 'NC' ? (store.districtPlan === 1 ? 'visible' : 'none') : 'none'
+                        'visibility': 'none'
                     },
                     'paint': {
                         'fill-outline-color': 'black',
@@ -580,6 +592,18 @@ function DistMap(props) {
                     if (hoveredDistrictRef.current) {
                         map.setFeatureState(
                             { source: 'ms-district-source', id: hoveredDistrictRef.current },
+                            { hover: false }
+                        );
+                    }
+                    setHoveredDistrict2(null);
+                    toggleDistHover(false);
+                });
+
+                map.on('mouseleave', 'ms-old-dist-layer', function () {
+                    //console.log(store.map);
+                    if (hoveredDistrictRef.current) {
+                        map.setFeatureState(
+                            { source: 'ms-old-districts', id: hoveredDistrictRef.current },
                             { hover: false }
                         );
                     }
@@ -753,21 +777,6 @@ function DistMap(props) {
                     map.setLayoutProperty('nc-boundary-layer', 'visibility', 'none');
                     map.setLayoutProperty('nc-district-layer', 'visibility', 'visible');
                 });
-
-                map.on('click', 'tn-district-layer', function (e) {
-                    map.flyTo({
-                        center: [-88.956, 35.761],
-                        zoom: 5.77
-                    });
-                    clickedDist();
-                });
-                map.on('click', 'ms-district-layer', function (e) {
-                    map.flyTo({
-                        center: [-91.665, 32.780],
-                        zoom: 5.83
-                    });
-                    clickedDist();
-                });
             });
             if (!map) {
                 updateStoreMap(mapContainer);
@@ -775,8 +784,41 @@ function DistMap(props) {
                 updateStoreMap(map);
             }
         };
-        if (!map) initMap({ setMap, mapContainer });
-    }, [map]);
+        if (!map) {initMap({ setMap, mapContainer });}
+        else if (mapFlag === 1) {
+            //initMap({setMap, mapContainer}); 
+            setMapFlag(0);
+            if (distPlan === 0) {
+                if(clickedState === 'TN'){
+                    map.setLayoutProperty('tn-district-layer', 'visibility', 'visible');
+                    map.setLayoutProperty('tn-old-dist-layer', 'visibility', 'none');
+                }
+                else if(clickedState === 'MS') {
+                    map.setLayoutProperty('ms-district-layer', 'visibility', 'visible');
+                    map.setLayoutProperty('ms-old-dist-layer', 'visibility', 'none');
+                }
+                else if(clickedState === 'NC') {
+                    map.setLayoutProperty('nc-district-layer', 'visibility', 'visible');
+                    map.setLayoutProperty('nc-old-dist-layer', 'visibility', 'none');
+                }
+            }
+            else if (distPlan === 2) {
+                if(clickedState === 'TN'){
+                    map.setLayoutProperty('tn-district-layer', 'visibility', 'none');
+                    map.setLayoutProperty('tn-old-dist-layer', 'visibility', 'visible');
+                }
+                else if(clickedState === 'MS'){
+                    map.setLayoutProperty('ms-district-layer', 'visibility', 'none');
+                    map.setLayoutProperty('ms-old-dist-layer', 'visibility', 'visible');
+                }
+                else if(clickedState === 'NC'){
+                    map.setLayoutProperty('nc-district-layer', 'visibility', 'none');
+                    map.setLayoutProperty('nc-old-dist-layer', 'visibility', 'visible');
+                }
+            }
+        }
+    }, [map, distPlan, clickedState]);
+    //console.log("map rerender");
     return (
         <div>
             <MouseTooltip visible={stateHover} offsetX={10} offsetY={10} style={hoverStyles}>
@@ -789,6 +831,7 @@ function DistMap(props) {
                 </div>
             </MouseTooltip>
             <div ref={el => (mapContainer.current = el)} style={styles}/>
+            {/* <MapSettings></MapSettings> */}
         </div>
     );
 }

@@ -114,6 +114,19 @@ export default function MapSettings(){
         setAnchorEl(null);
     }
 
+    const handlePlanSelect = (e) => {
+        let str = e.target.innerHTML;
+        if (str.includes("Proposed")) {
+            store.setDistrictPlan(PROPOSED);
+        }
+        else if (str.includes("Previous")) {
+            store.setDistrictPlan(OLD);
+        }
+        else if (str.includes("Enacted")){
+            store.setDistrictPlan(ENACTED);
+        }
+    }
+
     // const setPlan=(planID)=>{
     //     store.setDistrictPlan(planID);
     // }
@@ -135,7 +148,7 @@ export default function MapSettings(){
         displayToggle=true;
     
     planViewTitle = "View available plans for ";
-    switch(store.stateFocus){
+    switch(store.currentState){
         case "TN":
             state="Tennessee";
             distPlans=tnDistPlans;
@@ -170,9 +183,9 @@ export default function MapSettings(){
                     <div className= "toggle-row" onClick={handleCountyClick}>
                         {countyToggle}<div style={{display:'inline-block', paddingLeft:'4%',fontSize:'20pt'}}>Counties</div>
                     </div>
-                    <div className= "toggle-row" onClick={handlePrecClick}>
+                    {/* <div className= "toggle-row" onClick={handlePrecClick}>
                         {precinctToggle}<div style={{display:'inline-block', paddingLeft:'4%',fontSize:'20pt'}}>Precincts</div>
-                    </div>
+                    </div> */}
                 </div>
             </Box>
             <br></br> 
@@ -184,17 +197,10 @@ export default function MapSettings(){
                     anchorEl={anchorEl}
                     anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
                     transformOrigin={{vertical: 'top', horizontal: 'center'}}
-                        // anchorOrigin={{
-                    //   vertical: 'bottom',
-                    //   horizontal: 'right',
-                    // }}
                     keepMounted
-                    // transformOrigin={{
-                    //   vertical: 'top',
-                    //   horizontal: 'right',
-                    // }}
                     open={Boolean(anchorEl)}
                     onClose={handleMenuClose}
+                    onClick={handlePlanSelect}
                     >
                     <div>{distPlans}</div>
               </Menu>
