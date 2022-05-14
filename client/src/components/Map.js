@@ -12,12 +12,15 @@ var msDistricts = require('../district-data/MS/msDistricts.geojson');
 var ncDistricts = require('../district-data/NC/ncDistricts.json');
 var tnCounties = require('../district-data/TN/tnCounties.geojson');
 var msCounties = require('../district-data/MS/msCounties.geojson');
+var ncCounties = require('../district-data/NC/NCCounties.json');
 var oldMSDistricts = require('../district-data/MS/OldMSDistricts.json');
 var oldTNDistricts = require('../district-data/TN/OldTNDistricts.json');
 var oldNCDistricts = require('../district-data/NC/OldNCDistricts.json');
 var tnBoundary = require('../district-data/TN/Tennessee-State.json');
 var msBoundary = require('../district-data/MS/Mississippi-State.json');
 var ncBoundary = require('../district-data/NC/NorthCarolina-State.json');
+var msProposed = require('../district-data/MS/MS-Dem-proposed.json');
+var ncProposed = require('../district-data/NC/NCProposed-Rejected.json');
 
 const STATE_ID={
     TN: "TN",
@@ -131,10 +134,8 @@ function DistMap(props) {
     }
 
     useEffect(() => {
-        console.log("district plan in useEffect: " + distPlan);
         mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
         const initMap = ({ setMap, mapContainer }) => {
-            console.log("in initMap");
             const map = new mapboxgl.Map({
                 container: mapContainer.current,
                 style: process.env.REACT_APP_MAPBOX_STYLE,
@@ -333,6 +334,43 @@ function DistMap(props) {
                     }
                 });
 
+                map.addSource('ms-district-source', {
+                    'type': 'geojson',
+                    'data': msDistricts,
+                    'promoteId': 'District'
+                });
+
+                map.addLayer({
+                    'id': 'ms-district-layer',
+                    'type': 'fill',
+                    'source': 'ms-district-source',
+                    'layout': {
+                        'visibility': 'none'
+                    },
+                    'paint': {
+                        'fill-outline-color': 'black',
+                        'fill-color': [
+                            'match',
+                            ['get', 'District'],
+                            1,
+                            '#0006ad',
+                            2,
+                            '#2e6b2c',
+                            3,
+                            '#7a336a',
+                            4,
+                            '#ffec42',
+                            '#ffffff'
+                        ],
+                        'fill-opacity': [
+                            'case',
+                            ['boolean', ['feature-state', 'hover'], false],
+                            .9,
+                            0.5
+                        ]
+                    }
+                });
+
                 map.addSource('ms-old-districts', {
                     'type': 'geojson',
                     'data': oldMSDistricts,
@@ -370,16 +408,16 @@ function DistMap(props) {
                     }
                 });
 
-                map.addSource('nc-old-districts', {
+                map.addSource('ms-proposed-districts', {
                     'type': 'geojson',
-                    'data': oldNCDistricts,
-                    'promoteId': 'DISTRICT'
+                    'data': msProposed,
+                    'promoteId': "DISTRICT"
                 });
 
                 map.addLayer({
-                    'id': 'nc-old-dist-layer',
+                    'id': 'ms-proposed-layer',
                     'type': 'fill',
-                    'source': 'nc-old-districts',
+                    'source': 'ms-proposed-districts',
                     'layout': {
                         'visibility': 'none'
                     },
@@ -388,68 +426,13 @@ function DistMap(props) {
                         'fill-color': [
                             'match',
                             ['get', 'DISTRICT'],
-                            '1',
-                            '#e6194B',
-                            '2',
-                            '#4363d8',
-                            '3',
-                            '#ffe119',
-                            '4',
-                            '#911eb4',
-                            '5',
-                            '#800000',
-                            '6',
-                            '#42d4f4',
-                            '7',
-                            '#aaffc3',
-                            '8',
-                            '#f032e6',
-                            '9',
-                            '#3cb44b',
-                            '10',
-                            '#f58231',
-                            '11',
-                            '#469990',
-                            '12',
-                            '#bfef45',
-                            '13',
-                            '#9A6324',
-                            '#ffffff'
-                        ],
-                        'fill-opacity': [
-                            'case',
-                            ['boolean', ['feature-state', 'hover'], false],
-                            .9, 
-                            0.5
-                        ]
-                    }
-                })
-
-                map.addSource('ms-district-source', {
-                    'type': 'geojson',
-                    'data': msDistricts,
-                    'promoteId': 'District'
-                });
-
-                map.addLayer({
-                    'id': 'ms-district-layer',
-                    'type': 'fill',
-                    'source': 'ms-district-source',
-                    'layout': {
-                        'visibility': 'none'
-                    },
-                    'paint': {
-                        'fill-outline-color': 'black',
-                        'fill-color': [
-                            'match',
-                            ['get', 'District'],
-                            1,
+                            '01',
                             '#0006ad',
-                            2,
+                            '02',
                             '#2e6b2c',
-                            3,
+                            '03',
                             '#7a336a',
-                            4,
+                            '04',
                             '#ffec42',
                             '#ffffff'
                         ],
@@ -519,6 +502,118 @@ function DistMap(props) {
                     }
                 });
 
+                map.addSource('nc-old-districts', {
+                    'type': 'geojson',
+                    'data': oldNCDistricts,
+                    'promoteId': 'DISTRICT'
+                });
+
+                map.addLayer({
+                    'id': 'nc-old-dist-layer',
+                    'type': 'fill',
+                    'source': 'nc-old-districts',
+                    'layout': {
+                        'visibility': 'none'
+                    },
+                    'paint': {
+                        'fill-outline-color': 'black',
+                        'fill-color': [
+                            'match',
+                            ['get', 'DISTRICT'],
+                            '1',
+                            '#e6194B',
+                            '2',
+                            '#4363d8',
+                            '3',
+                            '#ffe119',
+                            '4',
+                            '#911eb4',
+                            '5',
+                            '#800000',
+                            '6',
+                            '#42d4f4',
+                            '7',
+                            '#aaffc3',
+                            '8',
+                            '#f032e6',
+                            '9',
+                            '#3cb44b',
+                            '10',
+                            '#f58231',
+                            '11',
+                            '#469990',
+                            '12',
+                            '#bfef45',
+                            '13',
+                            '#9A6324',
+                            '#ffffff'
+                        ],
+                        'fill-opacity': [
+                            'case',
+                            ['boolean', ['feature-state', 'hover'], false],
+                            .9, 
+                            0.5
+                        ]
+                    }
+                });
+
+                map.addSource('nc-proposed-districts', {
+                    'type': 'geojson',
+                    'data': ncProposed,
+                    'promoteId': 'DISTRICT'
+                });
+
+                map.addLayer({
+                    'id': 'nc-proposed-layer',
+                    'type': 'fill',
+                    'source': 'nc-proposed-districts',
+                    'layout': {
+                        'visibility': 'none'
+                    },
+                    'paint': {
+                        'fill-outline-color': 'black',
+                        'fill-color': [
+                            'match',
+                            ['get', 'DISTRICT'],
+                            '1',
+                            '#e6194B',
+                            '2',
+                            '#4363d8',
+                            '3',
+                            '#ffe119',
+                            '4',
+                            '#911eb4',
+                            '5',
+                            '#800000',
+                            '6',
+                            '#42d4f4',
+                            '7',
+                            '#aaffc3',
+                            '8',
+                            '#f032e6',
+                            '9',
+                            '#3cb44b',
+                            '10',
+                            '#f58231',
+                            '11',
+                            '#469990',
+                            '12',
+                            '#bfef45',
+                            '13',
+                            '#9A6324',
+                            '14',
+                            '#000075',
+                            '#ffffff'
+                        ],
+                        'fill-opacity': [
+                            'case',
+                            ['boolean', ['feature-state', 'hover'], false],
+                            .9, 
+                            0.5
+                        ]
+                    }
+                });
+
                 map.addSource('tn-county-source', {
                     'type': 'geojson',
                     'data': tnCounties,
@@ -530,7 +625,7 @@ function DistMap(props) {
                     'type': 'line',
                     'source': 'tn-county-source',
                     'layout': {
-                        'visibility': store.countyToggle? 'visible' : 'none'
+                        'visibility': 'none'
                     },
                     'paint': {
                         'line-color': '#808080',
@@ -549,7 +644,7 @@ function DistMap(props) {
                     'type': 'line',
                     'source': 'ms-county-source',
                     'layout': {
-                        'visibility': store.countyToggle? 'visible' : 'none'
+                        'visibility': 'none'
                     },
                     'paint': {
                         'line-color': '#808080',
@@ -557,7 +652,24 @@ function DistMap(props) {
                     }
                 });
 
-                
+                map.addSource('nc-county-source', {
+                    'type': 'geojson',
+                    'data': ncCounties,
+                    'promoteId': 'NAME'
+                });
+
+                map.addLayer({
+                    'id': 'nc-county-layer',
+                    'type': 'line',
+                    'source': 'nc-county-source',
+                    'layout': {
+                        'visibility': 'none'
+                    },
+                    'paint': {
+                        'line-color': '#808080',
+                        'line-width': 0.7
+                    }
+                });
 
                 map.on('mouseleave', 'tn-boundary-layer', function () {
                     if (hoveredStateRef.current) {
@@ -615,6 +727,17 @@ function DistMap(props) {
                     toggleDistHover(false);
                 });
 
+                map.on('mouseleave', 'ms-proposed-layer', function () {
+                    if (hoveredDistrictRef.current) {
+                        map.setFeatureState(
+                            { source: 'ms-proposed-districts', id: hoveredDistrictRef.current },
+                            { hover: false }
+                        );
+                    }
+                    setHoveredDistrict2(null);
+                    toggleDistHover(false);
+                });
+
                 map.on('mouseleave', 'tn-district-layer', function () {
                     if (hoveredDistrictRef.current) {
                         map.setFeatureState(
@@ -626,10 +749,43 @@ function DistMap(props) {
                     toggleDistHover(false);
                 });
 
+                map.on('mouseleave', 'tn-old-dist-layer', function () {
+                    if (hoveredDistrictRef.current) {
+                        map.setFeatureState(
+                            { source: 'tn-old-districts', id: hoveredDistrictRef.current },
+                            { hover: false }
+                        );
+                    }
+                    setHoveredDistrict2(null);
+                    toggleDistHover(false);
+                });
+
                 map.on('mouseleave', 'nc-district-layer', function () {
                     if (hoveredDistrictRef.current) {
                         map.setFeatureState(
                             { source: 'nc-district-source', id: hoveredDistrictRef.current },
+                            { hover: false }
+                        );
+                    }
+                    setHoveredDistrict2(null);
+                    toggleDistHover(false);
+                });
+
+                map.on('mouseleave', 'nc-old-dist-layer', function () {
+                    if (hoveredDistrictRef.current) {
+                        map.setFeatureState(
+                            { source: 'nc-old-districts', id: hoveredDistrictRef.current },
+                            { hover: false }
+                        );
+                    }
+                    setHoveredDistrict2(null);
+                    toggleDistHover(false);
+                });
+
+                map.on('mouseleave', 'nc-proposed-layer', function () {
+                    if (hoveredDistrictRef.current) {
+                        map.setFeatureState(
+                            { source: 'nc-proposed-districts', id: hoveredDistrictRef.current },
                             { hover: false }
                         );
                     }
@@ -690,6 +846,25 @@ function DistMap(props) {
                     }
                 });
 
+                map.on('mousemove', 'tn-old-dist-layer', function (e) {
+                    if ((e.features.length > 0) && !distClicked) {
+                        if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
+                            map.setFeatureState(
+                                { source: 'tn-old-districts', id: hoveredDistrictRef.current },
+                                { hover: false }
+                            );
+                        }
+                        let hoveredDistrict1 = parseInt(e.features[0].properties.DISTRICT);
+                        map.setFeatureState(
+                            { source: 'tn-old-districts', id: hoveredDistrict1 },
+                            { hover: true }
+                        );
+                        setHoveredDistrict2(hoveredDistrict1);
+                        toggleDistHover(true);
+                        setDistrict(hoveredDistrict1);
+                    }
+                });
+
                 map.on('mousemove', 'ms-district-layer', function (e) {
                     if ((e.features.length > 0) && !distClicked) {
                         if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
@@ -706,6 +881,44 @@ function DistMap(props) {
                         setHoveredDistrict2(hoveredDistrict1);
                         toggleDistHover(true);
                         setDistrict(hoveredDistrict1);                        
+                    }
+                });
+
+                map.on('mousemove', 'ms-old-dist-layer', function (e) {
+                    if ((e.features.length > 0) && !distClicked) {
+                        if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
+                            map.setFeatureState(
+                                { source: 'ms-old-districts', id: hoveredDistrictRef.current },
+                                { hover: false }
+                            );
+                        }
+                        let hoveredDistrict1 = parseInt(e.features[0].properties.DISTRICT);
+                        map.setFeatureState(
+                            { source: 'ms-old-districts', id: hoveredDistrict1 },
+                            { hover: true }
+                        );
+                        setHoveredDistrict2(hoveredDistrict1);
+                        toggleDistHover(true);
+                        setDistrict(hoveredDistrict1);
+                    }
+                });
+
+                map.on('mousemove', 'ms-proposed-layer', function (e) {
+                    if ((e.features.length > 0) && !distClicked) {
+                        if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
+                            map.setFeatureState(
+                                { source: 'ms-proposed-districts', id: hoveredDistrictRef.current },
+                                { hover: false }
+                            );
+                        }
+                        let hoveredDistrict1 = parseInt(e.features[0].properties.DISTRICT);
+                        map.setFeatureState(
+                            { source: 'ms-proposed-districts', id: hoveredDistrict1 },
+                            { hover: true }
+                        );
+                        setHoveredDistrict2(hoveredDistrict1);
+                        toggleDistHover(true);
+                        setDistrict(hoveredDistrict1);
                     }
                 });
 
@@ -728,16 +941,54 @@ function DistMap(props) {
                     }
                 });
 
+                map.on('mousemove', 'nc-old-dist-layer', function (e) {
+                    if ((e.features.length > 0) && !distClicked) {
+                        if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
+                            map.setFeatureState(
+                                { source: 'nc-old-districts', id: hoveredDistrictRef.current },
+                                { hover: false }
+                            );
+                        }
+                        let hoveredDistrict1 = parseInt(e.features[0].properties.DISTRICT);
+                        map.setFeatureState(
+                            { source: 'nc-old-districts', id: hoveredDistrict1 },
+                            { hover: true }
+                        );
+                        setHoveredDistrict2(hoveredDistrict1);
+                        toggleDistHover(true);
+                        setDistrict(hoveredDistrict1);
+                    }
+                });
+
+                map.on('mousemove', 'nc-proposed-layer', function (e) {
+                    if ((e.features.length > 0) && !distClicked) {
+                        if (hoveredDistrictRef.current && hoveredDistrictRef.current > -1) {
+                            map.setFeatureState(
+                                { source: 'nc-proposed-districts', id: hoveredDistrictRef.current },
+                                { hover: false }
+                            );
+                        }
+                        let hoveredDistrict1 = parseInt(e.features[0].properties.DISTRICT);
+                        map.setFeatureState(
+                            { source: 'nc-proposed-districts', id: hoveredDistrict1 },
+                            { hover: true }
+                        );
+                        setHoveredDistrict2(hoveredDistrict1);
+                        toggleDistHover(true);
+                        setDistrict(hoveredDistrict1);
+                    }
+                });
+
                 map.on('click', 'tn-boundary-layer', function (e) {
                     clickState("TN");
-                    if (map.getLayoutProperty('ms-district-layer', 'visibility') === 'visible') {
-                        map.setLayoutProperty('ms-district-layer', 'visibility', 'none');
-                        map.setLayoutProperty('ms-boundary-layer', 'visibility', 'visible');
-                    }
-                    if (map.getLayoutProperty('nc-district-layer', 'visibility') === 'visible') {
-                        map.setLayoutProperty('nc-district-layer', 'visibility', 'none');
-                        map.setLayoutProperty('nc-boundary-layer', 'visibility', 'visible');
-                    }
+                    map.setLayoutProperty('ms-district-layer', 'visibility', 'none');
+                    map.setLayoutProperty('ms-old-dist-layer', 'visibility', 'none');
+                    map.setLayoutProperty('ms-proposed-layer', 'visibility', 'none');
+                    map.setLayoutProperty('ms-boundary-layer', 'visibility', 'visible');
+                    map.setLayoutProperty('nc-district-layer', 'visibility', 'none');
+                    map.setLayoutProperty('nc-old-dist-layer', 'visibility', 'none');
+                    map.setLayoutProperty('nc-proposed-layer', 'visibility', 'none');
+                    map.setLayoutProperty('nc-boundary-layer', 'visibility', 'visible');
                     map.flyTo({
                         center: [-88.956, 35.761],
                         zoom: 5.77
@@ -748,14 +999,13 @@ function DistMap(props) {
 
                 map.on('click', 'ms-boundary-layer', function (e) {
                     clickState("MS");
-                    if (map.getLayoutProperty('tn-district-layer', 'visibility') === 'visible') {
-                        map.setLayoutProperty('tn-district-layer', 'visibility', 'none');
-                        map.setLayoutProperty('tn-boundary-layer', 'visibility', 'visible');
-                    }
-                    if (map.getLayoutProperty('nc-district-layer', 'visibility') === 'visible') {
-                        map.setLayoutProperty('nc-district-layer', 'visibility', 'none');
-                        map.setLayoutProperty('nc-boundary-layer', 'visibility', 'visible');
-                    }
+                    map.setLayoutProperty('tn-district-layer', 'visibility', 'none');
+                    map.setLayoutProperty('tn-old-dist-layer', 'visibility', 'none');
+                    map.setLayoutProperty('tn-boundary-layer', 'visibility', 'visible');
+                    map.setLayoutProperty('nc-district-layer', 'visibility', 'none');
+                    map.setLayoutProperty('nc-old-dist-layer', 'visibility', 'none');
+                    map.setLayoutProperty('nc-proposed-layer', 'visibility', 'none');
+                    map.setLayoutProperty('nc-boundary-layer', 'visibility', 'visible');
                     map.flyTo({
                         center: [-91.665, 32.780],
                         zoom: 5.83
@@ -766,14 +1016,13 @@ function DistMap(props) {
 
                 map.on('click', 'nc-boundary-layer', function (e) {
                     clickState("NC");
-                    if (map.getLayoutProperty('tn-district-layer', 'visibility') === 'visible') {
-                        map.setLayoutProperty('tn-district-layer', 'visibility', 'none');
-                        map.setLayoutProperty('tn-boundary-layer', 'visibility', 'visible');
-                    }
-                    if (map.getLayoutProperty('ms-district-layer', 'visibility') === 'visible') {
-                        map.setLayoutProperty('ms-district-layer', 'visibility', 'none');
-                        map.setLayoutProperty('ms-boundary-layer', 'visibility', 'visible');
-                    }
+                    map.setLayoutProperty('ms-district-layer', 'visibility', 'none');
+                    map.setLayoutProperty('ms-old-dist-layer', 'visibility', 'none');
+                    map.setLayoutProperty('ms-proposed-layer', 'visibility', 'none');
+                    map.setLayoutProperty('ms-boundary-layer', 'visibility', 'visible');
+                    map.setLayoutProperty('tn-district-layer', 'visibility', 'none');
+                    map.setLayoutProperty('tn-old-dist-layer', 'visibility', 'none');
+                    map.setLayoutProperty('nc-boundary-layer', 'visibility', 'visible');
                     map.flyTo({
                         center: [-82.121, 35.480],
                         zoom: 5.61

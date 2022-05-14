@@ -21,7 +21,7 @@ export default function MapSettings(){
     const [menuChoice, setMenuChoice] = React.useState("");
     const [availablePlans, setAvailablePlans] = React.useState(null);
     const [currentPlan, setCurrentPlan] = React.useState(null);
-    const [enactedToggle, setEnactedToggle] = React.useState(false);
+    const [enactedToggle, setEnactedToggle] = React.useState(true);
     const [proposedToggle, setProposedToggle] = React.useState(false);
     const [oldToggle, setOldToggle] = React.useState(false);
     const [demToggle, setDemToggle] = React.useState(false);
@@ -171,10 +171,10 @@ export default function MapSettings(){
                 state="Tennessee";
                 distPlans=tnDistPlans;
                 hasEnacted = true;
-                hasProposed= true;
+                hasProposed= false;
                 hasOld=true;
-                hasDem= true;
-                hasRep= true;
+                hasDem= false;
+                hasRep= false;
                 title="Choose which of Tennessee's ditrict plans you'd like to overlay on the map.";
                 break;
             case "MS":
@@ -182,8 +182,8 @@ export default function MapSettings(){
                 hasEnacted = true;
                 hasProposed= true;
                 hasOld= true;
-                hasDem= true;
-                hasRep= true;
+                hasDem= false;
+                hasRep= false;
                 title="Choose which of Mississippi's ditrict plans you'd like to overlay on the map.";
                 distPlans=miDistPlans;
                 break;
@@ -193,8 +193,8 @@ export default function MapSettings(){
                 hasEnacted = true;
                 hasProposed= true;
                 hasOld= true;
-                hasDem= true;
-                hasRep= true;
+                hasDem= false;
+                hasRep= false;
                 title="Choose which of North Carolina's ditrict plans you'd like to overlay on the map.";
                 break;
             default:
@@ -206,23 +206,28 @@ export default function MapSettings(){
 
     const toggleEnacted=()=>{
         setEnactedToggle(!enactedToggle);
+        store.setDistrictPlan(ENACTED);
         console.log(enactedToggle);
         //INSERT HERE
     }
     const toggleProposed=()=>{
         setProposedToggle(!proposedToggle);
+        store.setDistrictPlan(PROPOSED);
          //INSERT HERE
     }
     const toggleOld=()=>{
         setOldToggle(!oldToggle);
+        store.setDistrictPlan(OLD);
         //INSERT HERE
     }
     const toggleDem=()=>{
         setDemToggle(!demToggle);
+        store.setDistrictPlan(DEM);
         //INSERT HERE
     }
     const toggleRep=()=>{
         setRepToggle(!repToggle);
+        store.setDistrictPlan(REP);
         //INSERT HERE
     }
     
@@ -285,7 +290,7 @@ export default function MapSettings(){
                 </div>
             </Box>
             <br></br> 
-            <Box id='settings-block'>
+            {/* <Box id='settings-block'>
                 <Typography style={{fontSize:'12pt'}}>{planViewTitle} <Typography style={{fontWeight:'bold', fontSize: '12pt'}}>{state}</Typography><br></br></Typography>
                 <Typography>Currrent Plan: {planString}<ArrowDropDownIcon style={{fontSize:'12pt'}}onClick={handleMenu}>Enacted Plan</ArrowDropDownIcon></Typography>
                 <Menu
@@ -300,7 +305,7 @@ export default function MapSettings(){
                     >
                     <div>{distPlans}</div>
               </Menu>
-            </Box>
+            </Box> */}
         </div>
     );
 }
