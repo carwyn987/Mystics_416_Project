@@ -105,4 +105,10 @@
   color: rgb(255,255,255)!important;
 }
 
+.Tab{
+  color:'white'
+}
 
+.Tab.Mui-selected {
+  color:'white'
+}

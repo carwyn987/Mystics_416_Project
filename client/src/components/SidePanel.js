@@ -11,15 +11,20 @@ import { GlobalStore } from './DataStore'
 import ElectionData from './ElectionData';
 import PopulationData from './PopulationData';
 import PlanComparison from './PlanComparison';
+import CenteredTabs from './CenteredTabs';
 import * as React from 'react';
 import {useContext, useEffect} from 'react';
 import CottageIcon from '@mui/icons-material/Cottage';
 import 'animate.css';
 import PopulationGraph from './PopulationGraph.js';
 
+const TN = 1;
+const MS = 2;
+const NC = 3;
 
 export default function SidePanel(){
     let  { store } = useContext(GlobalStore);
+    let state;
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [isMinimized, setIsMinimized] = React.useState(false);
     const [isMaximized, setIsMaximized] = React.useState(false);
@@ -31,6 +36,11 @@ export default function SidePanel(){
     const graph = null;
     let sidePanelVisible = false, expandIcon = null, panel = null, demVotes = 0, repubVotes = 0, stateName;
 
+    const setState=(response)=>{
+        state=response;
+        console.log('HELP');
+    }
+
     if(store.currentState){
         sidePanelVisible = true;
         console.log("currentState in sdepanel: "+store.currentState);
@@ -38,12 +48,15 @@ export default function SidePanel(){
         switch(stateName) {
             case "TN":
                 stateName = "Tennessee";
+                fetch(`http://localhost:8080/getState?stateID=${TN}`).then(response => response.json()).then(response => {setState(response)});
                 break;
             case "MS":
                 stateName = "Mississippi";
+                fetch(`http://localhost:8080/getState?stateID=${MS}`).then(response => response.json()).then(response => {setState(response)});
                 break;
             case "NC":
                 stateName = "North Carolina";
+                fetch(`http://localhost:8080/getState?stateID=${NC}`).then(response => response.json()).then(response => {setState(response)});
                 break;
             default:
                 break;
@@ -153,13 +166,14 @@ export default function SidePanel(){
         expandIcon=<OpenInFullIcon onClick={toggleMaximize}style={{fontSize:'20pt'}}></OpenInFullIcon>;
     let insidePanel=
                 <div>
+                    <Typography style={{fontWeight:'bold',fontSize:'xx-large',marginTop:'2%',display:'inline-block'}}>Viewing data for {stateName}</Typography>
+                    <CenteredTabs></CenteredTabs>
                     <div style={{display:'inline-block',float:'left', fontSize:'20pt',paddingTop:'2%',paddingLeft:'1%'}}>
                         <MinimizeIcon onClick={toggleMinimize} style={{fontSize:'20pt'}}></MinimizeIcon>
                         {expandIcon}
                         <CottageIcon  style={{fontSize:'15pt'}}></CottageIcon>
                     </div>         
                     <div onClick={handleMenu}>
-                    <Typography style={{fontSize:'x-large',marginTop:'8%',marginRight:'17%',marginBottom:'5%',display:'inline-block'}}>Viewing data for <br></br> <Typography style={{fontWeight:'bold',fontSize:'35px'}}>{stateName}</Typography></Typography>
                         <Button variant="outlined" style={{width:'400px',fontSize:'25pt',borderColor:'white',fontSize:'large',marginRight:'5%',color:'white'}}>
                             {menuText}
                             <ArrowDropDownIcon onClick={handleMenu} style={{display:'inline-block',fontSize:'15pt'}}></ArrowDropDownIcon>
@@ -186,7 +200,7 @@ export default function SidePanel(){
     
     if(isMaximized){
         panel=
-                <div style={{height: '600px', width:'5000px'}}>
+                <div style={{height: '10000px', width:'5000px'}}>
                     {insidePanel}
                 </div>;
     }
@@ -200,7 +214,7 @@ export default function SidePanel(){
                 </div>;
     }
     else{
-        panel=<div style={{height: '600px', width: '2000px'}}>
+        panel=<div style={{height: '10000px', width: '2000px'}}>
                 {insidePanel}
             </div>;
     }

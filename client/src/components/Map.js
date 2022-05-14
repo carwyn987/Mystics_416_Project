@@ -101,6 +101,9 @@ function DistMap(props) {
 
     //The id will be in the form of a 2 character string, namely "TN", "MS", or "NC." The STATE_ID constant maps the character codes to the string,
     //and the direct constants TN, MS and NC refer to enums that match those on the server side (since the function to getById from the database must be an int).
+    const setState=(response)=>{
+        console.log("SET STATE: ",response);
+    }
     const clickState = (id) => {
         setStateClicked(true);
         setClickedState(id);
@@ -113,7 +116,8 @@ function DistMap(props) {
         let response;
         switch(id){
             case STATE_ID.TN:
-                response = getState(TN);
+               // fetch(`http://localhost:8080/getState?stateID=${TN}`).then(response => response.json()).then(response => {setState(response)});
+                console.log('dingbat');
                 break;
             case STATE_ID.MS:
                 response=getState(MS);
@@ -837,3 +841,4 @@ function DistMap(props) {
 }
 
 export default DistMap;
+
