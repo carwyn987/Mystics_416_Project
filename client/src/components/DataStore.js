@@ -15,7 +15,17 @@ export const GlobalStoreActions = {
     DISTRICT_PLAN: "DISTRICT_PLAN",
     COUNTY_TOGGLE: "COUNTY_TOGGLE",
     STATE_POP: "STATE_POP",
-    PANEL_VIS: "PANEL_VIS"
+    PANEL_VIS: "PANEL_VIS",
+    ENABLE_ENACTED_PLAN: "ENABLE_ENACTED_PLAN",
+    DISABLE_ENACTED_PLAN: "DISABLE_ENACTED_PLAN",
+    ENABLE_PROPOSED_PLAN: "ENABLE_PROPOSED_PLAN",
+    DISABLE_PROPOSED_PLAN: "DISABLE_PROPOSED_PLAN",
+    ENABLE_OLD_PLAN: "ENABLE_OLD_PLAN",
+    DISABLE_OLD_PLAN: "DISABLE_OLD_PLAN",
+    ENABLE_DEM_PLAN: "ENABLE_DEM_PLAN",
+    DISABLE_DEM_PLAN: "DISABLE_DEM_PLAN",
+    ENABLE_REP_PLAN: "ENABLE_REP_PLAN",
+    DISABLE_REP_PLAN: "DISABLE_REP_PLAN"
 }
 
 function GlobalStoreContextProvider(props){
@@ -29,7 +39,12 @@ function GlobalStoreContextProvider(props){
         currentState: null,
         districtPlan: 0,
         countyToggle: false,
-        statePop: 0
+        statePop: 0,
+        enactedPlanToggle: true,
+        proposedPlanToggle: false,
+        oldPlanToggle: false,
+        demPlanToggle: false,
+        repPlanToggle: false
     });
 
     const storeReducer = (action) => {
@@ -46,7 +61,12 @@ function GlobalStoreContextProvider(props){
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle,
-                    statePop: store.statePop
+                    statePop: store.statePop,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: store.repPlanToggle
                 });
             }
             case GlobalStoreActions.CLOSE_SIDEPANEL:{
@@ -60,7 +80,12 @@ function GlobalStoreContextProvider(props){
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle,
-                    statePop: store.statePop
+                    statePop: store.statePop,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: store.repPlanToggle
                 });
             }
             case GlobalStoreActions.LOAD_MAP_SETTINGS:{
@@ -74,7 +99,12 @@ function GlobalStoreContextProvider(props){
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle,
-                    statePop: store.statePop
+                    statePop: store.statePop,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: store.repPlanToggle
                 });
             }
             case GlobalStoreActions.CLOSE_MAP_SETTINGS:{
@@ -88,7 +118,12 @@ function GlobalStoreContextProvider(props){
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle,
-                    statePop: store.statePop
+                    statePop: store.statePop,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: store.repPlanToggle
                 });
             }
             case GlobalStoreActions.LOAD_ELECTION_DATA:{
@@ -102,7 +137,12 @@ function GlobalStoreContextProvider(props){
                     map: store.map,
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
-                    statePop: store.statePop
+                    statePop: store.statePop,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: store.repPlanToggle
                 });
             }
             case GlobalStoreActions.ZOOM_TN:{
@@ -116,7 +156,12 @@ function GlobalStoreContextProvider(props){
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle,
-                    statePop: store.statePop
+                    statePop: store.statePop,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: store.repPlanToggle
                 });
             }
             case GlobalStoreActions.ZOOM_MS:{
@@ -130,7 +175,12 @@ function GlobalStoreContextProvider(props){
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle,
-                    statePop: store.statePop
+                    statePop: store.statePop,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: store.repPlanToggle
                 });
             }
             case GlobalStoreActions.UPDATE_MAP:{
@@ -158,7 +208,12 @@ function GlobalStoreContextProvider(props){
                     currentState: payload,
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle,
-                    statePop: store.statePop
+                    statePop: store.statePop,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: store.repPlanToggle
                 });
             }
             case GlobalStoreActions.DISTRICT_PLAN:{
@@ -172,7 +227,12 @@ function GlobalStoreContextProvider(props){
                     currentState: store.currentState,
                     districtPlan: payload,
                     countyToggle: store.countyToggle,
-                    statePop: store.statePop
+                    statePop: store.statePop,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: store.repPlanToggle
                 });
             }
 
@@ -187,7 +247,12 @@ function GlobalStoreContextProvider(props){
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
                     countyToggle: !store.countyToggle,
-                    statePop: store.statePop
+                    statePop: store.statePop,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: store.repPlanToggle
                 });
             }
             case GlobalStoreActions.STATE_POP:{
@@ -201,7 +266,12 @@ function GlobalStoreContextProvider(props){
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
                     countyToggle: !store.countyToggle,
-                    statePop: payload
+                    statePop: payload,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: store.repPlanToggle
                 });
             }
             case GlobalStoreActions.PANEL_VIS:{
@@ -215,7 +285,202 @@ function GlobalStoreContextProvider(props){
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
                     countyToggle: !store.countyToggle,
-                    statePop: store.statePop
+                    statePop: store.statePop,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: store.repPlanToggle
+                });
+            }
+            case GlobalStoreActions.ENABLE_ENACTED_PLAN:{
+                return setStore({
+                    isSidePanelVisible: store.isSidePanelVisible,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
+                    currentDistrict: store.currentDistrict,
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MSzoom,
+                    map: store.map,
+                    currentState: store.currentState,
+                    districtPlan: store.districtPlan,
+                    countyToggle: store.countyToggle,
+                    statePop: store.statePop,
+                    enactedPlanToggle: true,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: store.repPlanToggle
+                });
+            }
+            case GlobalStoreActions.DISABLE_ENACTED_PLAN:{
+                return setStore({
+                    isSidePanelVisible: store.isSidePanelVisible,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
+                    currentDistrict: store.currentDistrict,
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MSzoom,
+                    map: store.map,
+                    currentState: store.currentState,
+                    districtPlan: store.districtPlan,
+                    countyToggle: store.countyToggle,
+                    statePop: store.statePop,
+                    enactedPlanToggle: false,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: store.repPlanToggle
+                });
+            }
+            case GlobalStoreActions.ENABLE_PROPOSED_PLAN:{
+                return setStore({
+                    isSidePanelVisible: store.isSidePanelVisible,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
+                    currentDistrict: store.currentDistrict,
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MSzoom,
+                    map: store.map,
+                    currentState: store.currentState,
+                    districtPlan: store.districtPlan,
+                    countyToggle: store.countyToggle,
+                    statePop: store.statePop,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: true,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: store.repPlanToggle
+                });
+            }
+            case GlobalStoreActions.DISABLE_PROPOSED_PLAN:{
+                return setStore({
+                    isSidePanelVisible: store.isSidePanelVisible,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
+                    currentDistrict: store.currentDistrict,
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MSzoom,
+                    map: store.map,
+                    currentState: store.currentState,
+                    districtPlan: store.districtPlan,
+                    countyToggle: store.countyToggle,
+                    statePop: store.statePop,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: false,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: store.repPlanToggle
+                });
+            }
+            case GlobalStoreActions.ENABLE_OLD_PLAN:{
+                return setStore({
+                    isSidePanelVisible: store.isSidePanelVisible,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
+                    currentDistrict: store.currentDistrict,
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MSzoom,
+                    map: store.map,
+                    currentState: store.currentState,
+                    districtPlan: store.districtPlan,
+                    countyToggle: store.countyToggle,
+                    statePop: store.statePop,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: true,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: store.repPlanToggle
+                });
+            }
+            case GlobalStoreActions.DISABLE_OLD_PLAN:{
+                return setStore({
+                    isSidePanelVisible: store.isSidePanelVisible,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
+                    currentDistrict: store.currentDistrict,
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MSzoom,
+                    map: store.map,
+                    currentState: store.currentState,
+                    districtPlan: store.districtPlan,
+                    countyToggle: store.countyToggle,
+                    statePop: store.statePop,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: false,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: store.repPlanToggle
+                });
+            }
+            case GlobalStoreActions.ENABLE_DEM_PLAN:{
+                return setStore({
+                    isSidePanelVisible: store.isSidePanelVisible,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
+                    currentDistrict: store.currentDistrict,
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MSzoom,
+                    map: store.map,
+                    currentState: store.currentState,
+                    districtPlan: store.districtPlan,
+                    countyToggle: store.countyToggle,
+                    statePop: store.statePop,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: true,
+                    repPlanToggle: store.repPlanToggle
+                });
+            }
+            case GlobalStoreActions.DISABLE_DEM_PLAN:{
+                return setStore({
+                    isSidePanelVisible: store.isSidePanelVisible,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
+                    currentDistrict: store.currentDistrict,
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MSzoom,
+                    map: store.map,
+                    currentState: store.currentState,
+                    districtPlan: store.districtPlan,
+                    countyToggle: store.countyToggle,
+                    statePop: store.statePop,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: false,
+                    repPlanToggle: store.repPlanToggle
+                });
+            }
+            case GlobalStoreActions.ENABLE_REP_PLAN:{
+                return setStore({
+                    isSidePanelVisible: store.isSidePanelVisible,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
+                    currentDistrict: store.currentDistrict,
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MSzoom,
+                    map: store.map,
+                    currentState: store.currentState,
+                    districtPlan: store.districtPlan,
+                    countyToggle: store.countyToggle,
+                    statePop: store.statePop,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: true
+                });
+            }
+            case GlobalStoreActions.DISABLE_REP_PLAN:{
+                return setStore({
+                    isSidePanelVisible: store.isSidePanelVisible,
+                    isMapSettingsVisible: store.isMapSettingsVisible,
+                    currentDistrict: store.currentDistrict,
+                    TNzoom: store.TNzoom,
+                    MSzoom: store.MSzoom,
+                    map: store.map,
+                    currentState: store.currentState,
+                    districtPlan: store.districtPlan,
+                    countyToggle: store.countyToggle,
+                    statePop: store.statePop,
+                    enactedPlanToggle: store.enactedPlanToggle,
+                    proposedPlanToggle: store.proposedPlanToggle,
+                    oldPlanToggle: store.oldPlanToggle,
+                    demPlanToggle: store.demPlanToggle,
+                    repPlanToggle: false
                 });
             }
             default:
@@ -223,6 +488,71 @@ function GlobalStoreContextProvider(props){
         }
     }
 
+    store.enableEnactedPlan = async function () {
+        let val = true;
+        storeReducer({
+            type: GlobalStoreActions.ENABLE_ENACTED_PLAN,
+            payload:{}
+        });
+    }
+    store.disableEnactedPlan = async function(){
+        storeReducer({
+            type: GlobalStoreActions.DISABLE_ENACTED_PLAN,
+            payload:{}
+        });
+    }
+
+    store.enableProposedPlan = async function(){
+        storeReducer({
+            type: GlobalStoreActions.ENABLE_PROPOSED_PLAN,
+            payload:{}
+        });
+    }
+    store.disableProposedPlan = async function(){
+        storeReducer({
+            type: GlobalStoreActions.DISABLE_PROPOSED_PLAN,
+            payload:{}
+        });
+    }
+
+    store.enableOldPlan = async function(){
+        storeReducer({
+            type: GlobalStoreActions.ENABLE_OLD_PLAN,
+            payload:{}
+        });
+    }
+    store.disableOldPlan = async function(){
+        storeReducer({
+            type: GlobalStoreActions.DISABLE_OLD_PLAN,
+            payload:{}
+        });
+    }
+
+    store.enableDemPlan = async function(){
+        storeReducer({
+            type: GlobalStoreActions.ENABLE_DEM_PLAN,
+            payload:{}
+        });
+    }
+    store.disableDemPlan = async function(){
+        storeReducer({
+            type: GlobalStoreActions.DISABLE_DEM_PLAN,
+            payload:{}
+        });
+    }
+    
+    store.enableRepPlan = async function(){
+        storeReducer({
+            type: GlobalStoreActions.ENABLE_REP_PLAN,
+            payload:{}
+        });
+    }
+    store.disableRepPlan = async function (){
+        storeReducer({
+            type: GlobalStoreActions.DISABLE_REP_PLAN,
+            payload:{}
+        });
+    }
     store.loadSidePanel = function () {
         storeReducer({
             type: GlobalStoreActions.LOAD_SIDEPANEL,

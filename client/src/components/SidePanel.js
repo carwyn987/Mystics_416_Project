@@ -22,6 +22,10 @@ const TN = 1;
 const MS = 2;
 const NC = 3;
 
+//The summary will include data for each of the districtings including identifier, number of majority-minority districts, 
+//equal population measure, Polsby-Popper value, Republican/Democratic split, and other implemented measure values. The 
+//display should also include the number of total minority districts if that optional use case was completed.
+
 export default function SidePanel(){
     let  { store } = useContext(GlobalStore);
     let state;
@@ -82,97 +86,41 @@ export default function SidePanel(){
         else
             setIsMaximized(true);
     }
-    const handleElectionClick=()=>{
-        let bool = !electionDataVisible;
-        setElectionDataVisible(bool);
-        let text;
-        if(bool && planCompareVisible && popDataVisible)
-            text="ELECTION RESULTS, PLAN COMPARISON & DEMOGRAPHICS";
-        else if(bool && planCompareVisible)
-            text = "ELECTION RESULTS & PLAN COMPARISON";
-        else if(bool && popDataVisible)
-            text="ELECTION RESULTS & DEMOGRAPHICS";
-        else if(planCompareVisible && popDataVisible)
-            text = "PLAN COMPARISON & DEMOGRAPHICS";
-        else if(bool)  
-            text="ELECTION RESULTS";
-        else if(planCompareVisible)
-            text="PLAN COMPARISON";
-        else if(popDataVisible)
-            text="DEMOGRAPHICS";
-        else
-            text="NONE SELECTED";
-        setMenuText(text);
-        handleCloseMenu();
-    }
-    const handleCompareClick=()=>{
-        let bool=!planCompareVisible;
-        setPlanCompareVisible(bool);
-        let text;
-        if(bool && electionDataVisible && popDataVisible)
-            text="ELECTION RESULTS, PLAN COMPARISON & DEMOGRAPHICS";
-        else if(bool && electionDataVisible)
-            text="ELECTION RESULTS & PLAN COMPARISON";
-        else if(bool && popDataVisible)
-            text="PLAN COMPARISON & DEMOGRAPHICS";
-        else if(electionDataVisible && popDataVisible)
-            text="ELECTION RESULTS & DEMOGRAPHICS";
-        else if(bool)  
-            text="PLAN COMPARISON";
-        else if(electionDataVisible)
-            text="ELECTION RESULTS";
-        else if(popDataVisible)
-            text="DEMOGRAPHICS"
-        else
-            text="NONE SELECTED";
-        setMenuText(text);
-        handleCloseMenu();
-    }
-    const handlePopClick=()=>{
-        let bool=!popDataVisible;
-        setPopDataVisible(bool);
-        let text;
-        if(bool && electionDataVisible && planCompareVisible)
-            text="ELECTION RESULTS, PLAN COMPARISON & DEMOGRAPHICS";
-        else if(bool && planCompareVisible)
-            text="PLAN COMPARISON & DEMOGRAPHICS";
-        else if(bool && electionDataVisible)
-            text="ELECTION RESULTS & DEMOGRAPHICS";
-        else if(electionDataVisible && planCompareVisible)
-            text="ELECTION RESULTS & PLAN COMPARISON";
-        else if(bool)  
-            text="DEMOGRAPHICS";
-        else if(electionDataVisible)
-            text="ELECTION RESULTS";
-        else if(planCompareVisible)
-            text="PLAN COMPARISON"
-        else
-            text="NONE SELECTED";
-        setMenuText(text);
-        handleCloseMenu();
-    }
-    
     const handleCloseMenu = () => {
         setAnchorEl(null);
     };
 
-    // if(store.isSidePanelVisible){
-    //     isVisible=true;
-    // }
-    // else{
-    //     isVisible=false;
-    // }
+    let enabledPlans="";
+    if(store.enactedPlanToggle){
+        enabledPlans+="enacted";
+        console.log("YAS");
+    }
+    if(store.proposedPlanToggle){
+        enabledPlans+="proposed";
+        console.log("f");
+    }
+    if(store.oldPlanToggle){
+        enabledPlans+="old";
+        console.log("F");
+    }
+    if(store.demPlanToggle){
+        enabledPlans+="dem";
+        console.log("f");
+
+    }
+    if(store.repPlanToggle){
+        enabledPlans+="rep";
+        console.log("f");
+
+    }
+
     if(!isMaximized)
         expandIcon=<OpenInFullIcon onClick={toggleMaximize}style={{fontSize:'20pt'}}></OpenInFullIcon>;
     let insidePanel=
                 <div>
-                    <Typography style={{fontWeight:'bold',fontSize:'xx-large',marginTop:'2%',display:'inline-block'}}>Viewing data for {stateName}</Typography>
+                    <Typography style={{fontWeight:'bold',fontSize:'xx-large',marginTop:'2%',display:'inline-block'}}>Viewing data for {stateName}{enabledPlans}</Typography>
                     <CenteredTabs></CenteredTabs>
-                    <div style={{display:'inline-block',float:'left', fontSize:'20pt',paddingTop:'2%',paddingLeft:'1%'}}>
-                        <MinimizeIcon onClick={toggleMinimize} style={{fontSize:'20pt'}}></MinimizeIcon>
-                        {expandIcon}
-                        <CottageIcon  style={{fontSize:'15pt'}}></CottageIcon>
-                    </div>         
+                    <div style={{display:'inline-block',float:'left', fontSize:'20pt',paddingTop:'2%',paddingLeft:'1%'}}></div>         
                     <div onClick={handleMenu}>
                         <Button variant="outlined" style={{width:'400px',fontSize:'25pt',borderColor:'white',fontSize:'large',marginRight:'5%',color:'white'}}>
                             {menuText}
@@ -182,42 +130,23 @@ export default function SidePanel(){
                     <Menu
                         id="menu-appbar"
                         anchorEl={anchorEl}
-                        // anchorOrigin={{
-                        // vertical: 'bottom',
-                        // horizontal: 'right',
-                        // }}
                         anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
                         transformOrigin={{vertical: 'top', horizontal: 'center'}}
                         open={Boolean(anchorEl)}
                         onClose={handleCloseMenu}
                         >
-                        <MenuItem onClick={handleElectionClick}>Election Data</MenuItem>
+                        {/* <MenuItem onClick={handleElectionClick}>Election Data</MenuItem>
                         <MenuItem onClick={handleCompareClick}>Compare Plans</MenuItem>
-                        <MenuItem onClick={handlePopClick}>Demographics</MenuItem>
+                        <MenuItem onClick={handlePopClick}>Demographics</MenuItem> */}
                     </Menu>
                     <PopulationGraph></PopulationGraph>
                 </div>
     
-    if(isMaximized){
-        panel=
-                <div style={{height: '10000px', width:'5000px'}}>
-                    {insidePanel}
-                </div>;
-    }
-    else if(isMinimized){
-        panel=
-                <div style={{width: '100px',height:'25%'}}>
-                    <OpenInFullIcon onClick={toggleMaximize} style={{display: 'inline-block',borderRadius:'15px', top: '-10%'}}></OpenInFullIcon>
-                    <Box>
-                            Viewing Data for
-                    </Box>
-                </div>;
-    }
-    else{
-        panel=<div style={{height: '10000px', width: '2000px'}}>
-                {insidePanel}
-            </div>;
-    }
+  
+    panel=<div style={{height: '1000px', width: '900px'}}>
+            {insidePanel}
+          </div>;
+
     
    return(
         <div class='sidePanel' style={{display: sidePanelVisible ? 'block' : 'none'}}>
