@@ -40,7 +40,8 @@ export default function SidePanel(){
     const [value, setValue] = React.useState(0);
 
     const graph = null;
-    let menuItems, enactedPlanData, proposedPlanData, oldPlanData, sidePanelVisible = false, expandIcon = null, panel = null, demVotes = 0, repubVotes = 0, state, stateName;
+    let menuItems, enactedPlanData, proposedPlanData, oldPlanData, sidePanelVisible = false, expandIcon = null, panel = null, demVotes = 0, 
+    repubVotes = 0, state, stateName, enactedPlanSummary, proposedPlanSummary, oldPlanSummary;
     const TN=1;
     const MS=2;
     const NC=3;
@@ -56,6 +57,40 @@ export default function SidePanel(){
         if(store.oldPlanToggle){
             fetch(`http://localhost:8080/getDemographics?stateID=${state}&planType=${"old"}`).then(response => response.json()).then((response) => {oldPlanData=response});
         }
+        let i =0;
+        if(state){
+            for(i=0; i<state.districtPlans.length; i++){
+                let plan = state.districtPlans[i];
+                if(plan.status === 'enacted'){
+                    enactedPlanSummary={
+                        planId: plan.planId,
+                        numDistricts: plan.numDistricts,
+                        seatShare: plan.seatShare,
+                        numMajMinDistricts: plan.numMajMinDistricts,
+                        efficiencyGap: plan.efficiencyGap
+                    };
+                }
+                else if(plan.status === 'proposed'){
+                    proposedPlanSummary={
+                        planId: plan.planId,
+                        numDistricts: plan.numDistricts,
+                        seatShare: plan.seatShare,
+                        numMajMinDistricts: plan.numMajMinDistricts,
+                        efficiencyGap: plan.efficiencyGap
+                    };
+                }
+                else if(plan.status === 'old'){
+                    oldPlanSummary={
+                        planId: plan.planId,
+                        numDistricts: plan.numDistricts,
+                        seatShare: plan.seatShare,
+                        numMajMinDistricts: plan.numMajMinDistricts,
+                        efficiencyGap: plan.efficiencyGap
+                    };
+                }
+            }
+        }
+        
         console.log("hi");
     }
   
