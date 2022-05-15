@@ -12,6 +12,8 @@ import ElectionData from './ElectionData';
 import PopulationData from './PopulationData';
 import PlanComparison from './PlanComparison';
 import CenteredTabs from './CenteredTabs';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import * as React from 'react';
 import {useContext, useEffect} from 'react';
 import CottageIcon from '@mui/icons-material/Cottage';
@@ -28,23 +30,35 @@ const NC = 3;
 
 export default function SidePanel(){
     let  { store } = useContext(GlobalStore);
-    let state;
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [isMinimized, setIsMinimized] = React.useState(false);
     const [isMaximized, setIsMaximized] = React.useState(false);
-    const [menuText, setMenuText] = React.useState("NONE SELECTED");
+    const [menuText, setMenuText] = React.useState("Choose a district plan to view additional data");
     const [electionDataVisible, setElectionDataVisible] = React.useState(false);
     const [planCompareVisible, setPlanCompareVisible] = React.useState(false);
     const [popDataVisible, setPopDataVisible] = React.useState(false);
-    //const [sidePanelVisible, setPanelVis] = React.useState(false);
+    const [value, setValue] = React.useState(0);
+
     const graph = null;
-    let sidePanelVisible = false, expandIcon = null, panel = null, demVotes = 0, repubVotes = 0, stateName;
+    let menuItems, enactedPlanData, proposedPlanData, oldPlanData, sidePanelVisible = false, expandIcon = null, panel = null, demVotes = 0, repubVotes = 0, state, stateName;
+    const TN=1;
+    const MS=2;
+    const NC=3;
 
-    const setState=(response)=>{
-        state=response;
-        console.log('HELP');
+    const getStateFromServer=(state)=>{
+        fetch(`http://localhost:8080/getState?stateID=${state}`).then(response => response.json()).then((response) => {state=response});
+        if(store.enactedPlanToggle){
+            fetch(`http://localhost:8080/getDemographics?stateID=${state}&planType=${"enacted"}`).then(response => response.json()).then((response) => {enactedPlanData=response});
+        }
+        if(store.proposedPlanToggle){
+            fetch(`http://localhost:8080/getDemographics?stateID=${state}&planType=${"proposed"}`).then(response => response.json()).then((response) => {proposedPlanData=response});
+        }
+        if(store.oldPlanToggle){
+            fetch(`http://localhost:8080/getDemographics?stateID=${state}&planType=${"old"}`).then(response => response.json()).then((response) => {oldPlanData=response});
+        }
+        console.log("hi");
     }
-
+  
     if(store.currentState){
         sidePanelVisible = true;
         console.log("currentState in sdepanel: "+store.currentState);
@@ -52,15 +66,19 @@ export default function SidePanel(){
         switch(stateName) {
             case "TN":
                 stateName = "Tennessee";
-                fetch(`http://localhost:8080/getState?stateID=${TN}`).then(response => response.json()).then(response => {setState(response)});
+                getStateFromServer(TN);
+                menuItems= <div>
+                                <MenuItem>Enacted Plan</MenuItem>
+                                <MenuItem>Proposed Plan</MenuItem>
+                            </div> ;
                 break;
             case "MS":
                 stateName = "Mississippi";
-                fetch(`http://localhost:8080/getState?stateID=${MS}`).then(response => response.json()).then(response => {setState(response)});
+                getStateFromServer(MS);
                 break;
             case "NC":
                 stateName = "North Carolina";
-                fetch(`http://localhost:8080/getState?stateID=${NC}`).then(response => response.json()).then(response => {setState(response)});
+                getStateFromServer(NC);
                 break;
             default:
                 break;
@@ -89,58 +107,55 @@ export default function SidePanel(){
     const handleCloseMenu = () => {
         setAnchorEl(null);
     };
-
-    let enabledPlans="";
-    if(store.enactedPlanToggle){
-        enabledPlans+="enacted";
-        console.log("YAS");
-    }
-    if(store.proposedPlanToggle){
-        enabledPlans+="proposed";
-        console.log("f");
-    }
-    if(store.oldPlanToggle){
-        enabledPlans+="old";
-        console.log("F");
-    }
-    if(store.demPlanToggle){
-        enabledPlans+="dem";
-        console.log("f");
-
-    }
-    if(store.repPlanToggle){
-        enabledPlans+="rep";
-        console.log("f");
-
+    const setTab=(event)=>{
+        console.log('hi');   
     }
 
     if(!isMaximized)
         expandIcon=<OpenInFullIcon onClick={toggleMaximize}style={{fontSize:'20pt'}}></OpenInFullIcon>;
+    if(menuText==null){
+        setMenuText("Choose a district plan from the dropdown");
+    }
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    }
+    if(store.currentState == "TN"){
+        stateName = "Tennessee";
+    }
+    else if(store.currentState == "MS"){
+        stateName = "Mississippi";
+    }
+    else if(store.currentState == "NC"){
+        stateName = "North Carolina";
+    }
     let insidePanel=
-                <div>
-                    <Typography style={{fontWeight:'bold',fontSize:'xx-large',marginTop:'2%',display:'inline-block'}}>Viewing data for {stateName}{enabledPlans}</Typography>
-                    <CenteredTabs></CenteredTabs>
-                    <div style={{display:'inline-block',float:'left', fontSize:'20pt',paddingTop:'2%',paddingLeft:'1%'}}></div>         
-                    <div onClick={handleMenu}>
-                        <Button variant="outlined" style={{width:'400px',fontSize:'25pt',borderColor:'white',fontSize:'large',marginRight:'5%',color:'white'}}>
-                            {menuText}
-                            <ArrowDropDownIcon onClick={handleMenu} style={{display:'inline-block',fontSize:'15pt'}}></ArrowDropDownIcon>
-                        </Button>
+            
+                    <div>
+                        <Typography style={{fontWeight:'bold',fontSize:'xx-large',marginTop:'2%',display:'inline-block'}}>Viewing data for {stateName}</Typography>
+                        <Box sx={{height:'35%', width: '100%', bgcolor: '#1C274E'}}>
+                            <Tabs sx={{paddingTop:'2%',paddingBottom:'2%'}}value={value} onChange={handleChange} centered>
+                                <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'12pt'}}label="Plan Summary Data" />
+                                <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'12pt'}}label="Demographics" />
+                                <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'12pt'}}label="Seat Share" />
+                                <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'12pt'}}label="Seawulf Data" />
+                            </Tabs>
+                        </Box>
+                        <div style={{fontSize: '25pt', paddingTop:'5%'}}onClick={handleMenu}>
+                                {menuText}
+                                <ArrowDropDownIcon onClick={handleMenu} style={{display:'inline-block',fontSize:'15pt'}}></ArrowDropDownIcon>
+                        </div>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorEl}
+                            anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+                            transformOrigin={{vertical: 'top', horizontal: 'center'}}
+                            open={Boolean(anchorEl)}
+                            onClose={handleCloseMenu}
+                            >
+                            {menuItems}
+                        </Menu>
+                        <PopulationGraph></PopulationGraph>
                     </div>
-                    <Menu
-                        id="menu-appbar"
-                        anchorEl={anchorEl}
-                        anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
-                        transformOrigin={{vertical: 'top', horizontal: 'center'}}
-                        open={Boolean(anchorEl)}
-                        onClose={handleCloseMenu}
-                        >
-                        {/* <MenuItem onClick={handleElectionClick}>Election Data</MenuItem>
-                        <MenuItem onClick={handleCompareClick}>Compare Plans</MenuItem>
-                        <MenuItem onClick={handlePopClick}>Demographics</MenuItem> */}
-                    </Menu>
-                    <PopulationGraph></PopulationGraph>
-                </div>
     
   
     panel=<div style={{height: '1000px', width: '900px'}}>

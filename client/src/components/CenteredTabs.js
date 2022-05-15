@@ -29,9 +29,10 @@ const {store} = React.useContext(GlobalStore);
   return (
     <Box sx={{height:'35%', width: '100%', bgcolor: '#1C274E'}}>
       <Tabs sx={{paddingTop:'2%',paddingBottom:'2%'}}value={value} onChange={handleChange} centered>
-        <Tab selected className="Tab" sx={{color:'white', fontSize:'15pt'}}label="Demographics" />
-        <Tab selected className="Tab" sx={{color:'white', fontSize:'15pt'}}label="Seat Share" />
-        <Tab selected className="Tab" sx={{color:'white', fontSize:'15pt'}}label="Seawulf Data" />
+        <Tab selected className="Tab" sx={{color:'white', fontSize:'12pt'}}label="Plan Summary Data" />
+        <Tab selected className="Tab" sx={{color:'white', fontSize:'12pt'}}label="Demographics" />
+        <Tab selected className="Tab" sx={{color:'white', fontSize:'12pt'}}label="Seat Share" />
+        <Tab selected className="Tab" sx={{color:'white', fontSize:'12pt'}}label="Seawulf Data" />
       </Tabs>
     </Box>
   );
