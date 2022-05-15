@@ -19,6 +19,7 @@ import {useContext, useEffect} from 'react';
 import CottageIcon from '@mui/icons-material/Cottage';
 import 'animate.css';
 import PopulationGraph from './PopulationGraph.js';
+import Grid from '@mui/material/Grid';
 
 const TN = 1;
 const MS = 2;
@@ -90,7 +91,6 @@ export default function SidePanel(){
                 }
             }
         }
-        
         console.log("hi");
     }
   
@@ -164,33 +164,35 @@ export default function SidePanel(){
         stateName = "North Carolina";
     }
     let insidePanel=
-            
-                    <div>
-                        <Typography style={{fontWeight:'bold',fontSize:'xx-large',marginTop:'2%',display:'inline-block'}}>Viewing data for {stateName}</Typography>
-                        <Box sx={{height:'35%', width: '100%', bgcolor: '#1C274E'}}>
-                            <Tabs sx={{paddingTop:'2%',paddingBottom:'2%'}}value={value} onChange={handleChange} centered>
-                                <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'12pt'}}label="Plan Summary Data" />
-                                <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'12pt'}}label="Demographics" />
-                                <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'12pt'}}label="Seat Share" />
-                                <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'12pt'}}label="Seawulf Data" />
-                            </Tabs>
-                        </Box>
-                        <div style={{fontSize: '25pt', paddingTop:'5%'}}onClick={handleMenu}>
-                                {menuText}
-                                <ArrowDropDownIcon onClick={handleMenu} style={{display:'inline-block',fontSize:'15pt'}}></ArrowDropDownIcon>
-                        </div>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorEl}
-                            anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
-                            transformOrigin={{vertical: 'top', horizontal: 'center'}}
-                            open={Boolean(anchorEl)}
-                            onClose={handleCloseMenu}
-                            >
-                            {menuItems}
-                        </Menu>
-                        <PopulationGraph></PopulationGraph>
-                    </div>
+        <div>
+            <Typography style={{fontWeight:'bold',fontSize:'xx-large',marginTop:'2%',display:'inline-block'}}>Viewing data for {stateName}</Typography>
+            <Box sx={{height:'35%', width: '100%', bgcolor: '#1C274E'}}>
+                <Tabs sx={{paddingTop:'2%',paddingBottom:'2%'}}value={value} onChange={handleChange} centered>
+                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'12pt'}}label="Plan Summary Data" />
+                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'12pt'}}label="Demographics" />
+                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'12pt'}}label="Seat Share" />
+                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'12pt'}}label="Seawulf Data" />
+                </Tabs>
+            </Box>
+            <div style={{fontSize: '25pt', paddingTop:'5%'}}onClick={handleMenu}>
+                    {menuText}
+                    <ArrowDropDownIcon onClick={handleMenu} style={{display:'inline-block',fontSize:'15pt'}}></ArrowDropDownIcon>
+            </div>
+            <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+                transformOrigin={{vertical: 'top', horizontal: 'center'}}
+                open={Boolean(anchorEl)}
+                onClose={handleCloseMenu}
+                >
+                {menuItems}
+            </Menu>
+            <PopulationGraph></PopulationGraph>
+            <Grid container spacing={1}>
+                <Grid></Grid>
+            </Grid>
+        </div>
     
   
     panel=<div style={{height: '1000px', width: '900px'}}>

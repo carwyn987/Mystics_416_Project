@@ -1116,7 +1116,7 @@ function DistMap(props) {
                     map.setLayoutProperty('ms-boundary-layer', 'visibility', 'visible');
                     map.setLayoutProperty('tn-district-layer', 'visibility', 'none');
                     map.setLayoutProperty('tn-old-dist-layer', 'visibility', 'none');
-                    map.setLayoutProperty('nc-boundary-layer', 'visibility', 'visible');
+                    map.setLayoutProperty('tn-boundary-layer', 'visibility', 'visible');
                     map.flyTo({
                         center: [-82.121, 35.480],
                         zoom: 5.61
