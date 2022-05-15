@@ -8,6 +8,10 @@ import '../App.css';
 export function PopulationGraph(props) {
     let { store } = useContext(GlobalStore);
     let graph;
+    const oldData = props.oldData;
+    const enactedData = props.enactedData;
+    const proposedData = props.proposedData;
+
     const tnPopData = 
     [{
         name: 'White',
