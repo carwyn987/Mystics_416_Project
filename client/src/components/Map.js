@@ -147,6 +147,10 @@ function DistMap(props) {
         }
     }
 
+    const planSwitchComplete = () => {
+        setMapFlag(0);
+    }
+
     useEffect(() => {
         mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
         const initMap = ({ setMap, mapContainer }) => {
@@ -1129,8 +1133,6 @@ function DistMap(props) {
         };
         if (!map) {initMap({ setMap, mapContainer });}
         if (mapFlag === 1) {
-            //initMap({setMap, mapContainer}); 
-            setMapFlag(0);
             if (enactedSelected) {
                 if(clickedState === 'TN'){
                     map.setLayoutProperty('tn-district-layer', 'visibility', 'visible');
@@ -1191,6 +1193,7 @@ function DistMap(props) {
                     map.setLayoutProperty('nc-proposed-layer', 'visibility', 'none');
                 }
             }
+            planSwitchComplete();
         }
     }, [map, mapFlag, clickedState]);
     //console.log("map rerender");
@@ -1212,4 +1215,3 @@ function DistMap(props) {
 }
 
 export default DistMap;
-

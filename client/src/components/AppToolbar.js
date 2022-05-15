@@ -10,6 +10,8 @@ import Menu from '@mui/material/Menu';
 import Button from '@mui/material/Button';
 import { useContext } from 'react';
 import { GlobalStore } from './DataStore.js';
+import RotateLeftIcon from '@mui/icons-material/RotateLeft';
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 
 export default function AppToolbar() {
   const { store } = useContext(GlobalStore);
@@ -51,44 +53,52 @@ export default function AppToolbar() {
     store.loadMapSettings();
   }
 
+  const resetPage = () => {
+    store.resetApp(true);
+  }
+
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" backgroundColor='rgb(214,218,254)'>
         <Toolbar>
           <Box component="div" sx={{ flexGrow: 1 }}>
-          {( 
-            <div>
-              <Typography style={{float:'left', top:'28%',fontSize:'13pt',position:'absolute', /*border:'medium solid white*/}}>Redistricting Assessor</Typography>
-              <IconButton
-              style={{margin:'auto%'}}
-                size="xx-large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                Choose a State  
-                <ArrowDropDownIcon></ArrowDropDownIcon>
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
-                transformOrigin={{vertical: 'top', horizontal: 'center'}}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleTnClick}>Tennessee</MenuItem>
-                <MenuItem onClick={handleMsClick}>Mississippi</MenuItem>
-                <MenuItem onClick={handleNcClick}>North Carolina</MenuItem>
-              </Menu>
-            </div>
-          )}
+          <Button onClick={resetPage} variant="contained" style={{color: 'white', fontWeight: 'bold',borderColor:'white', backgroundColor:'#8083D6', float:'left'}}>
+                 <RotateLeftIcon/>Reset Page</Button>
+          {/*</Box>( 
+            // <div>
+            //<Button onClick={resetPage} variant="contained" style={{color: 'white', fontWeight: 'bold',borderColor:'white', backgroundColor:'#8083D6', float:'left'}}>
+            //     <RotateLeftIcon/>Reset Page</Button>
+            //   <IconButton
+            //   style={{margin:'auto%'}}
+            //     size="xx-large"
+            //     aria-label="account of current user"
+            //     aria-controls="menu-appbar"
+            //     aria-haspopup="true"
+            //     onClick={handleMenu}
+            //     color="inherit"
+            //   >
+            //     Choose a State  
+            //     <ArrowDropDownIcon></ArrowDropDownIcon>
+            //   </IconButton>
+            //   <Menu
+            //     id="menu-appbar"
+            //     anchorEl={anchorEl}
+            //     anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+            //     transformOrigin={{vertical: 'top', horizontal: 'center'}}
+            //     keepMounted
+            //     open={Boolean(anchorEl)}
+            //     onClose={handleClose}
+            //   >
+            //     <MenuItem onClick={handleTnClick}>Tennessee</MenuItem>
+            //     <MenuItem onClick={handleMsClick}>Mississippi</MenuItem>
+            //     <MenuItem onClick={handleNcClick}>North Carolina</MenuItem>
+            //   </Menu>
+            // </div>
+          )*/}
+            <Typography style={{left:'50%', top:'28%',fontSize:'25pt', fontWeight:'bold'/*border:'medium solid white*/}}>Redistricting Assessor</Typography>
           </Box>
-          <Button onClick={toggleSettings} variant="contained" style={{color: 'white', fontWeight: 'bold',borderColor:'white', backgroundColor:'#8083D6'}}>Map Settings</Button>
+          <MenuOpenIcon onClick={toggleSettings} variant="contained" style={{color: 'white', fontSize:'50px'}}></MenuOpenIcon>
         </Toolbar>
       </AppBar>
     </Box>
