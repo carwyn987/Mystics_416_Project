@@ -9,7 +9,7 @@ import Menu from '@mui/material/Menu';
 import GlobalStore from './DataStore.js'
 import * as React from 'react'
 import {useContext} from 'react'
-import 'animate.css'
+import 'animate.css';
 import Button from '@mui/material/Button';
 import '../App.css';
 

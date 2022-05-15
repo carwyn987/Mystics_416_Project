@@ -21,6 +21,14 @@ var msBoundary = require('../district-data/MS/Mississippi-State.json');
 var ncBoundary = require('../district-data/NC/NorthCarolina-State.json');
 var msProposed = require('../district-data/MS/MS-Dem-proposed.json');
 var ncProposed = require('../district-data/NC/NCProposed-Rejected.json');
+var tnOldSplitCounties = require('../district-data/TN/tnOldSplitCounties.json');
+var tnEnactedSplitCounties = require('../district-data/TN/tnEnactedSplitCounties.json');
+var msOldSplitCounties = require('../district-data/MS/msOldSplitCounties.json');
+var msEnactedSplitCounties = require('../district-data/MS/msEnactedSplitCounties.json');
+var msProposedSplitCounties = require('../district-data/MS/msProposedSplitCounties.json');
+var ncOldSplitCounties = require('../district-data/NC/ncOldSplitCounties.json');
+var ncEnactedSplitCounties = require('../district-data/NC/ncEnactedSplitCounties.json');
+var ncProposedSplitCounties = require('../district-data/NC/ncProposedSplitCounties.json');
 
 const STATE_ID={
     TN: "TN",
@@ -49,14 +57,20 @@ function DistMap(props) {
     const clickedStateRef = useRef(clickedState);
     const [stateClicked, setStateClicked] = useState(false);
     const [distPlan, setDistPlan] = useState(0);
+    const [enactedSelected, setEnactedSelect] = useState(true);
+    const [oldSelected, setOldSelect] = useState(false);
+    const [proposedSelected, setProposedSelect] = useState(false);
     const [mapFlag, setMapFlag] = useState(0);
     let countyVis;
 
-    if (store.districtPlan !== distPlan) {
-        console.log("calling set plan in map");
-        let planNum = store.districtPlan;
+    if (store.enactedPlanToggle !== enactedSelected || store.proposedPlanToggle !== proposedSelected || store.oldPlanToggle !== oldSelected) {
+        let enacted = store.enactedPlanToggle;
+        let proposed = store.proposedPlanToggle;
+        let old = store.oldPlanToggle;
         setMapFlag(1);
-        setDistPlan(planNum);
+        setEnactedSelect(enacted);
+        setProposedSelect(proposed);
+        setOldSelect(old);
     }
 
     const styles = {
@@ -671,6 +685,82 @@ function DistMap(props) {
                     }
                 });
 
+                map.addSource('tn-old-split-county-source', {
+                    'type': 'geojson',
+                    'data': tnOldSplitCounties,
+                    'promoteId': 'NAME'
+                });
+
+                map.addLayer({
+                    'id': 'tn-old-split-layer',
+                    'type': 'line',
+                    'source': 'tn-old-split-county-source',
+                    'layout': {
+                        'visibility': 'none'
+                    },
+                    'paint': {
+                        'line-color': '#808080',
+                        'line-width': 0.7
+                    }
+                });
+
+                map.addSource('tn-enacted-split-county-source', {
+                    'type': 'geojson',
+                    'data': tnEnactedSplitCounties,
+                    'promoteId': 'NAME'
+                });
+
+                map.addLayer({
+                    'id': 'tn-enacted-split-layer',
+                    'type': 'line',
+                    'source': 'tn-enacted-split-county-source',
+                    'layout': {
+                        'visibility': 'none'
+                    },
+                    'paint': {
+                        'line-color': '#808080',
+                        'line-width': 0.7
+                    }
+                });
+
+                map.addSource('ms-old-split-county-source', {
+                    'type': 'geojson',
+                    'data': msOldSplitCounties,
+                    'promoteId': 'NAME'
+                });
+
+                map.addLayer({
+                    'id': 'ms-old-split-layer',
+                    'type': 'line',
+                    'source': 'ms-old-split-county-source',
+                    'layout': {
+                        'visibility': 'none'
+                    },
+                    'paint': {
+                        'line-color': '#808080',
+                        'line-width': 0.7
+                    }
+                });
+
+                // map.addSource('ms-enacted-split-county-source', {
+                //     'type': 'geojson',
+                //     'data': msEnactedSplitCounties,
+                //     'promoteId': 'NAME'
+                // });
+
+                // map.addLayer({
+                //     'id': 'ms-old-split-layer',
+                //     'type': 'line',
+                //     'source': 'ms-old-split-county-source',
+                //     'layout': {
+                //         'visibility': 'none'
+                //     },
+                //     'paint': {
+                //         'line-color': '#808080',
+                //         'line-width': 0.7
+                //     }
+                // });
+
                 map.on('mouseleave', 'tn-boundary-layer', function () {
                     if (hoveredStateRef.current) {
                         map.setFeatureState(
@@ -1038,39 +1128,71 @@ function DistMap(props) {
             }
         };
         if (!map) {initMap({ setMap, mapContainer });}
-        else if (mapFlag === 1) {
+        if (mapFlag === 1) {
             //initMap({setMap, mapContainer}); 
             setMapFlag(0);
-            if (distPlan === 0) {
+            if (enactedSelected) {
                 if(clickedState === 'TN'){
                     map.setLayoutProperty('tn-district-layer', 'visibility', 'visible');
-                    map.setLayoutProperty('tn-old-dist-layer', 'visibility', 'none');
                 }
                 else if(clickedState === 'MS') {
                     map.setLayoutProperty('ms-district-layer', 'visibility', 'visible');
-                    map.setLayoutProperty('ms-old-dist-layer', 'visibility', 'none');
                 }
                 else if(clickedState === 'NC') {
                     map.setLayoutProperty('nc-district-layer', 'visibility', 'visible');
-                    map.setLayoutProperty('nc-old-dist-layer', 'visibility', 'none');
                 }
             }
-            else if (distPlan === 2) {
+            else {
                 if(clickedState === 'TN'){
                     map.setLayoutProperty('tn-district-layer', 'visibility', 'none');
+                }
+                else if(clickedState === 'MS') {
+                    map.setLayoutProperty('ms-district-layer', 'visibility', 'none');
+                }
+                else if(clickedState === 'NC') {
+                    map.setLayoutProperty('nc-district-layer', 'visibility', 'none');
+                }
+            }
+            if (oldSelected) {
+                if(clickedState === 'TN'){
                     map.setLayoutProperty('tn-old-dist-layer', 'visibility', 'visible');
                 }
                 else if(clickedState === 'MS'){
-                    map.setLayoutProperty('ms-district-layer', 'visibility', 'none');
                     map.setLayoutProperty('ms-old-dist-layer', 'visibility', 'visible');
                 }
                 else if(clickedState === 'NC'){
-                    map.setLayoutProperty('nc-district-layer', 'visibility', 'none');
                     map.setLayoutProperty('nc-old-dist-layer', 'visibility', 'visible');
                 }
             }
+            else {
+                if(clickedState === 'TN'){
+                    map.setLayoutProperty('tn-old-dist-layer', 'visibility', 'none');
+                }
+                else if(clickedState === 'MS'){
+                    map.setLayoutProperty('ms-old-dist-layer', 'visibility', 'none');
+                }
+                else if(clickedState === 'NC'){
+                    map.setLayoutProperty('nc-old-dist-layer', 'visibility', 'none');
+                }
+            }
+            if (proposedSelected) {
+                if(clickedState === 'MS'){
+                    map.setLayoutProperty('ms-proposed-layer', 'visibility', 'visible');
+                }
+                else if(clickedState === 'NC'){
+                    map.setLayoutProperty('nc-proposed-layer', 'visibility', 'visible');
+                }
+            }
+            else {
+                if(clickedState === 'MS'){
+                    map.setLayoutProperty('ms-proposed-layer', 'visibility', 'none');
+                }
+                else if(clickedState === 'NC'){
+                    map.setLayoutProperty('nc-proposed-layer', 'visibility', 'none');
+                }
+            }
         }
-    }, [map, distPlan, clickedState]);
+    }, [map, mapFlag, clickedState]);
     //console.log("map rerender");
     return (
         <div>
