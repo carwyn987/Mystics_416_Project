@@ -49,14 +49,10 @@ export default function SidePanel(){
 
     const getStateFromServer= async (stateId)=>{
         await (fetch(`http://localhost:8080/getState?stateID=${stateId}`).then(response => response.json()).then((response) => {state=response}));
-        if(store.enactedPlanToggle){
-            fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"enacted"}`).then(response => response.json()).then((response) => {enactedPlanData=response});
-        }
-        if(store.proposedPlanToggle){
-            fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"proposed"}`).then(response => response.json()).then((response) => {proposedPlanData=response});
-        }
-        if(store.oldPlanToggle){
-            fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"old"}`).then(response => response.json()).then((response) => {oldPlanData=response});
+        fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"enacted"}`).then(response => response.json()).then((response) => {enactedPlanData=response});
+        fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"old"}`).then(response => response.json()).then((response) => {oldPlanData=response});
+        if(stateId !== TN){
+        fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"proposed"}`).then(response => response.json()).then((response) => {proposedPlanData=response});
         }
         let i =0;
         if(state){
@@ -188,7 +184,7 @@ export default function SidePanel(){
                 >
                 {menuItems}
             </Menu>
-            <PopulationGraph></PopulationGraph>
+            <PopulationGraph oldData={oldPlanData} enactedData={enactedPlanData} proposedData={proposedPlanData}></PopulationGraph>
             <Grid container spacing={1}>
                 <Grid></Grid>
             </Grid>
@@ -198,7 +194,6 @@ export default function SidePanel(){
     panel=<div style={{height: '1000px', width: '900px'}}>
             {insidePanel}
           </div>;
-
     
    return(
         <div class='sidePanel' style={{display: sidePanelVisible ? 'block' : 'none'}}>
