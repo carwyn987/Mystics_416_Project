@@ -46,16 +46,16 @@ export default function SidePanel(){
     const MS=2;
     const NC=3;
 
-    const getStateFromServer=(state)=>{
-        fetch(`http://localhost:8080/getState?stateID=${state}`).then(response => response.json()).then((response) => {state=response});
+    const getStateFromServer= async (stateId)=>{
+        await (fetch(`http://localhost:8080/getState?stateID=${stateId}`).then(response => response.json()).then((response) => {state=response}));
         if(store.enactedPlanToggle){
-            fetch(`http://localhost:8080/getDemographics?stateID=${state}&planType=${"enacted"}`).then(response => response.json()).then((response) => {enactedPlanData=response});
+            fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"enacted"}`).then(response => response.json()).then((response) => {enactedPlanData=response});
         }
         if(store.proposedPlanToggle){
-            fetch(`http://localhost:8080/getDemographics?stateID=${state}&planType=${"proposed"}`).then(response => response.json()).then((response) => {proposedPlanData=response});
+            fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"proposed"}`).then(response => response.json()).then((response) => {proposedPlanData=response});
         }
         if(store.oldPlanToggle){
-            fetch(`http://localhost:8080/getDemographics?stateID=${state}&planType=${"old"}`).then(response => response.json()).then((response) => {oldPlanData=response});
+            fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"old"}`).then(response => response.json()).then((response) => {oldPlanData=response});
         }
         let i =0;
         if(state){
