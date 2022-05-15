@@ -12,6 +12,7 @@ import { useContext } from 'react';
 import { GlobalStore } from './DataStore.js';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import MenuIcon from '@mui/icons-material/Menu';
 
 export default function AppToolbar() {
   const { store } = useContext(GlobalStore);
@@ -98,7 +99,9 @@ export default function AppToolbar() {
           )*/}
             <Typography style={{left:'50%', top:'28%',fontSize:'25pt', fontWeight:'bold'/*border:'medium solid white*/}}>Redistricting Assessor</Typography>
           </Box>
-          <MenuOpenIcon onClick={toggleSettings} variant="contained" style={{color: 'white', fontSize:'50px'}}></MenuOpenIcon>
+          <div onClick={toggleSettings} style={{color: 'white', fontWeight: 'bold', fontSize:'20px', right:'0%', backgroundColor:'#2B2C33', display:'inline', verticalAlign:'middle'}}>
+          Map Settings<MenuIcon onClick={toggleSettings} style={{fontSize:'20px', paddingLeft:'10px'}}></MenuIcon></div>
+          {/* <MenuIcon onClick={toggleSettings} variant="contained" style={{color: 'white', fontSize:'50px'}}>Map Settings</MenuIcon> */}
         </Toolbar>
       </AppBar>
     </Box>
