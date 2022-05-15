@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect, useRef, useContext } from 'react';
 import { GlobalStore } from './DataStore';
-import { touchRippleClasses } from '@mui/material';
 import Chart from "react-apexcharts";
 import ReactApexChart from 'react-apexcharts';
 import '../App.css';

@@ -25,7 +25,8 @@ export const GlobalStoreActions = {
     ENABLE_DEM_PLAN: "ENABLE_DEM_PLAN",
     DISABLE_DEM_PLAN: "DISABLE_DEM_PLAN",
     ENABLE_REP_PLAN: "ENABLE_REP_PLAN",
-    DISABLE_REP_PLAN: "DISABLE_REP_PLAN"
+    DISABLE_REP_PLAN: "DISABLE_REP_PLAN",
+    RESET_APP: "RESET_APP"
 }
 
 function GlobalStoreContextProvider(props){
@@ -44,7 +45,8 @@ function GlobalStoreContextProvider(props){
         proposedPlanToggle: false,
         oldPlanToggle: false,
         demPlanToggle: false,
-        repPlanToggle: false
+        repPlanToggle: false,
+        reset: false
     });
 
     const storeReducer = (action) => {
@@ -66,7 +68,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.CLOSE_SIDEPANEL:{
@@ -85,7 +88,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.LOAD_MAP_SETTINGS:{
@@ -104,7 +108,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.CLOSE_MAP_SETTINGS:{
@@ -123,7 +128,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.LOAD_ELECTION_DATA:{
@@ -142,7 +148,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.ZOOM_TN:{
@@ -161,7 +168,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.ZOOM_MS:{
@@ -180,7 +188,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.UPDATE_MAP:{
@@ -194,7 +203,8 @@ function GlobalStoreContextProvider(props){
                     currentState: store.currentState,
                     districtPlan: store.districtPlan,
                     countyToggle: store.countyToggle,
-                    statePop: store.statePop
+                    statePop: store.statePop,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.SET_CURRENT_STATE:{
@@ -213,7 +223,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.DISTRICT_PLAN:{
@@ -232,7 +243,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
 
@@ -252,7 +264,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.STATE_POP:{
@@ -271,7 +284,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.PANEL_VIS:{
@@ -290,7 +304,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.ENABLE_ENACTED_PLAN:{
@@ -309,7 +324,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.DISABLE_ENACTED_PLAN:{
@@ -328,7 +344,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.ENABLE_PROPOSED_PLAN:{
@@ -347,7 +364,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: true,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.DISABLE_PROPOSED_PLAN:{
@@ -366,7 +384,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: false,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.ENABLE_OLD_PLAN:{
@@ -385,7 +404,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: true,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.DISABLE_OLD_PLAN:{
@@ -404,7 +424,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: false,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.ENABLE_DEM_PLAN:{
@@ -423,7 +444,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: true,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.DISABLE_DEM_PLAN:{
@@ -442,7 +464,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: false,
-                    repPlanToggle: store.repPlanToggle
+                    repPlanToggle: store.repPlanToggle,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.ENABLE_REP_PLAN:{
@@ -461,7 +484,8 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: true
+                    repPlanToggle: true,
+                    reset: store.reset
                 });
             }
             case GlobalStoreActions.DISABLE_REP_PLAN:{
@@ -480,7 +504,28 @@ function GlobalStoreContextProvider(props){
                     proposedPlanToggle: store.proposedPlanToggle,
                     oldPlanToggle: store.oldPlanToggle,
                     demPlanToggle: store.demPlanToggle,
-                    repPlanToggle: false
+                    repPlanToggle: false,
+                    reset: store.reset
+                });
+            }
+            case GlobalStoreActions.RESET_APP:{
+                return setStore({
+                    isSidePanelVisible: false,
+                    isMapSettingsVisible: false,
+                    currentDistrict: null,
+                    TNzoom: false,
+                    MSzoom: false,
+                    map: null,
+                    currentState: null,
+                    districtPlan: 0,
+                    countyToggle: false,
+                    statePop: 0,
+                    enactedPlanToggle: true,
+                    proposedPlanToggle: false,
+                    oldPlanToggle: false,
+                    demPlanToggle: false,
+                    repPlanToggle: false,
+                    reset: payload
                 });
             }
             default:
@@ -627,6 +672,12 @@ function GlobalStoreContextProvider(props){
     store.setSidePanelVis = async function (bool) {
         storeReducer({
             type: GlobalStoreActions.PANEL_VIS,
+            payload: {bool}
+        });
+    }
+    store.resetApp = function (bool) {
+        storeReducer({
+            type: GlobalStoreActions.RESET_APP,
             payload: {bool}
         });
     }
