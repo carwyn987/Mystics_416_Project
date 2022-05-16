@@ -40,59 +40,16 @@ export default function SidePanel(){
     const [electionDataVisible, setElectionDataVisible] = React.useState(false);
     const [planCompareVisible, setPlanCompareVisible] = React.useState(false);
     const [popDataVisible, setPopDataVisible] = React.useState(false);
+    //const [stateName, setStateName] = React.useState(null);
     const [value, setValue] = React.useState(0);
     // const[enactedPlanSummaryData, setEnactedPlanSummaryData] = React.useState(null);
     const graph = null;
-    let menuItems, enactedPlanSummaryData, proposedPlanData, oldPlanData, sidePanelVisible = false, expandIcon = null, panel = null, demVotes = 0, 
-    repubVotes = 0, state, enactedSummaryRow, proposedSummaryRow, oldSummaryRow,stateName, enactedPlanSummary, proposedPlanSummary, oldPlanSummary;
+    let menuItems, enactedPlanSummaryData, stateName,proposedPlanData, oldPlanData, sidePanelVisible = false, expandIcon = null, panel = null, demVotes = 0, 
+    repubVotes = 0, state, enactedSummaryRow, proposedSummaryRow, oldSummaryRow, enactedPlanSummary, proposedPlanSummary, oldPlanSummary;
     const TN=1;
     const MS=2;
     const NC=3;
 
-    // const getStateFromServer= async (stateId)=>{
-    //     await (fetch(`http://localhost:8080/getState?stateID=${stateId}`).then(response => response.json()).then((response) => {state=response}));
-    //     fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"enacted"}`).then(response => response.json()).then((response) => {enactedPlanData=response});
-    //     fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"old"}`).then(response => response.json()).then((response) => {oldPlanData=response});
-    //     if(stateId !== TN){
-    //     fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"proposed"}`).then(response => response.json()).then((response) => {proposedPlanData=response});
-    //     }
-    //     let i =0;
-    //     if(state){
-    //         for(i=0; i<state.districtPlans.length; i++){
-    //             let plan = state.districtPlans[i];
-    //             if(plan.status === 'enacted'){
-    //                 enactedPlanSummary={
-    //                     planId: plan.planId,
-    //                     numDistricts: plan.numDistricts,
-    //                     seatShare: plan.seatShare,
-    //                     numMajMinDistricts: plan.numMajMinDistricts,
-    //                     efficiencyGap: plan.efficiencyGap
-    //                 };
-    //             }
-    //             else if(plan.status === 'proposed'){
-    //                 proposedPlanSummary={
-    //                     planId: plan.planId,
-    //                     numDistricts: plan.numDistricts,
-    //                     seatShare: plan.seatShare,
-    //                     numMajMinDistricts: plan.numMajMinDistricts,
-    //                     efficiencyGap: plan.efficiencyGap
-    //                 };
-    //             }
-    //             else if(plan.status === 'old'){
-    //                 oldPlanSummary={
-    //                     planId: plan.planId,
-    //                     numDistricts: plan.numDistricts,
-    //                     seatShare: plan.seatShare,
-    //                     numMajMinDistricts: plan.numMajMinDistricts,
-    //                     efficiencyGap: plan.efficiencyGap
-    //                 };
-    //             }
-    //         }
-    //     }
-    //     console.log("hi");
-    // }
-
-  
     const setTab=(event)=>{
         console.log('hi');   
     }
@@ -111,34 +68,51 @@ export default function SidePanel(){
    
     if(store.currentState == "TN"){
         sidePanelVisible = true;
-        stateName = "Tennessee";
+       // stateName="Tennessee";
+        // setStateName("Tennessee");
         // getStateData(TN);
     }
     else if(store.currentState == "MS"){
         sidePanelVisible=true;
-        stateName = "Mississippi";
+       // stateName="Mississippi";
+        // setStateName("Mississippi");
         // getStateData(MS);
     }
     else if(store.currentState == "NC"){
         sidePanelVisible=true;
-        stateName = "North Carolina";
+        //stateName="North Carolina";
+        // setStateName("North Carolina");
         // getStateData(NC);
     }
     if(store.stateObj){
         let i =0;
-        let enactedSummaryData;
-        let proposedSummaryData;
-        let oldSummaryData;
-        let state=store.stateObj;
+        let enactedSummaryData,proposedSummaryData,oldSummaryData,state=store.stateObj;
+        switch(state.id){
+            case "TN":
+                stateName = "Tennessee";
+                break;
+            case "MS":
+                stateName="Mississippi";
+                break;
+            case "NC":
+                stateName="North Carolina";
+                break;
+            default:
+                break;
+        }
         if(state){
             for(i=0; i<state.districtPlans.length; i++){
-                let plan = state.districtPlans[i];
+                let plan = state.districtPlans[i];  
+                let equalPop = (1/plan.numDistricts);
+                //Number of districts - seatShare
                 if(plan.status==="enacted"){
                     enactedSummaryData={
                         planId: plan.planId,
                         numDistricts: plan.numDistricts,
                         seatShare: plan.seatShare,
                         numMajMinDistricts: plan.numMajMinDistricts,
+                        polsbyPopper: plan.polsbyPopper,
+                        equalPop: equalPop,
                         efficiencyGap: plan.efficiencyGap
                     };
                 }
@@ -148,6 +122,19 @@ export default function SidePanel(){
                         numDistricts: plan.numDistricts,
                         seatShare: plan.seatShare,
                         numMajMinDistricts: plan.numMajMinDistricts,
+                        polsbyPopper: plan.polsbyPopper,
+                        equalPop: equalPop,
+                        efficiencyGap: plan.efficiencyGap
+                    };
+                }
+                else if(plan.status==="old"){
+                    oldSummaryData={
+                        planId: plan.planId,
+                        numDistricts: plan.numDistricts,
+                        seatShare: plan.seatShare,
+                        numMajMinDistricts: plan.numMajMinDistricts,
+                        polsbyPopper: plan.polsbyPopper,
+                        equalPop: equalPop,
                         efficiencyGap: plan.efficiencyGap
                     };
                 }
@@ -158,41 +145,33 @@ export default function SidePanel(){
             enactedSummaryRow=<Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
                                 <Grid item xs={2} style={{fontSize:'20pt'}}><div>Enacted</div></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt'}}><div>{enactedSummaryData.numMajMinDistricts}</div></Grid>
-                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{enactedSummaryData.numMajMinDistricts}</div></Grid>
-                                <Grid item xs={3} style={{fontSize:'20pt'}}><div>{enactedSummaryData.numMajMinDistricts}</div></Grid>
-                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{enactedSummaryData.numMajMinDistricts}</div></Grid>
-                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{enactedSummaryData.seatShare}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round((enactedSummaryData.equalPop) * 100) / 100+'%'}</div></Grid>
+                                <Grid item xs={3} style={{fontSize:'20pt'}}><div>{Math.round((enactedSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{enactedSummaryData.numDistricts-enactedSummaryData.seatShare + ':' + enactedSummaryData.seatShare}</div></Grid>
                             </Grid>;
         }
         if(proposedSummaryData){
             proposedSummaryRow=<Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
                                 <Grid item xs={2} style={{fontSize:'20pt'}}><div>Proposed</div></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
-                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
-                                <Grid item xs={3} style={{fontSize:'20pt'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
-                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
-                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{proposedSummaryData.seatShare}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round((proposedSummaryData.equalPop) * 100) / 100+'%'}</div></Grid>
+                                <Grid item xs={3} style={{fontSize:'20pt'}}><div>{Math.round((proposedSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{proposedSummaryData.numDistricts-proposedSummaryData.seatShare + ':' + proposedSummaryData.seatShare}</div></Grid>
                             </Grid>;
         }
         if(oldSummaryData){
             oldSummaryRow=<Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
-                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>Proposed</div></Grid>
-                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
-                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
-                            <Grid item xs={3} style={{fontSize:'20pt'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
-                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
-                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>{proposedSummaryData.seatShare}</div></Grid>
+                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>Previous (2012-2020)</div></Grid>
+                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>{oldSummaryData.numMajMinDistricts}</div></Grid>
+                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round((oldSummaryData.equalPop) * 100) / 100+'%'}</div></Grid>
+                            <Grid item xs={3} style={{fontSize:'20pt'}}><div>{Math.round((oldSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
+                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>{oldSummaryData.numDistricts-oldSummaryData.seatShare + ':' + oldSummaryData.seatShare}</div></Grid>
                         </Grid>;
         }
            
     }
     
-    // useEffect(()=>{
-    //     getStateData();
-    //     console.log('yeah');
-    // })
     let rows= [{ id: 1, planStatus: 'Enacted', numMajMin: 5, equalPop: 5, polsbyPopper: 5, repDemSplit:10 }];
-    
     let columns= [  
                     { field: 'id', headerName: 'Plan ID', width: 100},
                     { field: 'planStatus', headerName: 'Plan Status', width: 150},
@@ -201,7 +180,10 @@ export default function SidePanel(){
                     { field: 'polsbyPopper', headerName: 'Polsby Popper Value', width: 175},
                     { field: 'repDemSplit', headerName: 'Republican/Democrat Split', width: 175}];
 
-    let insidePanel=
+       
+   return(
+    <div class='sidePanel' style={{display: store.isSidePanelVisible ? 'block' : 'none'}}>
+        <div style={{height: '1000px', width: '1300px', borderRadius:'2', resize: 'both', overflow: 'auto'}}>
         <div>
             <Box sx={{height:'35%', width: '100%', bgcolor: '#1C274E'}}>
                 <Tabs sx={{paddingTop:'2%',paddingBottom:'2%'}}value={value} onChange={handleChange} centered>
@@ -213,63 +195,26 @@ export default function SidePanel(){
             </Box>
             <div style={{fontSize: '25pt', paddingTop:'5%'}}/*onClick={handleMenu}*/>
                 Plan Summary Data for {stateName}
-                    {/* {menuText}
-                    <ArrowDropDownIcon onClick={handleMenu} style={{display:'inline-block',fontSize:'15pt'}}></ArrowDropDownIcon> */}
             </div>
-            {/* <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
-                transformOrigin={{vertical: 'top', horizontal: 'center'}}
-                open={Boolean(anchorEl)}
-                onClose={handleCloseMenu}
-                >
-                {menuItems}
-            </Menu> */}
-            <div style={{margin:'0 auto'}}>
+            <div style={{marginRight:'2%', marginLeft:'2%',marginTop:'4%', marginBottom:'3%', paddingLeft:'3%',paddingRight:'3%',backgroundColor:'#b6c1e954', borderRadius:'2%'}}>
                 <Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
                     <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Plan status</div></Grid>
                     <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Majority/Minority Districts</div></Grid>
                     <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Equal Population Measure</div></Grid>
                     <Grid item xs={3} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Polsby Popper Value</div></Grid>
-                    <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Republican/Democrat Split</div></Grid>
+                    <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Republican:Democrat Split</div></Grid>
                 </Grid>
-                {enactedSummaryRow}
+                    {enactedSummaryRow}
                 <Grid>
                     {proposedSummaryRow}
                 </Grid>
                 <Grid>
                     {oldSummaryRow}
                 </Grid>
-                {/* <Grid container sx={{paddingTop:'5%', margin:'0 auto'}}>
-                    <Grid item xs={4}> <div style={{fontSize:'25pt'}}>Enacted Plan Summary</div></Grid>
-                    <Grid item xs={4}><div style={{fontSize:'25pt'}}>Proposed Plan Summary</div></Grid>
-                    <Grid item xs={4}><div style={{fontSize:'25pt'}}>Previous Plan Summary (2012-2020)</div></Grid>  */}
-                    {/* <div style={{ height: 400, width: '93%', margin:'0 auto' , paddingTop:'3%'}}>
-                        <DataGrid
-                            sx={{color:'white',fontSize:'15pt', '& > .MuiDataGrid-columnSeparator': {
-                                visibility: 'hidden'}}}
-                            rows={rows}
-                            columns={columns}
-                            pageSize={5}
-                            //rowsPerPageOptions={[5]}
-                            // checkboxSelection
-                            // disableSelectionOnClick
-                        />
-                    </div> */}
-                {/* </Grid> */}
             </div>
+        </div>
+    </div>
+</div>
 
-        </div>
-    
-  
-    panel=<div style={{height: '1000px', width: '1300px', borderRadius:'2'}}>
-            {insidePanel}
-          </div>;
-    
-   return(
-        <div class='sidePanel' style={{display: store.isSidePanelVisible ? 'block' : 'none'}}>
-                {panel}
-        </div>
     );
 }
