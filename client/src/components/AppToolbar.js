@@ -61,7 +61,7 @@ export default function AppToolbar() {
 
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1}}>
       <AppBar position="static" backgroundColor='rgb(214,218,254)'>
         <Toolbar>
           <Box component="div" sx={{ flexGrow: 1 }}>
@@ -98,7 +98,7 @@ export default function AppToolbar() {
             //   </Menu>
             // </div>
           )*/}
-            <Typography style={{left:'50%', top:'28%',fontSize:'25pt', fontWeight:'bold'/*border:'medium solid white*/}}>Redistricting Assessor</Typography>
+            <Typography style={{left:'50%', top:'28%',fontSize:'25pt', fontWeight:'bold'/*border:'medium solid white*/}}>Redistricting Analyzer</Typography>
           </Box>
           <div onClick={toggleSettings} style={{color: 'white', fontWeight: 'bold', fontSize:'20px', right:'0%', backgroundColor:'#2B2C33', display:'inline', verticalAlign:'middle'}}>
           Map Settings<MenuIcon onClick={toggleSettings} style={{fontSize:'20px', paddingLeft:'10px'}}></MenuIcon></div>

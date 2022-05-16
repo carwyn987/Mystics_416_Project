@@ -87,20 +87,20 @@ export default function SidePanel(){
     if(store.stateObj){
         let i =0;
         let enactedSummaryData,proposedSummaryData,oldSummaryData,state=store.stateObj;
-        switch(state.id){
-            case "TN":
-                stateName = "Tennessee";
-                break;
-            case "MS":
-                stateName="Mississippi";
-                break;
-            case "NC":
-                stateName="North Carolina";
-                break;
-            default:
-                break;
-        }
         if(state){
+            switch(state.id){
+                case 1:
+                    stateName = "Tennessee";
+                    break;
+                case 2:
+                    stateName="Mississippi";
+                    break;
+                case 3:
+                    stateName="North Carolina";
+                    break;
+                default:
+                    break;
+            }
             for(i=0; i<state.districtPlans.length; i++){
                 let plan = state.districtPlans[i];  
                 let equalPop = (1/plan.numDistricts);
@@ -183,7 +183,7 @@ export default function SidePanel(){
        
    return(
     <div class='sidePanel' style={{display: store.isSidePanelVisible ? 'block' : 'none'}}>
-        <div style={{height: '1000px', width: '1300px', borderRadius:'2', resize: 'both', overflow: 'auto'}}>
+        <div style={{height: '1000px', width: '1300px', borderRadius:'4%', resize: 'both', overflow: 'auto'}}>
         <div>
             <Box sx={{height:'35%', width: '100%', bgcolor: '#1C274E'}}>
                 <Tabs sx={{paddingTop:'2%',paddingBottom:'2%'}}value={value} onChange={handleChange} centered>
@@ -196,7 +196,7 @@ export default function SidePanel(){
             <div style={{fontSize: '25pt', paddingTop:'5%'}}/*onClick={handleMenu}*/>
                 Plan Summary Data for {stateName}
             </div>
-            <div style={{marginRight:'2%', marginLeft:'2%',marginTop:'4%', marginBottom:'3%', paddingLeft:'3%',paddingRight:'3%',backgroundColor:'#b6c1e954', borderRadius:'2%'}}>
+            <div style={{marginRight:'2%', marginLeft:'2%',marginTop:'4%',paddingBottom:'8%',paddingLeft:'3%',paddingRight:'3%',backgroundColor:'#b6c1e954', borderRadius:'2%'}}>
                 <Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
                     <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Plan status</div></Grid>
                     <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Majority/Minority Districts</div></Grid>

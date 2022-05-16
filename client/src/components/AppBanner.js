@@ -5,7 +5,7 @@ export default function AppBanner(){
         <div class='app-banner'>
             <div>
                 <Typography style={{color:'white',  fontSize:'xx-large'}}>
-                    Redistricting Assessor
+                    Redistricting Analyzer
                 </Typography>
             </div>
         </div>
