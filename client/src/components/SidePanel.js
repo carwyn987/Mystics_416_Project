@@ -39,12 +39,9 @@ export default function SidePanel(){
     const [planCompareVisible, setPlanCompareVisible] = React.useState(false);
     const [popDataVisible, setPopDataVisible] = React.useState(false);
     const [value, setValue] = React.useState(0);
-    const [oldDemographics, setOldDemographics] = React.useState(null);
-    const [enactedDemographics, setEnactedDemographics] = React.useState(null);
-    const [proposedDemographics, setProposedDemographics] = React.useState(null);
 
     const graph = null;
-    let menuItems, sidePanelVisible = false, expandIcon = null, panel = null, demVotes = 0, 
+    let menuItems, enactedPlanData, proposedPlanData, oldPlanData, sidePanelVisible = false, expandIcon = null, panel = null, demVotes = 0, 
     repubVotes = 0, state, stateName, enactedPlanSummary, proposedPlanSummary, oldPlanSummary;
     const TN=1;
     const MS=2;
@@ -52,10 +49,10 @@ export default function SidePanel(){
 
     const getStateFromServer= async (stateId)=>{
         await (fetch(`http://localhost:8080/getState?stateID=${stateId}`).then(response => response.json()).then((response) => {state=response}));
-        await fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"enacted"}`).then(response => response.json()).then((response) => {setEnactedDemographics(response)});
-        await fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"old"}`).then(response => response.json()).then((response) => {setOldDemographics(response)});
+        fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"enacted"}`).then(response => response.json()).then((response) => {enactedPlanData=response});
+        fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"old"}`).then(response => response.json()).then((response) => {oldPlanData=response});
         if(stateId !== TN){
-        await fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"proposed"}`).then(response => response.json()).then((response) => {setProposedDemographics(response)});
+        fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"proposed"}`).then(response => response.json()).then((response) => {proposedPlanData=response});
         }
         let i =0;
         if(state){
@@ -187,7 +184,7 @@ export default function SidePanel(){
                 >
                 {menuItems}
             </Menu>
-            <PopulationGraph oldData={oldDemographics} enactedData={enactedDemographics} proposedData={proposedDemographics}></PopulationGraph>
+            <PopulationGraph oldData={oldPlanData} enactedData={enactedPlanData} proposedData={proposedPlanData}></PopulationGraph>
             <Grid container spacing={1}>
                 <Grid></Grid>
             </Grid>
