@@ -469,12 +469,6 @@ function GlobalStoreContextProvider(props){
             payload: {bool}
         });
     }
-    store.resetApp = function (bool) {
-        storeReducer({
-            type: GlobalStoreActions.RESET_APP,
-            payload: {bool}
-        });
-    }
     return (
         <GlobalStore.Provider value={{ store }}>
             {props.children}

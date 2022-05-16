@@ -22,11 +22,12 @@ export default function MapSettings(){
     const [availablePlans, setAvailablePlans] = React.useState(null);
     const [currentPlan, setCurrentPlan] = React.useState(null);
     const [enactedToggle, setEnactedToggle] = React.useState(true);
+    //const [displayToggle, setDisplayToggle] = React.useState(false);
     const [proposedToggle, setProposedToggle] = React.useState(false);
     const [oldToggle, setOldToggle] = React.useState(false);
     const [demToggle, setDemToggle] = React.useState(false);
     const [repToggle, setRepToggle] = React.useState(false);
-    let countyToggle, precinctToggle, displayToggle, state, distPlans, planString, planViewTitle, hasOld=false,hasEnacted=false, 
+    let countyToggle, precinctToggle,displayToggle, state, distPlans, planString, planViewTitle, hasOld=false,hasEnacted=false, 
     hasProposed=false,hasDem=false, hasRep=false, firstToggle, secondToggle, thirdToggle, fourthToggle, fifthToggle, title;
     
     const PLAN_NAME={
@@ -156,8 +157,9 @@ export default function MapSettings(){
         setAnchorEl(event.currentTarget);
     };
 
-    if(store.isMapSettingsVisible)
+    if(store.isMapSettingsVisible){
         displayToggle=true;
+    }
 
     let toggleOffIcon = <ToggleOffIcon style={{color:'grey'}} ></ToggleOffIcon>;
     let toggleOnIcon = <ToggleOnIcon style={{color:'chartreuse'}}></ToggleOnIcon>;

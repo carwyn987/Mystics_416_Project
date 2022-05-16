@@ -122,18 +122,19 @@ function DistMap(props) {
     const setState=(response)=>{
         console.log("SET STATE: ",response);
     }
-    const getStateData = async function(stateId){
-        let state;
-        await (fetch(`http://localhost:8080/getState?stateID=${stateId}`).then(response => response.json()).then((response) => {state=response}));
-        store.setStateObj(state);
-    }
+    // const getStateData = async function(stateId){
+    //     let state;
+    //     await (fetch(`http://localhost:8080/getState?stateID=${stateId}`).then(response => response.json()).then((response) => {state=response}));
+    //     store.setStateObj(state);
+    // }
     const clickState = (id) => {
         setStateClicked(true);
         setClickedState(id);
         //store.setCurrentState(id);
         store.setCurrentState(id);
-        store.loadSidePanel();
         store.setStateObj(id);
+        store.loadSidePanel();
+
         //store.loadSidePanel();
         //setStoreState(id);
     }

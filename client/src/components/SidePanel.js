@@ -115,6 +115,8 @@ export default function SidePanel(){
                         equalPop: equalPop,
                         efficiencyGap: plan.efficiencyGap
                     };
+                    let math = (Math.round((enactedSummaryData.equalPop) * 100) / 100);
+                    console.log(math);
                 }
                 else if(plan.status==="proposed"){
                     proposedSummaryData={
@@ -145,18 +147,18 @@ export default function SidePanel(){
             enactedSummaryRow=<Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
                                 <Grid item xs={2} style={{fontSize:'20pt'}}><div>Enacted</div></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt'}}><div>{enactedSummaryData.numMajMinDistricts}</div></Grid>
-                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round((enactedSummaryData.equalPop) * 100) / 100+'%'}</div></Grid>
-                                <Grid item xs={3} style={{fontSize:'20pt'}}><div>{Math.round((enactedSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round(((enactedSummaryData.equalPop) * 100) / 100)*100+'%'}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round((enactedSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt'}}><div>{enactedSummaryData.numDistricts-enactedSummaryData.seatShare + ':' + enactedSummaryData.seatShare}</div></Grid>
                             </Grid>;
         }
         if(proposedSummaryData){
             proposedSummaryRow=<Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
-                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>Proposed</div></Grid>
-                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
-                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round((proposedSummaryData.equalPop) * 100) / 100+'%'}</div></Grid>
-                                <Grid item xs={3} style={{fontSize:'20pt'}}><div>{Math.round((proposedSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
-                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{proposedSummaryData.numDistricts-proposedSummaryData.seatShare + ':' + proposedSummaryData.seatShare}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><div>Proposed</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><div>{Math.round((proposedSummaryData.equalPop) * 100) / 100+'%'}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><div>{Math.round((proposedSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><div>{proposedSummaryData.numDistricts-proposedSummaryData.seatShare + ':' + proposedSummaryData.seatShare}</div></Grid>
                             </Grid>;
         }
         if(oldSummaryData){
@@ -164,7 +166,7 @@ export default function SidePanel(){
                             <Grid item xs={2} style={{fontSize:'20pt'}}><div>Previous (2012-2020)</div></Grid>
                             <Grid item xs={2} style={{fontSize:'20pt'}}><div>{oldSummaryData.numMajMinDistricts}</div></Grid>
                             <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round((oldSummaryData.equalPop) * 100) / 100+'%'}</div></Grid>
-                            <Grid item xs={3} style={{fontSize:'20pt'}}><div>{Math.round((oldSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
+                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round((oldSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
                             <Grid item xs={2} style={{fontSize:'20pt'}}><div>{oldSummaryData.numDistricts-oldSummaryData.seatShare + ':' + oldSummaryData.seatShare}</div></Grid>
                         </Grid>;
         }
