@@ -17,8 +17,10 @@ import Tab from '@mui/material/Tab';
 import * as React from 'react';
 import {useContext, useEffect} from 'react';
 import CottageIcon from '@mui/icons-material/Cottage';
+import { DataGrid } from '@mui/x-data-grid';
 import 'animate.css';
 import PopulationGraph from './PopulationGraph.js';
+
 import Grid from '@mui/material/Grid';
 
 const TN = 1;
@@ -39,27 +41,100 @@ export default function SidePanel(){
     const [planCompareVisible, setPlanCompareVisible] = React.useState(false);
     const [popDataVisible, setPopDataVisible] = React.useState(false);
     const [value, setValue] = React.useState(0);
-
+    // const[enactedPlanSummaryData, setEnactedPlanSummaryData] = React.useState(null);
     const graph = null;
-    let menuItems, enactedPlanData, proposedPlanData, oldPlanData, sidePanelVisible = false, expandIcon = null, panel = null, demVotes = 0, 
-    repubVotes = 0, state, stateName, enactedPlanSummary, proposedPlanSummary, oldPlanSummary;
+    let menuItems, enactedPlanSummaryData, proposedPlanData, oldPlanData, sidePanelVisible = false, expandIcon = null, panel = null, demVotes = 0, 
+    repubVotes = 0, state, enactedSummaryRow, proposedSummaryRow, oldSummaryRow,stateName, enactedPlanSummary, proposedPlanSummary, oldPlanSummary;
     const TN=1;
     const MS=2;
     const NC=3;
 
-    const getStateFromServer= async (stateId)=>{
-        await (fetch(`http://localhost:8080/getState?stateID=${stateId}`).then(response => response.json()).then((response) => {state=response}));
-        fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"enacted"}`).then(response => response.json()).then((response) => {enactedPlanData=response});
-        fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"old"}`).then(response => response.json()).then((response) => {oldPlanData=response});
-        if(stateId !== TN){
-        fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"proposed"}`).then(response => response.json()).then((response) => {proposedPlanData=response});
-        }
+    // const getStateFromServer= async (stateId)=>{
+    //     await (fetch(`http://localhost:8080/getState?stateID=${stateId}`).then(response => response.json()).then((response) => {state=response}));
+    //     fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"enacted"}`).then(response => response.json()).then((response) => {enactedPlanData=response});
+    //     fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"old"}`).then(response => response.json()).then((response) => {oldPlanData=response});
+    //     if(stateId !== TN){
+    //     fetch(`http://localhost:8080/getDemographics?stateID=${stateId}&planType=${"proposed"}`).then(response => response.json()).then((response) => {proposedPlanData=response});
+    //     }
+    //     let i =0;
+    //     if(state){
+    //         for(i=0; i<state.districtPlans.length; i++){
+    //             let plan = state.districtPlans[i];
+    //             if(plan.status === 'enacted'){
+    //                 enactedPlanSummary={
+    //                     planId: plan.planId,
+    //                     numDistricts: plan.numDistricts,
+    //                     seatShare: plan.seatShare,
+    //                     numMajMinDistricts: plan.numMajMinDistricts,
+    //                     efficiencyGap: plan.efficiencyGap
+    //                 };
+    //             }
+    //             else if(plan.status === 'proposed'){
+    //                 proposedPlanSummary={
+    //                     planId: plan.planId,
+    //                     numDistricts: plan.numDistricts,
+    //                     seatShare: plan.seatShare,
+    //                     numMajMinDistricts: plan.numMajMinDistricts,
+    //                     efficiencyGap: plan.efficiencyGap
+    //                 };
+    //             }
+    //             else if(plan.status === 'old'){
+    //                 oldPlanSummary={
+    //                     planId: plan.planId,
+    //                     numDistricts: plan.numDistricts,
+    //                     seatShare: plan.seatShare,
+    //                     numMajMinDistricts: plan.numMajMinDistricts,
+    //                     efficiencyGap: plan.efficiencyGap
+    //                 };
+    //             }
+    //         }
+    //     }
+    //     console.log("hi");
+    // }
+
+  
+    const setTab=(event)=>{
+        console.log('hi');   
+    }
+
+    if(menuText==null){
+        setMenuText("Choose a district plan from the dropdown");
+    }
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    }
+   
+    if(enactedPlanSummaryData){
+        enactedSummaryRow=<div>{enactedPlanSummaryData.planId}</div>;
+        console.log('klit');
+    }
+   
+    if(store.currentState == "TN"){
+        sidePanelVisible = true;
+        stateName = "Tennessee";
+        // getStateData(TN);
+    }
+    else if(store.currentState == "MS"){
+        sidePanelVisible=true;
+        stateName = "Mississippi";
+        // getStateData(MS);
+    }
+    else if(store.currentState == "NC"){
+        sidePanelVisible=true;
+        stateName = "North Carolina";
+        // getStateData(NC);
+    }
+    if(store.stateObj){
         let i =0;
+        let enactedSummaryData;
+        let proposedSummaryData;
+        let oldSummaryData;
+        let state=store.stateObj;
         if(state){
             for(i=0; i<state.districtPlans.length; i++){
                 let plan = state.districtPlans[i];
-                if(plan.status === 'enacted'){
-                    enactedPlanSummary={
+                if(plan.status==="enacted"){
+                    enactedSummaryData={
                         planId: plan.planId,
                         numDistricts: plan.numDistricts,
                         seatShare: plan.seatShare,
@@ -67,17 +142,8 @@ export default function SidePanel(){
                         efficiencyGap: plan.efficiencyGap
                     };
                 }
-                else if(plan.status === 'proposed'){
-                    proposedPlanSummary={
-                        planId: plan.planId,
-                        numDistricts: plan.numDistricts,
-                        seatShare: plan.seatShare,
-                        numMajMinDistricts: plan.numMajMinDistricts,
-                        efficiencyGap: plan.efficiencyGap
-                    };
-                }
-                else if(plan.status === 'old'){
-                    oldPlanSummary={
+                else if(plan.status==="proposed"){
+                    proposedSummaryData={
                         planId: plan.planId,
                         numDistricts: plan.numDistricts,
                         seatShare: plan.seatShare,
@@ -87,94 +153,70 @@ export default function SidePanel(){
                 }
             }
         }
-        console.log("hi");
-    }
-  
-    if(store.currentState){
-        sidePanelVisible = true;
-        console.log("currentState in sdepanel: "+store.currentState);
-        stateName=store.currentState;
-        switch(stateName) {
-            case "TN":
-                stateName = "Tennessee";
-                getStateFromServer(TN);
-                menuItems= <div>
-                                <MenuItem>Enacted Plan</MenuItem>
-                                <MenuItem>Proposed Plan</MenuItem>
-                            </div> ;
-                break;
-            case "MS":
-                stateName = "Mississippi";
-                getStateFromServer(MS);
-                break;
-            case "NC":
-                stateName = "North Carolina";
-                getStateFromServer(NC);
-                break;
-            default:
-                break;
+       
+        if(enactedSummaryData){
+            enactedSummaryRow=<Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>Enacted</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{enactedSummaryData.numMajMinDistricts}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{enactedSummaryData.numMajMinDistricts}</div></Grid>
+                                <Grid item xs={3} style={{fontSize:'20pt'}}><div>{enactedSummaryData.numMajMinDistricts}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{enactedSummaryData.numMajMinDistricts}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{enactedSummaryData.seatShare}</div></Grid>
+                            </Grid>;
         }
-    }
-   
-    const handleMenu = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const toggleMinimize=()=>{
-        if(isMaximized){
-            setIsMinimized(false);
-            setIsMaximized(false);
+        if(proposedSummaryData){
+            proposedSummaryRow=<Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>Proposed</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
+                                <Grid item xs={3} style={{fontSize:'20pt'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{proposedSummaryData.seatShare}</div></Grid>
+                            </Grid>;
         }
-        else
-            setIsMinimized(true);
-    }
-    const toggleMaximize=()=>{
-        if(isMinimized){
-            setIsMinimized(false);
-            setIsMaximized(false);
+        if(oldSummaryData){
+            oldSummaryRow=<Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
+                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>Proposed</div></Grid>
+                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
+                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
+                            <Grid item xs={3} style={{fontSize:'20pt'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
+                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
+                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>{proposedSummaryData.seatShare}</div></Grid>
+                        </Grid>;
         }
-        else
-            setIsMaximized(true);
+           
     }
-    const handleCloseMenu = () => {
-        setAnchorEl(null);
-    };
-    const setTab=(event)=>{
-        console.log('hi');   
-    }
+    
+    // useEffect(()=>{
+    //     getStateData();
+    //     console.log('yeah');
+    // })
+    let rows= [{ id: 1, planStatus: 'Enacted', numMajMin: 5, equalPop: 5, polsbyPopper: 5, repDemSplit:10 }];
+    
+    let columns= [  
+                    { field: 'id', headerName: 'Plan ID', width: 100},
+                    { field: 'planStatus', headerName: 'Plan Status', width: 150},
+                    {field:'numMajMin', headerName:'Majority/Minority\n Districts', width:175},
+                    {field: 'equalPop', headerName:'Equal Population Measure', width:175},
+                    { field: 'polsbyPopper', headerName: 'Polsby Popper Value', width: 175},
+                    { field: 'repDemSplit', headerName: 'Republican/Democrat Split', width: 175}];
 
-    if(!isMaximized)
-        expandIcon=<OpenInFullIcon onClick={toggleMaximize}style={{fontSize:'20pt'}}></OpenInFullIcon>;
-    if(menuText==null){
-        setMenuText("Choose a district plan from the dropdown");
-    }
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    }
-    if(store.currentState == "TN"){
-        stateName = "Tennessee";
-    }
-    else if(store.currentState == "MS"){
-        stateName = "Mississippi";
-    }
-    else if(store.currentState == "NC"){
-        stateName = "North Carolina";
-    }
     let insidePanel=
         <div>
-            <Typography style={{fontWeight:'bold',fontSize:'xx-large',marginTop:'2%',display:'inline-block'}}>Viewing data for {stateName}</Typography>
             <Box sx={{height:'35%', width: '100%', bgcolor: '#1C274E'}}>
                 <Tabs sx={{paddingTop:'2%',paddingBottom:'2%'}}value={value} onChange={handleChange} centered>
-                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'12pt'}}label="Plan Summary Data" />
-                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'12pt'}}label="Demographics" />
-                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'12pt'}}label="Seat Share" />
-                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'12pt'}}label="Seawulf Data" />
+                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'15pt'}}label="Plan Summary Data" />
+                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'15pt'}}label="Demographics" />
+                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'15pt'}}label="Seat Share" />
+                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'15pt'}}label="Seawulf Data" />
                 </Tabs>
             </Box>
-            <div style={{fontSize: '25pt', paddingTop:'5%'}}onClick={handleMenu}>
-                    {menuText}
-                    <ArrowDropDownIcon onClick={handleMenu} style={{display:'inline-block',fontSize:'15pt'}}></ArrowDropDownIcon>
+            <div style={{fontSize: '25pt', paddingTop:'5%'}}/*onClick={handleMenu}*/>
+                Plan Summary Data for {stateName}
+                    {/* {menuText}
+                    <ArrowDropDownIcon onClick={handleMenu} style={{display:'inline-block',fontSize:'15pt'}}></ArrowDropDownIcon> */}
             </div>
-            <Menu
+            {/* <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
                 anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
@@ -183,20 +225,50 @@ export default function SidePanel(){
                 onClose={handleCloseMenu}
                 >
                 {menuItems}
-            </Menu>
-            <PopulationGraph oldData={oldPlanData} enactedData={enactedPlanData} proposedData={proposedPlanData}></PopulationGraph>
-            <Grid container spacing={1}>
-                <Grid></Grid>
-            </Grid>
+            </Menu> */}
+            <div style={{margin:'0 auto'}}>
+                <Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
+                    <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Plan status</div></Grid>
+                    <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Majority/Minority Districts</div></Grid>
+                    <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Equal Population Measure</div></Grid>
+                    <Grid item xs={3} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Polsby Popper Value</div></Grid>
+                    <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Republican/Democrat Split</div></Grid>
+                </Grid>
+                {enactedSummaryRow}
+                <Grid>
+                    {proposedSummaryRow}
+                </Grid>
+                <Grid>
+                    {oldSummaryRow}
+                </Grid>
+                {/* <Grid container sx={{paddingTop:'5%', margin:'0 auto'}}>
+                    <Grid item xs={4}> <div style={{fontSize:'25pt'}}>Enacted Plan Summary</div></Grid>
+                    <Grid item xs={4}><div style={{fontSize:'25pt'}}>Proposed Plan Summary</div></Grid>
+                    <Grid item xs={4}><div style={{fontSize:'25pt'}}>Previous Plan Summary (2012-2020)</div></Grid>  */}
+                    {/* <div style={{ height: 400, width: '93%', margin:'0 auto' , paddingTop:'3%'}}>
+                        <DataGrid
+                            sx={{color:'white',fontSize:'15pt', '& > .MuiDataGrid-columnSeparator': {
+                                visibility: 'hidden'}}}
+                            rows={rows}
+                            columns={columns}
+                            pageSize={5}
+                            //rowsPerPageOptions={[5]}
+                            // checkboxSelection
+                            // disableSelectionOnClick
+                        />
+                    </div> */}
+                {/* </Grid> */}
+            </div>
+
         </div>
     
   
-    panel=<div style={{height: '1000px', width: '900px'}}>
+    panel=<div style={{height: '1000px', width: '1300px', borderRadius:'2'}}>
             {insidePanel}
           </div>;
     
    return(
-        <div class='sidePanel' style={{display: sidePanelVisible ? 'block' : 'none'}}>
+        <div class='sidePanel' style={{display: store.isSidePanelVisible ? 'block' : 'none'}}>
                 {panel}
         </div>
     );

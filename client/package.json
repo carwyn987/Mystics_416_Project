@@ -8,6 +8,7 @@
     "@mapbox/geojson-rewind": "^0.5.1",
     "@mui/icons-material": "^5.4.2",
     "@mui/material": "^5.4.2",
+    "@mui/x-data-grid": "^5.11.0",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",

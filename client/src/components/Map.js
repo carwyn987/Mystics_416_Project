@@ -6,6 +6,7 @@ import MouseTooltip from 'react-sticky-mouse-tooltip';
 import SidePanel from './SidePanel';
 import {getState}  from '../Controllers/StateController';
 import MapSettings from './MapSettings';
+import { SouthEastRounded, StoreSharp } from '@mui/icons-material';
 
 var tnDistricts = require('../district-data/TN/tnDistricts.geojson');
 var msDistricts = require('../district-data/MS/msDistricts.geojson');
@@ -121,30 +122,20 @@ function DistMap(props) {
     const setState=(response)=>{
         console.log("SET STATE: ",response);
     }
+    const getStateData = async function(stateId){
+        let state;
+        await (fetch(`http://localhost:8080/getState?stateID=${stateId}`).then(response => response.json()).then((response) => {state=response}));
+        store.setStateObj(state);
+    }
     const clickState = (id) => {
         setStateClicked(true);
         setClickedState(id);
         //store.setCurrentState(id);
-        store.loadSidePanel();
         store.setCurrentState(id);
+        store.loadSidePanel();
+        store.setStateObj(id);
         //store.loadSidePanel();
         //setStoreState(id);
-        //store.loadSidePanel();
-        let response;
-        switch(id){
-            case STATE_ID.TN:
-               // fetch(`http://localhost:8080/getState?stateID=${TN}`).then(response => response.json()).then(response => {setState(response)});
-                console.log('dingbat');
-                break;
-            case STATE_ID.MS:
-                response=getState(MS);
-                break;
-            case STATE_ID.NC:
-                response=getState(NC);
-                break;
-            default:
-                break;
-        }
     }
 
     const planSwitchComplete = () => {
