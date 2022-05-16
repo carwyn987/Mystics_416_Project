@@ -55,7 +55,8 @@ export default function AppToolbar() {
   }
 
   const resetPage = () => {
-    store.resetApp(true);
+    window.location.reload()
+    return false;
   }
 
 
