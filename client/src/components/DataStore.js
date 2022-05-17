@@ -384,7 +384,10 @@ function GlobalStoreContextProvider(props){
             default:
                 break;
         }
-        await (fetch(`http://localhost:8080/getState?stateID=${stateId}`).then(response => response.json()).then((response) => {state=response}));
+        const response = await fetch(`http://localhost:8080/getState?stateID=${stateId}`);
+        const json = await response.json();
+        state = json;
+        console.log(state);
         storeReducer({
             type: GlobalStoreActions.SET_STATE_OBJ,
             payload: state

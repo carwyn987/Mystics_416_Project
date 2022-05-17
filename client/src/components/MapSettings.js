@@ -63,43 +63,42 @@ export default function MapSettings(){
     }
    
     planViewTitle = "View available plans for ";
-    if(store.currentState){
-        switch(store.currentState){
-            case "TN":
-                state="Tennessee";
-               // distPlans=tnDistPlans;
-                hasEnacted = true;
-                hasProposed= false;
-                hasOld=true;
-                hasDem= false;
-                hasRep= false;
-                title="Choose which of Tennessee's district plans you'd like to overlay on the map.";
-                break;
-            case "MS":
-                state="Mississippi";
-                hasEnacted = true;
-                hasProposed= true;
-                hasOld= true;
-                hasDem= false;
-                hasRep= false;
-                title="Choose which of Mississippi's district plans you'd like to overlay on the map.";
-               // distPlans=miDistPlans;
-                break;
-            case "NC":
-                state="North Carolina";
-                //distPlans=ncDistPlans;
-                hasEnacted = true;
-                hasProposed= true;
-                hasOld= true;
-                hasDem= false;
-                hasRep= false;
-                title="Choose which of North Carolina's district plans you'd like to overlay on the map.";
-                break;
-            default:
-                state="";
-                title="Choose a state to view available district plans.";
-                break;
-        }
+
+    switch(store.stateObj?.id){
+        case 1:
+            state="Tennessee";
+            // distPlans=tnDistPlans;
+            hasEnacted = true;
+            hasProposed= false;
+            hasOld=true;
+            hasDem= false;
+            hasRep= false;
+            title="Choose which of Tennessee's district plans you'd like to overlay on the map.";
+            break;
+        case 2:
+            state="Mississippi";
+            hasEnacted = true;
+            hasProposed= true;
+            hasOld= true;
+            hasDem= false;
+            hasRep= false;
+            title="Choose which of Mississippi's district plans you'd like to overlay on the map.";
+            // distPlans=miDistPlans;
+            break;
+        case 3:
+            state="North Carolina";
+            //distPlans=ncDistPlans;
+            hasEnacted = true;
+            hasProposed= true;
+            hasOld= true;
+            hasDem= false;
+            hasRep= false;
+            title="Choose which of North Carolina's district plans you'd like to overlay on the map.";
+            break;
+        default:
+            state="";
+            title="Choose a state to view available district plans.";
+            break;
     }
 
     const toggleEnacted=()=>{
@@ -208,13 +207,13 @@ export default function MapSettings(){
                     </div>;
     
     return(
-        <div class="animate__animated animate__fadeInRightBig" id='map-settings' style={{display: displayToggle ? 'inline-block': 'none'}}>
+        <div className="animate__animated animate__fadeInRightBig" id='map-settings' style={{display: displayToggle ? 'inline-block': 'none'}}>
             <div>
                 <Typography style={{fontWeight:'bold', display:'inline-block', margin:'auto'}}>SETTINGS</Typography>
                 <CloseIcon onClick = {handleClose}style={{display: 'inline-block', float:'right'}}></CloseIcon>
             </div>
             <Box id='settings-block' style={{height:'80%'}}>
-                <Typography style={{fontSize:'12pt', paddingLeft:'5%', paddingRight: '5%', fontSize:'20pt', fontWeight:'bold'}}> {title} <br></br></Typography>
+                <Typography style={{ paddingLeft:'5%', paddingRight: '5%', fontSize:'20pt', fontWeight:'bold'}}> {title} <br></br></Typography>
                 <div id='togglesBox'style={{height:'25%',paddingTop:'8%'}}>
                     {allToggles}
                 </div>

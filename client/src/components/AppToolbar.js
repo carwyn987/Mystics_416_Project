@@ -55,7 +55,7 @@ export default function AppToolbar() {
   }
 
   const resetPage = () => {
-    window.location.reload()
+    window.location.reload();
     return false;
   }
 

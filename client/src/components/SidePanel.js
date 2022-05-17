@@ -66,19 +66,19 @@ export default function SidePanel(){
         console.log('klit');
     }
    
-    if(store.currentState == "TN"){
+    if(store.currentState === "TN"){
         sidePanelVisible = true;
        // stateName="Tennessee";
         // setStateName("Tennessee");
         // getStateData(TN);
     }
-    else if(store.currentState == "MS"){
+    else if(store.currentState === "MS"){
         sidePanelVisible=true;
        // stateName="Mississippi";
         // setStateName("Mississippi");
         // getStateData(MS);
     }
-    else if(store.currentState == "NC"){
+    else if(store.currentState === "NC"){
         sidePanelVisible=true;
         //stateName="North Carolina";
         // setStateName("North Carolina");
@@ -184,11 +184,11 @@ export default function SidePanel(){
 
        
    return(
-    <div class='sidePanel' style={{display: store.isSidePanelVisible ? 'block' : 'none'}}>
+    <div className='sidePanel' style={{display: store.isSidePanelVisible ? 'block' : 'none'}}>
         <div style={{height: '1000px', width: '1300px', borderRadius:'4%', resize: 'both', overflow: 'auto'}}>
         <div>
             <Box sx={{height:'35%', width: '100%', bgcolor: '#1C274E'}}>
-                <Tabs sx={{paddingTop:'2%',paddingBottom:'2%'}}value={value} onChange={handleChange} centered>
+                <Tabs sx={{paddingTop:'2%',paddingBottom:'2%'}} value={value} onChange={handleChange} centered>
                     <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'15pt'}}label="Plan Summary Data" />
                     <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'15pt'}}label="Demographics" />
                     <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'15pt'}}label="Seat Share" />

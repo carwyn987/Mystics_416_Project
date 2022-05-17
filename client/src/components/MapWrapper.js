@@ -7,7 +7,7 @@ import MapSettings from './MapSettings.js'
 
 export default function MapWrapper(){
     return (
-        <div class='mapWrapper'>
+        <div className='mapWrapper'>
             <AppToolbar/>
             <SidePanel/>
             <MapSettings/>
