@@ -40,6 +40,10 @@ export default function SidePanel(){
     const [electionDataVisible, setElectionDataVisible] = React.useState(false);
     const [planCompareVisible, setPlanCompareVisible] = React.useState(false);
     const [popDataVisible, setPopDataVisible] = React.useState(false);
+    const [summaryTabVisible, setSummaryTabVisible] = React.useState(true);
+    const[demographicsTabVisible, setDemographicsTabVisible] = React.useState(false);
+    const [seatShareTabVisible, setSeatShareTabVisible] = React.useState(false);
+    const [seawulfTabVisible, setSeawulfTabVisible] = React.useState(false);
     //const [stateName, setStateName] = React.useState(null);
     const [value, setValue] = React.useState(0);
     // const[enactedPlanSummaryData, setEnactedPlanSummaryData] = React.useState(null);
@@ -51,6 +55,31 @@ export default function SidePanel(){
     const NC=3;
 
     const setTab=(event)=>{
+        let tab = String(event.target.innerHTML);
+        if(tab.includes("Summary")){
+            setSummaryTabVisible(true);
+            setDemographicsTabVisible(false);
+            setSeatShareTabVisible(false);
+            setSeawulfTabVisible(false);
+        }
+        else if(tab.includes("Demographics")){
+            setSummaryTabVisible(false);
+            setDemographicsTabVisible(true);
+            setSeatShareTabVisible(false);
+            setSeawulfTabVisible(false);
+        }
+        else if(tab.includes("Seat")){
+            setSummaryTabVisible(false);
+            setDemographicsTabVisible(false);
+            setSeatShareTabVisible(true);
+            setSeawulfTabVisible(false);
+        }
+        else if(tab.includes("Seawulf")){
+            setSummaryTabVisible(false);
+            setDemographicsTabVisible(false);
+            setSeatShareTabVisible(false);
+            setSeawulfTabVisible(true);
+        }
         console.log('hi');   
     }
 
@@ -182,7 +211,34 @@ export default function SidePanel(){
                     { field: 'polsbyPopper', headerName: 'Polsby Popper Value', width: 175},
                     { field: 'repDemSplit', headerName: 'Republican/Democrat Split', width: 175}];
 
-       
+    let summaryTab = <div>
+                        <div style={{fontSize: '25pt', paddingTop:'5%'}}/*onClick={handleMenu}*/>
+                            Plan Summary Data for {stateName}
+                        </div>
+                        <div style={{marginRight:'2%', marginLeft:'2%',marginTop:'4%',paddingBottom:'8%',paddingLeft:'3%',paddingRight:'3%',backgroundColor:'#b6c1e954', borderRadius:'2%'}}>
+                            <Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
+                                <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Plan status</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Majority/Minority Districts</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Equal Population Measure</div></Grid>
+                                <Grid item xs={3} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Polsby Popper Value</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Republican:Democrat Split</div></Grid>
+                            </Grid>
+                                {enactedSummaryRow}
+                            <Grid>
+                                {proposedSummaryRow}
+                            </Grid>
+                            <Grid>
+                                {oldSummaryRow}
+                            </Grid>
+                        </div>
+                    </div>;
+    let demographicsTab = <div>
+                            Demographic Data for {stateName}
+                            <PopulationGraph/>
+                        </div>;
+    let seatShareTab = <div>Seat Share for {stateName}</div>;
+    let seawulfTab = <div>Seawulf Summary data for {stateName}</div>;
+
    return(
     <div className='sidePanel' style={{display: store.isSidePanelVisible ? 'block' : 'none'}}>
         <div style={{height: '1000px', width: '1300px', borderRadius:'4%', resize: 'both', overflow: 'auto'}}>
@@ -195,25 +251,10 @@ export default function SidePanel(){
                     <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'15pt'}}label="Seawulf Data" />
                 </Tabs>
             </Box>
-            <div style={{fontSize: '25pt', paddingTop:'5%'}}/*onClick={handleMenu}*/>
-                Plan Summary Data for {stateName}
-            </div>
-            <div style={{marginRight:'2%', marginLeft:'2%',marginTop:'4%',paddingBottom:'8%',paddingLeft:'3%',paddingRight:'3%',backgroundColor:'#b6c1e954', borderRadius:'2%'}}>
-                <Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
-                    <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Plan status</div></Grid>
-                    <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Majority/Minority Districts</div></Grid>
-                    <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Equal Population Measure</div></Grid>
-                    <Grid item xs={3} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Polsby Popper Value</div></Grid>
-                    <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Republican:Democrat Split</div></Grid>
-                </Grid>
-                    {enactedSummaryRow}
-                <Grid>
-                    {proposedSummaryRow}
-                </Grid>
-                <Grid>
-                    {oldSummaryRow}
-                </Grid>
-            </div>
+            <div style={{display: summaryTabVisible ? 'block' : 'none'}}>{summaryTab}</div>
+            <div style={{display: demographicsTabVisible ? 'block' : 'none'}}>{demographicsTab}</div>
+            <div style={{display: seatShareTabVisible ? 'block' : 'none'}}>{seatShareTab}</div>
+            <div style={{display: seawulfTabVisible ? 'block' : 'none'}}>{seawulfTab}</div>
         </div>
     </div>
 </div>
