@@ -62,6 +62,7 @@ function DistMap(props) {
     const [oldSelected, setOldSelect] = useState(false);
     const [proposedSelected, setProposedSelect] = useState(false);
     const [mapFlag, setMapFlag] = useState(0);
+    const [mapGal, setMapGal] = useState(null);
     let countyVis;
 
     if (store.enactedPlanToggle !== enactedSelected || store.proposedPlanToggle !== proposedSelected || store.oldPlanToggle !== oldSelected) {
@@ -1125,70 +1126,135 @@ function DistMap(props) {
             }
         };
         if (!map) {initMap({ setMap, mapContainer });}
+        setMapGal(map);
         //if (mapFlag === 1) {
-            if (enactedSelected) {
-                if(clickedState === 'TN'){
-                    map.setLayoutProperty('tn-district-layer', 'visibility', 'visible');
-                }
-                else if(clickedState === 'MS') {
-                    map.setLayoutProperty('ms-district-layer', 'visibility', 'visible');
-                }
-                else if(clickedState === 'NC') {
-                    map.setLayoutProperty('nc-district-layer', 'visibility', 'visible');
-                }
-            }
-            else {
-                if(clickedState === 'TN'){
-                    map.setLayoutProperty('tn-district-layer', 'visibility', 'none');
-                }
-                else if(clickedState === 'MS') {
-                    map.setLayoutProperty('ms-district-layer', 'visibility', 'none');
-                }
-                else if(clickedState === 'NC') {
-                    map.setLayoutProperty('nc-district-layer', 'visibility', 'none');
-                }
-            }
-            if (oldSelected) {
-                if(clickedState === 'TN'){
-                    map.setLayoutProperty('tn-old-dist-layer', 'visibility', 'visible');
-                }
-                else if(clickedState === 'MS'){
-                    map.setLayoutProperty('ms-old-dist-layer', 'visibility', 'visible');
-                }
-                else if(clickedState === 'NC'){
-                    map.setLayoutProperty('nc-old-dist-layer', 'visibility', 'visible');
-                }
-            }
-            else {
-                if(clickedState === 'TN'){
-                    map.setLayoutProperty('tn-old-dist-layer', 'visibility', 'none');
-                }
-                else if(clickedState === 'MS'){
-                    map.setLayoutProperty('ms-old-dist-layer', 'visibility', 'none');
-                }
-                else if(clickedState === 'NC'){
-                    map.setLayoutProperty('nc-old-dist-layer', 'visibility', 'none');
-                }
-            }
-            if (proposedSelected) {
-                if(clickedState === 'MS'){
-                    map.setLayoutProperty('ms-proposed-layer', 'visibility', 'visible');
-                }
-                else if(clickedState === 'NC'){
-                    map.setLayoutProperty('nc-proposed-layer', 'visibility', 'visible');
-                }
-            }
-            else {
-                if(clickedState === 'MS'){
-                    map.setLayoutProperty('ms-proposed-layer', 'visibility', 'none');
-                }
-                else if(clickedState === 'NC'){
-                    map.setLayoutProperty('nc-proposed-layer', 'visibility', 'none');
-                }
-            }
+        // if (enactedSelected) {
+        //     if(clickedState === 'TN'){
+        //         map.setLayoutProperty('tn-district-layer', 'visibility', 'visible');
+        //     }
+        //     else if(clickedState === 'MS') {
+        //         map.setLayoutProperty('ms-district-layer', 'visibility', 'visible');
+        //     }
+        //     else if(clickedState === 'NC') {
+        //         map.setLayoutProperty('nc-district-layer', 'visibility', 'visible');
+        //     }
+        // }
+        // else {
+        //     if(clickedState === 'TN'){
+        //         map.setLayoutProperty('tn-district-layer', 'visibility', 'none');
+        //     }
+        //     else if(clickedState === 'MS') {
+        //         map.setLayoutProperty('ms-district-layer', 'visibility', 'none');
+        //     }
+        //     else if(clickedState === 'NC') {
+        //         map.setLayoutProperty('nc-district-layer', 'visibility', 'none');
+        //     }
+        // }
+        // if (oldSelected) {
+        //     if(clickedState === 'TN'){
+        //         map.setLayoutProperty('tn-old-dist-layer', 'visibility', 'visible');
+        //     }
+        //     else if(clickedState === 'MS'){
+        //         map.setLayoutProperty('ms-old-dist-layer', 'visibility', 'visible');
+        //     }
+        //     else if(clickedState === 'NC'){
+        //         map.setLayoutProperty('nc-old-dist-layer', 'visibility', 'visible');
+        //     }
+        // }
+        // else {
+        //     if(clickedState === 'TN'){
+        //         map.setLayoutProperty('tn-old-dist-layer', 'visibility', 'none');
+        //     }
+        //     else if(clickedState === 'MS'){
+        //         map.setLayoutProperty('ms-old-dist-layer', 'visibility', 'none');
+        //     }
+        //     else if(clickedState === 'NC'){
+        //         map.setLayoutProperty('nc-old-dist-layer', 'visibility', 'none');
+        //     }
+        // }
+        // if (proposedSelected) {
+        //     if(clickedState === 'MS'){
+        //         map.setLayoutProperty('ms-proposed-layer', 'visibility', 'visible');
+        //     }
+        //     else if(clickedState === 'NC'){
+        //         map.setLayoutProperty('nc-proposed-layer', 'visibility', 'visible');
+        //     }
+        // }
+        // else {
+        //     if(clickedState === 'MS'){
+        //         map.setLayoutProperty('ms-proposed-layer', 'visibility', 'none');
+        //     }
+        //     else if(clickedState === 'NC'){
+        //         map.setLayoutProperty('nc-proposed-layer', 'visibility', 'none');
+        //     }
+        // }
             //planSwitchComplete();
         //}
-    }, [map, mapFlag]);
+    }, [map]);
+
+    useEffect(() => {
+        if (enactedSelected) {
+            if(clickedState === 'TN'){
+                map.setLayoutProperty('tn-district-layer', 'visibility', 'visible');
+            }
+            else if(clickedState === 'MS') {
+                map.setLayoutProperty('ms-district-layer', 'visibility', 'visible');
+            }
+            else if(clickedState === 'NC') {
+                map.setLayoutProperty('nc-district-layer', 'visibility', 'visible');
+            }
+        }
+        else {
+            if(clickedState === 'TN'){
+                map.setLayoutProperty('tn-district-layer', 'visibility', 'none');
+            }
+            else if(clickedState === 'MS') {
+                map.setLayoutProperty('ms-district-layer', 'visibility', 'none');
+            }
+            else if(clickedState === 'NC') {
+                map.setLayoutProperty('nc-district-layer', 'visibility', 'none');
+            }
+        }
+        if (oldSelected) {
+            if(clickedState === 'TN'){
+                map.setLayoutProperty('tn-old-dist-layer', 'visibility', 'visible');
+            }
+            else if(clickedState === 'MS'){
+                map.setLayoutProperty('ms-old-dist-layer', 'visibility', 'visible');
+            }
+            else if(clickedState === 'NC'){
+                map.setLayoutProperty('nc-old-dist-layer', 'visibility', 'visible');
+            }
+        }
+        else {
+            if(clickedState === 'TN'){
+                map.setLayoutProperty('tn-old-dist-layer', 'visibility', 'none');
+            }
+            else if(clickedState === 'MS'){
+                map.setLayoutProperty('ms-old-dist-layer', 'visibility', 'none');
+            }
+            else if(clickedState === 'NC'){
+                map.setLayoutProperty('nc-old-dist-layer', 'visibility', 'none');
+            }
+        }
+        if (proposedSelected) {
+            if(clickedState === 'MS'){
+                map.setLayoutProperty('ms-proposed-layer', 'visibility', 'visible');
+            }
+            else if(clickedState === 'NC'){
+                map.setLayoutProperty('nc-proposed-layer', 'visibility', 'visible');
+            }
+        }
+        else {
+            if(clickedState === 'MS'){
+                map.setLayoutProperty('ms-proposed-layer', 'visibility', 'none');
+            }
+            else if(clickedState === 'NC'){
+                map.setLayoutProperty('nc-proposed-layer', 'visibility', 'none');
+            }
+        }
+    }, [mapFlag]);
+
     //console.log("map rerender");
     return (
         <div>
