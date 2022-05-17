@@ -68,7 +68,7 @@ function DistMap(props) {
         let enacted = store.enactedPlanToggle;
         let proposed = store.proposedPlanToggle;
         let old = store.oldPlanToggle;
-        setMapFlag(1);
+        setMapFlag(mapFlag+1);
         setEnactedSelect(enacted);
         setProposedSelect(proposed);
         setOldSelect(old);
@@ -140,7 +140,8 @@ function DistMap(props) {
     }
 
     const planSwitchComplete = () => {
-        setMapFlag(0);
+        //let i = mapFlag;
+        setMapFlag(mapFlag+1);
     }
 
     useEffect(() => {
@@ -1124,7 +1125,7 @@ function DistMap(props) {
             }
         };
         if (!map) {initMap({ setMap, mapContainer });}
-        if (mapFlag === 1) {
+        //if (mapFlag === 1) {
             if (enactedSelected) {
                 if(clickedState === 'TN'){
                     map.setLayoutProperty('tn-district-layer', 'visibility', 'visible');
@@ -1185,9 +1186,9 @@ function DistMap(props) {
                     map.setLayoutProperty('nc-proposed-layer', 'visibility', 'none');
                 }
             }
-            planSwitchComplete();
-        }
-    }, [map, mapFlag, clickedState]);
+            //planSwitchComplete();
+        //}
+    }, [map, mapFlag]);
     //console.log("map rerender");
     return (
         <div>
