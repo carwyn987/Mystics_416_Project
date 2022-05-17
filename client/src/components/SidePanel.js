@@ -20,6 +20,7 @@ import CottageIcon from '@mui/icons-material/Cottage';
 import { DataGrid } from '@mui/x-data-grid';
 import 'animate.css';
 import PopulationGraph from './PopulationGraph.js';
+import SeatShareGraph from './SeatShareGraph.js';
 
 import Grid from '@mui/material/Grid';
 
@@ -174,7 +175,7 @@ export default function SidePanel(){
        
         if(enactedSummaryData){
             enactedSummaryRow=<Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
-                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>Enacted</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><Button sx={{bgcolor: '#1C274E', fontSize:'20pt'}}variant="contained">Enacted</Button></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt'}}><div>{enactedSummaryData.numMajMinDistricts}</div></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round(((enactedSummaryData.equalPop) * 100) / 100)*100+'%'}</div></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round((enactedSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
@@ -183,7 +184,7 @@ export default function SidePanel(){
         }
         if(proposedSummaryData){
             proposedSummaryRow=<Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
-                                <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><div>Proposed</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><Button sx={{bgcolor: '#1C274E', fontSize:'20pt'}}variant="contained">Proposed</Button></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><div>{Math.round((proposedSummaryData.equalPop) * 100) / 100+'%'}</div></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><div>{Math.round((proposedSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
@@ -192,7 +193,7 @@ export default function SidePanel(){
         }
         if(oldSummaryData){
             oldSummaryRow=<Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
-                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>Previous (2012-2020)</div></Grid>
+                            <Grid item xs={2} style={{fontSize:'20pt'}}><Button sx={{bgcolor: '#1C274E', fontSize:'20pt'}}variant="contained">Previous (2012-2020)</Button></Grid>
                             <Grid item xs={2} style={{fontSize:'20pt'}}><div>{oldSummaryData.numMajMinDistricts}</div></Grid>
                             <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round((oldSummaryData.equalPop) * 100) / 100+'%'}</div></Grid>
                             <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round((oldSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
@@ -236,7 +237,9 @@ export default function SidePanel(){
                             Demographic Data for {stateName}
                             <PopulationGraph/>
                         </div>;
-    let seatShareTab = <div style={{fontSize: '25pt', paddingTop:'5%'}}>Seat Share Plot for {stateName}</div>;
+    let seatShareTab = <div style={{fontSize: '25pt', paddingTop:'5%'}}>Seat Share Plot for {stateName}
+                            <SeatShareGraph/>
+                        </div>;
     let seawulfTab = <div style={{fontSize: '25pt', paddingTop:'5%'}}>Seawulf Summary data for {stateName}</div>;
 
    return(
