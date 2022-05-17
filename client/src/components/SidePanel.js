@@ -232,12 +232,12 @@ export default function SidePanel(){
                             </Grid>
                         </div>
                     </div>;
-    let demographicsTab = <div>
+    let demographicsTab = <div style={{fontSize: '25pt', paddingTop:'5%'}}>
                             Demographic Data for {stateName}
                             <PopulationGraph/>
                         </div>;
-    let seatShareTab = <div>Seat Share for {stateName}</div>;
-    let seawulfTab = <div>Seawulf Summary data for {stateName}</div>;
+    let seatShareTab = <div style={{fontSize: '25pt', paddingTop:'5%'}}>Seat Share Plot for {stateName}</div>;
+    let seawulfTab = <div style={{fontSize: '25pt', paddingTop:'5%'}}>Seawulf Summary data for {stateName}</div>;
 
    return(
     <div className='sidePanel' style={{display: store.isSidePanelVisible ? 'block' : 'none'}}>
