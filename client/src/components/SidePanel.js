@@ -45,6 +45,7 @@ export default function SidePanel(){
     const[demographicsTabVisible, setDemographicsTabVisible] = React.useState(false);
     const [seatShareTabVisible, setSeatShareTabVisible] = React.useState(false);
     const [seawulfTabVisible, setSeawulfTabVisible] = React.useState(false);
+    let statePopulation;
     //const [stateName, setStateName] = React.useState(null);
     const [value, setValue] = React.useState(0);
     // const[enactedPlanSummaryData, setEnactedPlanSummaryData] = React.useState(null);
@@ -54,6 +55,18 @@ export default function SidePanel(){
     const TN=1;
     const MS=2;
     const NC=3;
+
+    const getDemographics = async function (planType){
+        const response = await fetch(`http://localhost:8080/getDemographics?stateID=${store.stateObj.id}&planType=${planType}`);
+        const json = await response.json();
+        state = json;
+        console.log(state);
+        // const response = await fetch(`http://localhost:8080/getState?stateID=${stateId}`);
+        // const json = await response.json();
+        // state = json;
+        // console.log(state);
+    }
+   
 
     const setTab=(event)=>{
         let tab = String(event.target.innerHTML);
@@ -175,7 +188,7 @@ export default function SidePanel(){
        
         if(enactedSummaryData){
             enactedSummaryRow=<Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
-                                <Grid item xs={2} style={{fontSize:'20pt'}}><Button sx={{bgcolor: '#1C274E', fontSize:'20pt'}}variant="contained">Enacted</Button></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><Button onClick={()=>getDemographics('enacted')} sx={{bgcolor: '#1C274E', fontSize:'20pt'}}variant="contained">Enacted</Button></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt'}}><div>{enactedSummaryData.numMajMinDistricts}</div></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round(((enactedSummaryData.equalPop) * 100) / 100)*100+'%'}</div></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round((enactedSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
@@ -184,7 +197,7 @@ export default function SidePanel(){
         }
         if(proposedSummaryData){
             proposedSummaryRow=<Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
-                                <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><Button sx={{bgcolor: '#1C274E', fontSize:'20pt'}}variant="contained">Proposed</Button></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><Button onClick={()=>getDemographics('proposed')} sx={{bgcolor: '#1C274E', fontSize:'20pt'}}variant="contained">Proposed</Button></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><div>{Math.round((proposedSummaryData.equalPop) * 100) / 100+'%'}</div></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><div>{Math.round((proposedSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
@@ -193,7 +206,7 @@ export default function SidePanel(){
         }
         if(oldSummaryData){
             oldSummaryRow=<Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
-                            <Grid item xs={2} style={{fontSize:'20pt'}}><Button sx={{bgcolor: '#1C274E', fontSize:'20pt'}}variant="contained">Previous (2012-2020)</Button></Grid>
+                            <Grid item xs={2} style={{fontSize:'20pt'}}><Button onClick={()=>getDemographics('old')} sx={{bgcolor: '#1C274E', fontSize:'20pt'}}variant="contained">Previous (2012-2020)</Button></Grid>
                             <Grid item xs={2} style={{fontSize:'20pt'}}><div>{oldSummaryData.numMajMinDistricts}</div></Grid>
                             <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round((oldSummaryData.equalPop) * 100) / 100+'%'}</div></Grid>
                             <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round((oldSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
@@ -202,16 +215,9 @@ export default function SidePanel(){
         }
            
     }
-    
-    let rows= [{ id: 1, planStatus: 'Enacted', numMajMin: 5, equalPop: 5, polsbyPopper: 5, repDemSplit:10 }];
-    let columns= [  
-                    { field: 'id', headerName: 'Plan ID', width: 100},
-                    { field: 'planStatus', headerName: 'Plan Status', width: 150},
-                    {field:'numMajMin', headerName:'Majority/Minority\n Districts', width:175},
-                    {field: 'equalPop', headerName:'Equal Population Measure', width:175},
-                    { field: 'polsbyPopper', headerName: 'Polsby Popper Value', width: 175},
-                    { field: 'repDemSplit', headerName: 'Republican/Democrat Split', width: 175}];
-
+    if(store.stateObj){
+        statePopulation = store.stateObj.population.toLocaleString();
+    }
     let summaryTab = <div>
                         <div style={{fontSize: '25pt', paddingTop:'5%'}}/*onClick={handleMenu}*/>
                             Plan Summary Data for {stateName}
@@ -235,13 +241,14 @@ export default function SidePanel(){
                     </div>;
     let demographicsTab = <div style={{fontSize: '25pt', paddingTop:'5%'}}>
                             Demographic Data for {stateName}
+                            <div style={{marginTop:'3%'}}>Total Population: {statePopulation}</div>
                             <PopulationGraph/>
                         </div>;
     let seatShareTab = <div style={{fontSize: '25pt', paddingTop:'5%'}}>Seat Share Plot for {stateName}
                             <SeatShareGraph/>
                         </div>;
     let seawulfTab = <div style={{fontSize: '25pt', paddingTop:'5%'}}>Seawulf Summary data for {stateName}</div>;
-
+    
    return(
     <div className='sidePanel' style={{display: store.isSidePanelVisible ? 'block' : 'none'}}>
         <div style={{height: '1000px', width: '1300px', borderRadius:'4%', resize: 'both', overflow: 'auto'}}>
