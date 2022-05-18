@@ -24,6 +24,8 @@ export function PopulationGraph(props) {
     const [proposedSet, setProposed] = React.useState(false);
     let stateId=null, oldData, enactedData, proposedData;
 
+    console.log(props.demData);
+
     const tnEnacted = {
       0: [682393, 16625, 2727, 6370],
       1: [656012, 45476, 3083, 14104],
