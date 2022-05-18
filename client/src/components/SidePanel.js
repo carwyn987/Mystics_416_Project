@@ -54,7 +54,8 @@ export default function SidePanel(){
     const [value, setValue] = React.useState(0);
     // const[enactedPlanSummaryData, setEnactedPlanSummaryData] = React.useState(null);
     const graph = null;
-    let currentPlan, menuItems, enactedPlanSummaryData, stateName,proposedPlanData, oldPlanData, sidePanelVisible = false, expandIcon = null, panel = null, demVotes = 0, 
+    // election from which voting preference is used, number of majority-minority districts, and efficiency gap
+    let currentPlan, menuItems, numDistricts, numMajMinDist, effGap,enactedPlanSummaryData, stateName,proposedPlanData, oldPlanData, sidePanelVisible = false, expandIcon = null, panel = null, demVotes = 0, 
     repubVotes = 0, state, enactedSummaryRow, proposedSummaryRow, oldSummaryRow;
     const TN=1;
     const MS=2;
@@ -71,11 +72,13 @@ export default function SidePanel(){
                 i = 0;
                 for(i=0; i < store.stateObj.districtPlans.length; i++){
                     let plan = store.stateObj.districtPlans[i];
-                    if(plan.includes('Enacted')){
+                    if(plan.status.includes('enacted')){
+                        numDistricts = plan.numDistricts;
+                        numMajMinDist = plan.numMajMinDistricts;
+                        effGap=plan.efficiencyGap;
                         currentPlan = plan;
                     }
                 }
-                currentPlan = store.stateObj.
                 setEnactedPlanSummaryView(true);
                 setMainSummaryVisible(false);
                 break;
@@ -83,7 +86,10 @@ export default function SidePanel(){
                 i = 0;
                 for(i=0; i < store.stateObj.districtPlans.length; i++){
                     let plan = store.stateObj.districtPlans[i];
-                    if(plan.includes('Proposed')){
+                    if(plan.status.includes('proposed')){
+                        numDistricts = plan.numDistricts;
+                        numMajMinDist = plan.numMajMinDistricts;
+                        effGap=plan.efficiencyGap;
                         currentPlan = plan;
                     }
                 }
@@ -94,8 +100,11 @@ export default function SidePanel(){
                 i = 0;
                 for(i=0; i < store.stateObj.districtPlans.length; i++){
                     let plan = store.stateObj.districtPlans[i];
-                    if(plan.includes('Previous')){
-                        currentPlan = plan;
+                    if(plan.status.includes('previous')){
+                        numDistricts = plan.numDistricts;
+                        numMajMinDist = plan.numMajMinDistricts;
+                        effGap=plan.efficiencyGap;
+                        currentPlan = plan;                    
                     }
                 }
                 setOldPlanSummaryView(true);
@@ -294,20 +303,21 @@ export default function SidePanel(){
         //Republican/Democratic split, election from which voting preference is used, number of majority-minority districts, and efficiency gap.
 
         let enactedPlanSummary = <div> 
-                                    <div>Enacted Plan Summary</div>
+                                    <div style={{fontSize: '25pt', marginTop:'3%'}}>Enacted Plan Summary for {stateName}</div>
                                     <Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
-                                        <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Number of districts: {}</div></Grid>
-                                       
+                                        <div style={{marginLeft: '6%',fontSize:'20pt', fontWeight:'bold'}}><div>Number of districts: {numDistricts}</div></div>
+                                        <br></br><div item xs={2} style={{fontSize:'20pt', fontWeight:'bold', display: 'inline-block'}}><div>Number of majority/minority: {numMajMinDist}</div></div>
+                                        <br></br><div item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Efficiency gap: {effGap}</div></div>
                                     </Grid>
                                     <Button onClick={backToMain} sx={{bgcolor:'#b6c1e954', fontSize:'20pt'}}variant="contained">Click to go back to summary</Button>
                                 </div>;
         let proposedPlanSummary = <div> 
-                                    <div>Proposed Plan Summary</div>
+                                    <div style={{fontSize: '25pt'}}>Proposed Plan Summary for {stateName}</div>
                                     <Button onClick={backToMain} sx={{bgcolor:'#b6c1e954', fontSize:'20pt'}}variant="contained">Click to go back to summary</Button>
                                 </div>;
         
         let oldPlanSummary =<div> 
-                                <div>Previous Plan Summary (2012-2020)</div>
+                                <div style={{fontSize: '25pt'}}>Previous Plan Summary (2012-2020) for {stateName}</div>
                                 <Button onClick={backToMain} sx={{bgcolor:'#b6c1e954', fontSize:'20pt'}}variant="contained">Click to go back to summary</Button>
                             </div>;
 
