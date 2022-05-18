@@ -41,17 +41,21 @@ export default function SidePanel(){
     const [electionDataVisible, setElectionDataVisible] = React.useState(false);
     const [planCompareVisible, setPlanCompareVisible] = React.useState(false);
     const [popDataVisible, setPopDataVisible] = React.useState(false);
+    const [mainSummaryVisible, setMainSummaryVisible] = React.useState(true);
     const [summaryTabVisible, setSummaryTabVisible] = React.useState(true);
     const[demographicsTabVisible, setDemographicsTabVisible] = React.useState(false);
     const [seatShareTabVisible, setSeatShareTabVisible] = React.useState(false);
     const [seawulfTabVisible, setSeawulfTabVisible] = React.useState(false);
+    const [enactedPlanSummaryView, setEnactedPlanSummaryView] = React.useState(false);
+    const [proposedPlanSummaryView, setProposedPlanSummaryView] = React.useState(false);
+    const [oldPlanSummaryView, setOldPlanSummaryView] = React.useState(false);
     let statePopulation;
     //const [stateName, setStateName] = React.useState(null);
     const [value, setValue] = React.useState(0);
     // const[enactedPlanSummaryData, setEnactedPlanSummaryData] = React.useState(null);
     const graph = null;
-    let menuItems, enactedPlanSummaryData, stateName,proposedPlanData, oldPlanData, sidePanelVisible = false, expandIcon = null, panel = null, demVotes = 0, 
-    repubVotes = 0, state, enactedSummaryRow, proposedSummaryRow, oldSummaryRow, enactedPlanSummary, proposedPlanSummary, oldPlanSummary;
+    let currentPlan, menuItems, enactedPlanSummaryData, stateName,proposedPlanData, oldPlanData, sidePanelVisible = false, expandIcon = null, panel = null, demVotes = 0, 
+    repubVotes = 0, state, enactedSummaryRow, proposedSummaryRow, oldSummaryRow;
     const TN=1;
     const MS=2;
     const NC=3;
@@ -61,6 +65,45 @@ export default function SidePanel(){
         const json = await response.json();
         state = json;
         console.log(state);
+        let i = 0;
+        switch(planType){
+            case 'enacted':
+                i = 0;
+                for(i=0; i < store.stateObj.districtPlans.length; i++){
+                    let plan = store.stateObj.districtPlans[i];
+                    if(plan.includes('Enacted')){
+                        currentPlan = plan;
+                    }
+                }
+                currentPlan = store.stateObj.
+                setEnactedPlanSummaryView(true);
+                setMainSummaryVisible(false);
+                break;
+            case 'proposed':
+                i = 0;
+                for(i=0; i < store.stateObj.districtPlans.length; i++){
+                    let plan = store.stateObj.districtPlans[i];
+                    if(plan.includes('Proposed')){
+                        currentPlan = plan;
+                    }
+                }
+                setProposedPlanSummaryView(true);
+                setMainSummaryVisible(false);
+                break;
+            case 'old':
+                i = 0;
+                for(i=0; i < store.stateObj.districtPlans.length; i++){
+                    let plan = store.stateObj.districtPlans[i];
+                    if(plan.includes('Previous')){
+                        currentPlan = plan;
+                    }
+                }
+                setOldPlanSummaryView(true);
+                setMainSummaryVisible(false);
+                break;
+            default:
+                break;
+        }
         // const response = await fetch(`http://localhost:8080/getState?stateID=${stateId}`);
         // const json = await response.json();
         // state = json;
@@ -146,89 +189,89 @@ export default function SidePanel(){
             }
             for(i=0; i<state.districtPlans.length; i++){
                 let plan = state.districtPlans[i];  
-                let equalPop = (1/plan.numDistricts);
                 //Number of districts - seatShare
                 if(plan.status==="enacted"){
+                    let equalPopM = Math.trunc((Math.round((plan.equalPopMeasure) * 100) / 100)*100);
                     enactedSummaryData={
                         planId: plan.planId,
                         numDistricts: plan.numDistricts,
                         seatShare: plan.seatShare,
                         numMajMinDistricts: plan.numMajMinDistricts,
                         polsbyPopper: plan.polsbyPopper,
-                        equalPop: equalPop,
+                        equalPop: equalPopM,
                         efficiencyGap: plan.efficiencyGap
                     };
                     let math = (Math.round((enactedSummaryData.equalPop) * 100) / 100);
                     console.log(math);
                 }
                 else if(plan.status==="proposed"){
+                    let equalPopM = Math.trunc((Math.round((plan.equalPopMeasure) * 100) / 100)*100);
                     proposedSummaryData={
                         planId: plan.planId,
                         numDistricts: plan.numDistricts,
                         seatShare: plan.seatShare,
                         numMajMinDistricts: plan.numMajMinDistricts,
                         polsbyPopper: plan.polsbyPopper,
-                        equalPop: equalPop,
+                        equalPop: equalPopM,
                         efficiencyGap: plan.efficiencyGap
                     };
                 }
                 else if(plan.status==="old"){
+                    let equalPopM = Math.trunc((Math.round((plan.equalPopMeasure) * 100) / 100)*100);
                     oldSummaryData={
                         planId: plan.planId,
                         numDistricts: plan.numDistricts,
                         seatShare: plan.seatShare,
                         numMajMinDistricts: plan.numMajMinDistricts,
                         polsbyPopper: plan.polsbyPopper,
-                        equalPop: equalPop,
+                        equalPop: equalPopM,
                         efficiencyGap: plan.efficiencyGap
                     };
                 }
             }
         }
-       
         if(enactedSummaryData){
             enactedSummaryRow=<Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
                                 <Grid item xs={2} style={{fontSize:'20pt'}}><Button onClick={()=>getDemographics('enacted')} sx={{bgcolor: '#1C274E', fontSize:'20pt'}}variant="contained">Enacted</Button></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt'}}><div>{enactedSummaryData.numMajMinDistricts}</div></Grid>
-                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round(((enactedSummaryData.equalPop) * 100) / 100)*100+'%'}</div></Grid>
-                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round((enactedSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
-                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{enactedSummaryData.numDistricts-enactedSummaryData.seatShare + ':' + enactedSummaryData.seatShare}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{enactedSummaryData.equalPop+'%'}</div></Grid>
+                                <Grid item xs={3} style={{fontSize:'20pt'}}><div>{Math.round((enactedSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt'}}><div>{enactedSummaryData.numDistricts-enactedSummaryData.seatShare + 'R/' +enactedSummaryData.seatShare + 'D'}</div></Grid>
                             </Grid>;
         }
         if(proposedSummaryData){
             proposedSummaryRow=<Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
                                 <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><Button onClick={()=>getDemographics('proposed')} sx={{bgcolor: '#1C274E', fontSize:'20pt'}}variant="contained">Proposed</Button></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><div>{proposedSummaryData.numMajMinDistricts}</div></Grid>
-                                <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><div>{Math.round((proposedSummaryData.equalPop) * 100) / 100+'%'}</div></Grid>
-                                <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><div>{Math.round((proposedSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
-                                <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><div>{proposedSummaryData.numDistricts-proposedSummaryData.seatShare + ':' + proposedSummaryData.seatShare}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><div>{proposedSummaryData.equalPop+'%'}</div></Grid>
+                                <Grid item xs={3} style={{fontSize:'20pt',textAlign:'center'}}><div>{Math.round((proposedSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt',textAlign:'center'}}><div>{proposedSummaryData.numDistricts-proposedSummaryData.seatShare + 'R/' + proposedSummaryData.seatShare +'D'}</div></Grid>
                             </Grid>;
         }
         if(oldSummaryData){
             oldSummaryRow=<Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
                             <Grid item xs={2} style={{fontSize:'20pt'}}><Button onClick={()=>getDemographics('old')} sx={{bgcolor: '#1C274E', fontSize:'20pt'}}variant="contained">Previous (2012-2020)</Button></Grid>
                             <Grid item xs={2} style={{fontSize:'20pt'}}><div>{oldSummaryData.numMajMinDistricts}</div></Grid>
-                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round((oldSummaryData.equalPop) * 100) / 100+'%'}</div></Grid>
-                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>{Math.round((oldSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
-                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>{oldSummaryData.numDistricts-oldSummaryData.seatShare + ':' + oldSummaryData.seatShare}</div></Grid>
+                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>{oldSummaryData.equalPop+'%'}</div></Grid>
+                            <Grid item xs={3} style={{fontSize:'20pt'}}><div>{Math.round((oldSummaryData.polsbyPopper) * 100) / 100}</div></Grid>
+                            <Grid item xs={2} style={{fontSize:'20pt'}}><div>{oldSummaryData.numDistricts-oldSummaryData.seatShare + 'R/' + oldSummaryData.seatShare + 'D'}</div></Grid>
                         </Grid>;
         }
-           
     }
     if(store.stateObj){
         statePopulation = store.stateObj.population.toLocaleString();
     }
-    let summaryTab = <div>
+    let mainSummaryTab = <div>
                         <div style={{fontSize: '25pt', paddingTop:'5%'}}/*onClick={handleMenu}*/>
-                            Plan Summary Data for {stateName}
+                            Plan Summary Data for {stateName}<br></br>
                         </div>
                         <div style={{marginRight:'2%', marginLeft:'2%',marginTop:'4%',paddingBottom:'8%',paddingLeft:'3%',paddingRight:'3%',backgroundColor:'#b6c1e954', borderRadius:'2%'}}>
                             <Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
-                                <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Plan status</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Plan status<div style={{fontSize:'14pt'}}><br></br>(Click on a plan to view more details)</div></div></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Majority/Minority Districts</div></Grid>
                                 <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Equal Population Measure</div></Grid>
                                 <Grid item xs={3} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Polsby Popper Value</div></Grid>
-                                <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Republican:Democrat Split</div></Grid>
+                                <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Republican/Democrat Split</div></Grid>
                             </Grid>
                                 {enactedSummaryRow}
                             <Grid>
@@ -239,6 +282,41 @@ export default function SidePanel(){
                             </Grid>
                         </div>
                     </div>;
+        const backToMain=()=>{
+            let bool = true;
+            setMainSummaryVisible(bool);
+            setEnactedPlanSummaryView(false);
+            setProposedPlanSummaryView(false);
+            setOldPlanSummaryView(false);
+        }
+        //When the user clicks on a districting shown in the summary, details about the selected districting will be displayed. 
+        //Details include number of districts, summary of each district in the districting, including population, population by demographic group, 
+        //Republican/Democratic split, election from which voting preference is used, number of majority-minority districts, and efficiency gap.
+
+        let enactedPlanSummary = <div> 
+                                    <div>Enacted Plan Summary</div>
+                                    <Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
+                                        <Grid item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Number of districts: {}</div></Grid>
+                                       
+                                    </Grid>
+                                    <Button onClick={backToMain} sx={{bgcolor:'#b6c1e954', fontSize:'20pt'}}variant="contained">Click to go back to summary</Button>
+                                </div>;
+        let proposedPlanSummary = <div> 
+                                    <div>Proposed Plan Summary</div>
+                                    <Button onClick={backToMain} sx={{bgcolor:'#b6c1e954', fontSize:'20pt'}}variant="contained">Click to go back to summary</Button>
+                                </div>;
+        
+        let oldPlanSummary =<div> 
+                                <div>Previous Plan Summary (2012-2020)</div>
+                                <Button onClick={backToMain} sx={{bgcolor:'#b6c1e954', fontSize:'20pt'}}variant="contained">Click to go back to summary</Button>
+                            </div>;
+
+        let summaryTab=<div>
+                            <div style={{display: mainSummaryVisible ? 'block' : 'none'}}>{mainSummaryTab}</div>
+                            <div style={{display: enactedPlanSummaryView ? 'block' : 'none'}}>{enactedPlanSummary}</div>
+                            <div style={{display: proposedPlanSummaryView ? 'block' : 'none'}}>{proposedPlanSummary}</div>
+                            <div style={{display: oldPlanSummaryView ? 'block' : 'none'}}>{oldPlanSummary}</div>
+                        </div>;
     let demographicsTab = <div style={{fontSize: '25pt', paddingTop:'5%'}}>
                             Demographic Data for {stateName}
                             <div style={{marginTop:'3%'}}>Total Population: {statePopulation}</div>
@@ -251,14 +329,14 @@ export default function SidePanel(){
     
    return(
     <div className='sidePanel' style={{display: store.isSidePanelVisible ? 'block' : 'none'}}>
-        <div style={{height: '1000px', width: '1300px', borderRadius:'4%', resize: 'both', overflow: 'auto'}}>
+        <div style={{height: '1000px', width: '1300px', borderRadius:'8px', resize: 'both', overflow: 'auto'}}>
         <div>
             <Box sx={{height:'35%', width: '100%', bgcolor: '#1C274E'}}>
                 <Tabs sx={{paddingTop:'2%',paddingBottom:'2%'}} value={value} onChange={handleChange} centered>
-                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'15pt'}}label="Plan Summary Data" />
-                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'15pt'}}label="Demographics" />
-                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'15pt'}}label="Seat Share" />
-                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'15pt'}}label="Seawulf Data" />
+                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'15pt',textAlign:'center'}}label="Plan Summary Data" />
+                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'15pt',textAlign:'center'}}label="Demographics" />
+                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'15pt',textAlign:'center'}}label="Seat Share" />
+                    <Tab selected className="Tab" onClick={setTab} sx={{color:'white', fontSize:'15pt',textAlign:'center'}}label="Seawulf Data" />
                 </Tabs>
             </Box>
             <div style={{display: summaryTabVisible ? 'block' : 'none'}}>{summaryTab}</div>

@@ -37,6 +37,7 @@
 }
 .sidePanel{
   background-color: #1C274E;
+  border-radius: 8x;
   color:white;
   margin-top: 5%;
   position: absolute;
