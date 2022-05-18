@@ -408,7 +408,7 @@ export function SeatShareGraph(props) {
 
     return(
       <div id="seatshare-chart">
-          <ReactApexChart id="seatchare" options={enGraph.options} series={enGraph.series} type={"line"} height={'150%'}/>
+          <ReactApexChart id="seatchare" options={enGraph.options} series={enGraph.series} type={"line"} height={'600px'}/>
       </div>
     );
 }
