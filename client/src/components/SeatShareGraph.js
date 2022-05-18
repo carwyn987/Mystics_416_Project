@@ -311,12 +311,12 @@ export function SeatShareGraph(props) {
           {
             name: "Dem",
             type: 'line',
-            data: enDemCoords
+            data: proDemCoords
           },
           {
             name: "Rep",
             type: 'line',
-            data: enRepCoords
+            data: proRepCoords
           }
         ],
         options: {
@@ -405,12 +405,39 @@ export function SeatShareGraph(props) {
     proGraph = undefined;
   }
 
+  switch(props.plan){
+    case 'enacted':
+      if (enGraph.series !== null) {
+        graph = enGraph;
+      }
+      break;
+    case 'old':
+      if (oldGraph.series !== null) {
+        graph = oldGraph;
+      }
+      break;
+    case 'proposed':
+      if (proGraph.series !== null) {
+        graph = proGraph;
+      }
+      break;
+    default:
+      break;
+  }
 
+  if (graph) {
     return(
       <div id="seatshare-chart">
-          <ReactApexChart id="seatchare" options={enGraph.options} series={enGraph.series} type={"line"} height={'600px'}/>
+          <ReactApexChart id="seatchare" options={graph.options} series={graph.series} type={"line"} height={'600px'}/>
       </div>
     );
+  } else {
+    return(
+      <div id="crick">
+
+      </div>
+    )
+  }
 }
 
 export default SeatShareGraph;

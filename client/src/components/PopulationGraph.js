@@ -255,7 +255,7 @@ export function PopulationGraph(props) {
             style: {
                 color: 'rgb(255,255,255)'
             },
-            categories: (store.currentState==='NC' ? oldNcCategories : categories)
+            categories: (stateId===3 ? oldNcCategories : categories)
         },
           fill: {
             opacity: 1
