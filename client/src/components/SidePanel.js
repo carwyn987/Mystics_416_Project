@@ -17,6 +17,7 @@ import Tab from '@mui/material/Tab';
 import * as React from 'react';
 import {useContext, useEffect} from 'react';
 import CottageIcon from '@mui/icons-material/Cottage';
+import SeawulfData from './SeawulfData';
 import { DataGrid } from '@mui/x-data-grid';
 import 'animate.css';
 import PopulationGraph from './PopulationGraph.js';
@@ -49,6 +50,10 @@ export default function SidePanel(){
     const [enactedPlanSummaryView, setEnactedPlanSummaryView] = React.useState(false);
     const [proposedPlanSummaryView, setProposedPlanSummaryView] = React.useState(false);
     const [oldPlanSummaryView, setOldPlanSummaryView] = React.useState(false);
+    const [seawulfEnactedVisible, setSeawulfEnactedVisible] = React.useState(true);
+    const [seawulfProposedVisible, setSeawulfProposedVisible] = React.useState(false);
+    const [seawulfOldVisible, setSeawulfOldVisible] = React.useState(false);
+    const [menuChoice, setMenuChoice] = React.useState("");
     let statePopulation;
     //const [stateName, setStateName] = React.useState(null);
     const [value, setValue] = React.useState(0);
@@ -118,7 +123,12 @@ export default function SidePanel(){
         // state = json;
         // console.log(state);
     }
-   
+    const handleMenu = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     const setTab=(event)=>{
         let tab = String(event.target.innerHTML);
@@ -298,6 +308,15 @@ export default function SidePanel(){
             setProposedPlanSummaryView(false);
             setOldPlanSummaryView(false);
         }
+        const handleSeawulfEnacted=()=>{
+            setSeawulfEnactedVisible(true);
+        }
+        const handleSeawulfProposed=()=>{
+            setSeawulfProposedVisible(true);
+        }
+        const handleSeawulfOld=()=>{
+            setSeawulfOldVisible(true);
+        }
         //When the user clicks on a districting shown in the summary, details about the selected districting will be displayed. 
         //Details include number of districts, summary of each district in the districting, including population, population by demographic group, 
         //Republican/Democratic split, election from which voting preference is used, number of majority-minority districts, and efficiency gap.
@@ -335,7 +354,33 @@ export default function SidePanel(){
     let seatShareTab = <div style={{fontSize: '25pt', paddingTop:'5%'}}>Seat Share Plot for {stateName}
                             <SeatShareGraph/>
                         </div>;
-    let seawulfTab = <div style={{fontSize: '25pt', paddingTop:'5%'}}>Seawulf Summary data for {stateName}</div>;
+    let seawulfTab = <div style={{fontSize: '25pt', paddingTop:'5%'}}>Seawulf Summary data for {stateName}
+                        <div style={{fontSize:'18pt', marginTop:'6%'}}>Choose a group for the box and whisker charts <ArrowDropDownIcon onClick={handleMenu}></ArrowDropDownIcon></div>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorEl}
+                            anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+                            transformOrigin={{vertical: 'top', horizontal: 'center'}}
+                            // anchorOrigin={{
+                            //   vertical: 'bottom',
+                            //   horizontal: 'right',
+                            // }}
+                            keepMounted
+                            // transformOrigin={{
+                            //   vertical: 'top',
+                            //   horizontal: 'right',
+                            // }}
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose}
+                        >
+                            <MenuItem onClick={handleSeawulfEnacted}>Democrat</MenuItem>
+                            <MenuItem onClick={handleSeawulfProposed}>Republican</MenuItem>
+                            <MenuItem onClick={handleSeawulfOld}>Black</MenuItem>
+                            <MenuItem onClick={handleSeawulfOld}>Native</MenuItem>
+                            <MenuItem onClick={handleSeawulfOld}>Asian</MenuItem>
+                        </Menu>
+                        <SeawulfData></SeawulfData>
+                    </div>;
     
    return(
     <div className='sidePanel' style={{display: store.isSidePanelVisible ? 'block' : 'none'}}>
