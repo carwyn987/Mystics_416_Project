@@ -50,9 +50,11 @@ export default function SidePanel(){
     const [enactedPlanSummaryView, setEnactedPlanSummaryView] = React.useState(false);
     const [proposedPlanSummaryView, setProposedPlanSummaryView] = React.useState(false);
     const [oldPlanSummaryView, setOldPlanSummaryView] = React.useState(false);
-    const [seawulfEnactedVisible, setSeawulfEnactedVisible] = React.useState(true);
-    const [seawulfProposedVisible, setSeawulfProposedVisible] = React.useState(false);
-    const [seawulfOldVisible, setSeawulfOldVisible] = React.useState(false);
+    const [seawulfDemVisible, setSeawulfDemVisible] = React.useState(false);
+    const [seawulfRepVisible, setSeawulfRepVisible] = React.useState(false);
+    const [seawulfBlackVisible, setSeawulfBlackVisible] = React.useState(false);
+    const [seawulfAsianVisible, setSeawulfAsianVisible] = React.useState(false);
+    const [seawulfNativeVisible, setSeawulfNativeVisible] = React.useState(false);
     const [menuChoice, setMenuChoice] = React.useState("");
     let statePopulation;
     //const [stateName, setStateName] = React.useState(null);
@@ -123,7 +125,7 @@ export default function SidePanel(){
         // state = json;
         // console.log(state);
     }
-    const handleMenu = (event) => {
+    const handleBWMenu = (event) => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
@@ -308,14 +310,40 @@ export default function SidePanel(){
             setProposedPlanSummaryView(false);
             setOldPlanSummaryView(false);
         }
-        const handleSeawulfEnacted=()=>{
-            setSeawulfEnactedVisible(true);
+        const handleSeawulfDem=()=>{
+            setSeawulfDemVisible(true);
+            setSeawulfRepVisible(false);
+            setSeawulfBlackVisible(false);
+            setSeawulfAsianVisible(false);
+            setSeawulfNativeVisible(false);
         }
-        const handleSeawulfProposed=()=>{
-            setSeawulfProposedVisible(true);
+        const handleSeawulfRep=()=>{
+            setSeawulfRepVisible(true);
+            setSeawulfDemVisible(false);
+            setSeawulfBlackVisible(false);
+            setSeawulfAsianVisible(false);
+            setSeawulfNativeVisible(false);
         }
-        const handleSeawulfOld=()=>{
-            setSeawulfOldVisible(true);
+        const handleSeawulfBlack=()=>{
+            setSeawulfBlackVisible(true);
+            setSeawulfDemVisible(false);
+            setSeawulfRepVisible(false);
+            setSeawulfAsianVisible(false);
+            setSeawulfNativeVisible(false);
+        }
+        const handleSeawulfNative=()=>{
+            setSeawulfNativeVisible(true);
+            setSeawulfDemVisible(false);
+            setSeawulfRepVisible(false);
+            setSeawulfAsianVisible(false);
+            setSeawulfBlackVisible(false);
+        }
+        const handleSeawulfAsian=()=>{
+            setSeawulfAsianVisible(true);
+            setSeawulfBlackVisible(false);
+            setSeawulfDemVisible(false);
+            setSeawulfRepVisible(false);
+            setSeawulfNativeVisible(false);
         }
         //When the user clicks on a districting shown in the summary, details about the selected districting will be displayed. 
         //Details include number of districts, summary of each district in the districting, including population, population by demographic group, 
@@ -355,7 +383,7 @@ export default function SidePanel(){
                             <SeatShareGraph/>
                         </div>;
     let seawulfTab = <div style={{fontSize: '25pt', paddingTop:'5%'}}>Seawulf Summary data for {stateName}
-                        <div style={{fontSize:'18pt', marginTop:'6%'}}>Choose a group for the box and whisker charts <ArrowDropDownIcon onClick={handleMenu}></ArrowDropDownIcon></div>
+                        <div style={{fontSize:'18pt', marginTop:'6%'}}>Choose a group for the box and whisker charts <ArrowDropDownIcon onClick={handleBWMenu}></ArrowDropDownIcon></div>
                         <Menu
                             id="menu-appbar"
                             anchorEl={anchorEl}
@@ -373,13 +401,13 @@ export default function SidePanel(){
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <MenuItem onClick={handleSeawulfEnacted}>Democrat</MenuItem>
-                            <MenuItem onClick={handleSeawulfProposed}>Republican</MenuItem>
-                            <MenuItem onClick={handleSeawulfOld}>Black</MenuItem>
-                            <MenuItem onClick={handleSeawulfOld}>Native</MenuItem>
-                            <MenuItem onClick={handleSeawulfOld}>Asian</MenuItem>
+                            <MenuItem onClick={handleSeawulfDem}>Democrat</MenuItem>
+                            <MenuItem onClick={handleSeawulfRep}>Republican</MenuItem>
+                            <MenuItem onClick={handleSeawulfBlack}>Black</MenuItem>
+                            <MenuItem onClick={handleSeawulfNative}>Native</MenuItem>
+                            <MenuItem onClick={handleSeawulfAsian}>Asian</MenuItem>
                         </Menu>
-                        <SeawulfData></SeawulfData>
+                        <SeawulfData dem={seawulfDemVisible} rep={seawulfRepVisible} black={seawulfBlackVisible} asian={seawulfAsianVisible} native={seawulfNativeVisible}></SeawulfData>
                     </div>;
     
    return(

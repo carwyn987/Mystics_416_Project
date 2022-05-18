@@ -73,9 +73,9 @@ export function PopulationGraph(props) {
       if (enactedData && oldData) {
         setData(true);
       }
-      else if (enactedData && oldData && proposedData){
-        setData(true);
-      }
+    }
+    else if (enactedData && oldData && proposedData){
+      setData(true);
     }
   }
 

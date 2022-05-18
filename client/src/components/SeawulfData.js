@@ -10,6 +10,7 @@ import { ContentCutOutlined } from '@mui/icons-material';
 export function SeawulfData (props) {
     let { store } = useContext(GlobalStore);
     const [dataSet, setData] = React.useState(false);
+    let graph=null;
 
     let graphData = {
         dem:[],
@@ -79,6 +80,10 @@ export function SeawulfData (props) {
             },
             stroke: {
                 colors: ['white']
+            },
+            xaxis: {
+                min:0,
+                max:1
             }
         },
     };
@@ -112,6 +117,10 @@ export function SeawulfData (props) {
             },
             stroke: {
                 colors: ['white']
+            },
+            xaxis: {
+                min:0,
+                max:1
             }
         },
       };
@@ -145,6 +154,10 @@ export function SeawulfData (props) {
             },
             stroke: {
                 colors: ['white']
+            },
+            xaxis: {
+                min:0,
+                max:0.5
             }
         },
       };
@@ -178,6 +191,10 @@ export function SeawulfData (props) {
             },
             stroke: {
                 colors: ['white']
+            },
+            xaxis: {
+                min:0,
+                max:0.1
             }
         },
       };
@@ -211,15 +228,43 @@ export function SeawulfData (props) {
             },
             stroke: {
                 colors: ['white']
+            },
+            xaxis: {
+                min:0,
+                max:0.05,
+                tickAmount: 5,
             }
         },
       };
 
-    return(
-      <div id="seawulf">
-          <ReactApexChart id="seawulf" options={demGraph.options} series={demGraph.series} type={"boxPlot"} height={'600px'} min={0} max={1}/>
-      </div>
-    );
+    if (props.dem) {
+        graph = demGraph;
+    }
+    else if(props.rep) {
+        graph = repGraph;
+    }
+    else if(props.black){
+        graph = blackGraph;
+    }
+    else if(props.asian){
+        graph = asianGraph;
+    }
+    else if(props.native){
+        graph = nativeGraph;
+    }
+
+    if(graph) {
+        return(
+            <div id="seawulf">
+                <ReactApexChart id="seawulf" options={graph.options} series={graph.series} type={"boxPlot"} height={'400px'} min={0} max={1}/>
+            </div>
+          );
+    }
+    else {
+        return(
+            <div id="crank"></div>
+        );
+    }
 }
 
 export default SeawulfData;
