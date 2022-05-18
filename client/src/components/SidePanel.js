@@ -22,6 +22,13 @@ import { DataGrid } from '@mui/x-data-grid';
 import 'animate.css';
 import PopulationGraph from './PopulationGraph.js';
 import SeatShareGraph from './SeatShareGraph.js';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 import Grid from '@mui/material/Grid';
 
@@ -55,14 +62,21 @@ export default function SidePanel(){
     const [seawulfBlackVisible, setSeawulfBlackVisible] = React.useState(false);
     const [seawulfAsianVisible, setSeawulfAsianVisible] = React.useState(false);
     const [seawulfNativeVisible, setSeawulfNativeVisible] = React.useState(false);
+    const [bwTitle, setbwTitle] = React.useState("");
     const [menuChoice, setMenuChoice] = React.useState("");
+    const [numDistricts, setNumDistricts] = React.useState(0);
+    const [numMajMinDist, setNumMajMinDist] = React.useState(0);
+    const [effGap, setEffGap] = React.useState(0);
+    const [currentPlan, setCurrentPlan] = React.useState("");
+    const [rdSplit, setRDSplit] = React.useState("");
+
     let statePopulation;
     //const [stateName, setStateName] = React.useState(null);
     const [value, setValue] = React.useState(0);
     // const[enactedPlanSummaryData, setEnactedPlanSummaryData] = React.useState(null);
     const graph = null;
     // election from which voting preference is used, number of majority-minority districts, and efficiency gap
-    let currentPlan, menuItems, numDistricts, numMajMinDist, effGap,enactedPlanSummaryData, stateName,proposedPlanData, oldPlanData, sidePanelVisible = false, expandIcon = null, panel = null, demVotes = 0, 
+    let  menuItems,enactedPlanSummaryData, stateName,proposedPlanData, oldPlanData, sidePanelVisible = false, expandIcon = null, panel = null, demVotes = 0, 
     repubVotes = 0, state, enactedSummaryRow, proposedSummaryRow, oldSummaryRow;
     const TN=1;
     const MS=2;
@@ -80,10 +94,13 @@ export default function SidePanel(){
                 for(i=0; i < store.stateObj.districtPlans.length; i++){
                     let plan = store.stateObj.districtPlans[i];
                     if(plan.status.includes('enacted')){
-                        numDistricts = plan.numDistricts;
-                        numMajMinDist = plan.numMajMinDistricts;
-                        effGap=plan.efficiencyGap;
-                        currentPlan = plan;
+                        setNumDistricts(plan.numDistricts);
+                        setNumMajMinDist(plan.numMajMinDistricts);
+                        setEffGap(plan.efficiencyGap);
+                        setCurrentPlan(plan.status);
+                        let r = plan.numDistricts-plan.seatShare;
+                        let d = plan.seatShare;
+                        setRDSplit(parseInt(r)+':'+parseInt(d));
                     }
                 }
                 setEnactedPlanSummaryView(true);
@@ -94,10 +111,10 @@ export default function SidePanel(){
                 for(i=0; i < store.stateObj.districtPlans.length; i++){
                     let plan = store.stateObj.districtPlans[i];
                     if(plan.status.includes('proposed')){
-                        numDistricts = plan.numDistricts;
-                        numMajMinDist = plan.numMajMinDistricts;
-                        effGap=plan.efficiencyGap;
-                        currentPlan = plan;
+                        setNumDistricts(plan.numDistricts);
+                        setNumMajMinDist(plan.numMajMinDistricts);
+                        setEffGap(plan.efficiencyGap);
+                        setCurrentPlan(plan.status);
                     }
                 }
                 setProposedPlanSummaryView(true);
@@ -107,11 +124,11 @@ export default function SidePanel(){
                 i = 0;
                 for(i=0; i < store.stateObj.districtPlans.length; i++){
                     let plan = store.stateObj.districtPlans[i];
-                    if(plan.status.includes('previous')){
-                        numDistricts = plan.numDistricts;
-                        numMajMinDist = plan.numMajMinDistricts;
-                        effGap=plan.efficiencyGap;
-                        currentPlan = plan;                    
+                    if(plan.status.includes('old')){
+                        setNumDistricts(plan.numDistricts);
+                        setNumMajMinDist(plan.numMajMinDistricts);
+                        setEffGap(plan.efficiencyGap);
+                        setCurrentPlan(plan.status);                   
                     }
                 }
                 setOldPlanSummaryView(true);
@@ -316,6 +333,7 @@ export default function SidePanel(){
             setSeawulfBlackVisible(false);
             setSeawulfAsianVisible(false);
             setSeawulfNativeVisible(false);
+            setbwTitle("Democrat");
         }
         const handleSeawulfRep=()=>{
             setSeawulfRepVisible(true);
@@ -323,6 +341,7 @@ export default function SidePanel(){
             setSeawulfBlackVisible(false);
             setSeawulfAsianVisible(false);
             setSeawulfNativeVisible(false);
+            setbwTitle("Republican");
         }
         const handleSeawulfBlack=()=>{
             setSeawulfBlackVisible(true);
@@ -330,6 +349,7 @@ export default function SidePanel(){
             setSeawulfRepVisible(false);
             setSeawulfAsianVisible(false);
             setSeawulfNativeVisible(false);
+            setbwTitle("Black");
         }
         const handleSeawulfNative=()=>{
             setSeawulfNativeVisible(true);
@@ -337,6 +357,7 @@ export default function SidePanel(){
             setSeawulfRepVisible(false);
             setSeawulfAsianVisible(false);
             setSeawulfBlackVisible(false);
+            setbwTitle("Native");
         }
         const handleSeawulfAsian=()=>{
             setSeawulfAsianVisible(true);
@@ -344,18 +365,24 @@ export default function SidePanel(){
             setSeawulfDemVisible(false);
             setSeawulfRepVisible(false);
             setSeawulfNativeVisible(false);
+            setbwTitle("Asian");
         }
         //When the user clicks on a districting shown in the summary, details about the selected districting will be displayed. 
         //Details include number of districts, summary of each district in the districting, including population, population by demographic group, 
         //Republican/Democratic split, election from which voting preference is used, number of majority-minority districts, and efficiency gap.
 
-        let enactedPlanSummary = <div> 
-                                    <div style={{fontSize: '25pt', marginTop:'3%'}}>Enacted Plan Summary for {stateName}</div>
+        let planSummary = <div> 
+                                    <div style={{fontSize: '25pt', marginTop:'3%', fontWeight:'bold'}}>Enacted Plan Summary for {stateName}</div>
                                     <Grid container spacing={2} sx={{margin:"0 auto", paddingTop:'3%'}}>
-                                        <div style={{marginLeft: '6%',fontSize:'20pt', fontWeight:'bold'}}><div>Number of districts: {numDistricts}</div></div>
-                                        <br></br><div item xs={2} style={{fontSize:'20pt', fontWeight:'bold', display: 'inline-block'}}><div>Number of majority/minority: {numMajMinDist}</div></div>
-                                        <br></br><div item xs={2} style={{fontSize:'20pt', fontWeight:'bold'}}><div>Efficiency gap: {effGap}</div></div>
                                     </Grid>
+                                    <Grid item xs={2} style={{fontSize:'20pt'}}><div>Number of districts:  {numDistricts}</div></Grid>
+                                    <br></br>
+                                    <Grid item xs={2} style={{fontSize:'20pt'}}><div>Majority/Minority Districts:  {numMajMinDist}</div></Grid>
+                                    <br></br>
+                                    <Grid item xs={2} style={{fontSize:'20pt'}}><div>Efficiency Gap:  {effGap}</div></Grid>
+                                    <br></br>
+                                    <Grid item xs={2} style={{fontSize:'20pt'}}><div>Republican/Democrat Split:  {rdSplit}</div></Grid>
+                                    <br></br>
                                     <Button onClick={backToMain} sx={{bgcolor:'#b6c1e954', fontSize:'20pt'}}variant="contained">Click to go back to summary</Button>
                                 </div>;
         let proposedPlanSummary = <div> 
@@ -370,20 +397,22 @@ export default function SidePanel(){
 
         let summaryTab=<div>
                             <div style={{display: mainSummaryVisible ? 'block' : 'none'}}>{mainSummaryTab}</div>
-                            <div style={{display: enactedPlanSummaryView ? 'block' : 'none'}}>{enactedPlanSummary}</div>
-                            <div style={{display: proposedPlanSummaryView ? 'block' : 'none'}}>{proposedPlanSummary}</div>
-                            <div style={{display: oldPlanSummaryView ? 'block' : 'none'}}>{oldPlanSummary}</div>
+                            <div style={{display: enactedPlanSummaryView ? 'block' : 'none'}}>{planSummary}</div>
+                            <div style={{display: proposedPlanSummaryView ? 'block' : 'none'}}>{planSummary}</div>
+                            <div style={{display: oldPlanSummaryView ? 'block' : 'none'}}>{planSummary}</div>
                         </div>;
     let demographicsTab = <div style={{fontSize: '25pt', paddingTop:'5%'}}>
                             Demographic Data for {stateName}
                             <div style={{marginTop:'3%'}}>Total Population: {statePopulation}</div>
-                            <PopulationGraph/>
+                            <PopulationGraph plan={currentPlan}/>
                         </div>;
     let seatShareTab = <div style={{fontSize: '25pt', paddingTop:'5%'}}>Seat Share Plot for {stateName}
-                            <SeatShareGraph/>
+                            <SeatShareGraph plan={currentPlan}/>
                         </div>;
     let seawulfTab = <div style={{fontSize: '25pt', paddingTop:'5%'}}>Seawulf Summary data for {stateName}
                         <div style={{fontSize:'18pt', marginTop:'6%'}}>Choose a group for the box and whisker charts <ArrowDropDownIcon onClick={handleBWMenu}></ArrowDropDownIcon></div>
+                        <div style={{fontSize:'15pt'}}>Currently Viewing: {bwTitle}</div>
+
                         <Menu
                             id="menu-appbar"
                             anchorEl={anchorEl}

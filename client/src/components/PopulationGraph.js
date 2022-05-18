@@ -310,9 +310,24 @@ export function PopulationGraph(props) {
       } else {
         proposedGraph = null;
       }
-
-    if (enactedGraph.series !== null) {
-      graph = enactedGraph;
+    switch(props.plan){
+      case 'enacted':
+        if (enactedGraph.series !== null) {
+          graph = enactedGraph;
+        }
+        break;
+      case 'old':
+        if (oldGraph.series !== null) {
+          graph = oldGraph;
+        }
+        break;
+      case 'proposed':
+        if (proposedGraph.series !== null) {
+          graph = proposedGraph;
+        }
+        break;
+      default:
+        break;
     }
 
     if (graph) {
