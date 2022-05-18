@@ -29,7 +29,8 @@ export function PopulationGraph(props) {
     const [enactedGraphData, setEnactedGraph] = React.useState(null);
     const [oldGraphData, setOldGraph] = React.useState(null);
     const [proposedGraphData, setProposedGraph] = React.useState(null);
-    let stateId=null;
+    const [stateId, setStateId] = React.useState(0);
+    // let stateId=null;
 
     const getDemographics = async function (planType){
       const response = await fetch(`http://localhost:8080/getDemographics?stateID=${store.stateObj.id}&planType=${planType}`);
@@ -49,9 +50,16 @@ export function PopulationGraph(props) {
       }
   }
 
+  if (store.stateObj){
+    if (store.stateObj.id !== stateId) {
+      setData(false);
+      setStateId(store.stateObj.id);
+    }
+  }
+
   if (store.stateObj && !dataSet) {
     let state = store.stateObj;
-    stateId = state.id;
+    //setStateId(state.id);
     if (state.id === 1) {
       getDemographics('enacted');
       getDemographics('old');
@@ -101,22 +109,6 @@ export function PopulationGraph(props) {
       proposed: null
     };
 
-    // const enactedDone = (v) => {
-    //   setEnactedGraph(v);
-    //   setEnacted(true);
-    // }
-
-    // const oldDone = (v) => {
-    //   setOldGraph(v);
-    //   setOld(true);
-    // }
-
-    // const proposedDone = (v) => {
-    //   setProposedGraph(v);
-    //   setProposed(true);
-    // }
-
-    //if(enactedData){
     if (enactedData){
       for(let i=0; i<enactedData.length; i++) {
         enacted.asian.push(enactedData[i].asianPop);
@@ -326,7 +318,7 @@ export function PopulationGraph(props) {
     if (graph) {
         return (
             <div id="pop-chart">
-                <ReactApexChart id="bar-chart" options={graph.options} series={graph.series} type="bar" height={'150%'} />
+                <ReactApexChart id="bar-chart" options={graph.options} series={graph.series} type="bar" height={'400px'} />
             </div>
         );
     }
