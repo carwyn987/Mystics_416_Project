@@ -1078,8 +1078,8 @@ function DistMap(props) {
                     map.setLayoutProperty('nc-proposed-layer', 'visibility', 'none');
                     map.setLayoutProperty('nc-boundary-layer', 'visibility', 'visible');
                     map.flyTo({
-                        center: [-88.956, 35.761],
-                        zoom: 5.77
+                        center: [-96.175, 38.641],
+                        zoom: 4.9
                     });
                     map.setLayoutProperty('tn-boundary-layer', 'visibility', 'none');
                     map.setLayoutProperty('tn-district-layer', 'visibility', 'visible');
@@ -1095,8 +1095,8 @@ function DistMap(props) {
                     map.setLayoutProperty('nc-proposed-layer', 'visibility', 'none');
                     map.setLayoutProperty('nc-boundary-layer', 'visibility', 'visible');
                     map.flyTo({
-                        center: [-91.665, 32.780],
-                        zoom: 5.83
+                        center: [-96.665, 32.780],
+                        zoom: 5.3
                     });
                     map.setLayoutProperty('ms-boundary-layer', 'visibility', 'none');
                     map.setLayoutProperty('ms-district-layer', 'visibility', 'visible');
@@ -1112,8 +1112,8 @@ function DistMap(props) {
                     map.setLayoutProperty('tn-old-dist-layer', 'visibility', 'none');
                     map.setLayoutProperty('tn-boundary-layer', 'visibility', 'visible');
                     map.flyTo({
-                        center: [-82.121, 35.480],
-                        zoom: 5.61
+                        center: [-89.238, 37.224],
+                        zoom: 5.00
                     });
                     map.setLayoutProperty('nc-boundary-layer', 'visibility', 'none');
                     map.setLayoutProperty('nc-district-layer', 'visibility', 'visible');
